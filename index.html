@@ -67,7 +67,7 @@
                 <h2 class="text-4xl md:text-5xl font-extrabold mb-4 drop-shadow-md">Viaggi, cultura e nuove amicizie</h2>
                 <p class="text-xl md:text-2xl font-light italic mb-8 drop-shadow-md">"Condividere esperienze rende la vita più bella."</p>
                 <p class="text-lg max-w-2xl mx-auto drop-shadow-md font-semibold">Esplora - Condividi - Vivi. Esperienze che arricchiscono la vita, a ogni età.</p>
-                <div class="mt-8">
+                <div class="mt-8 flex flex-wrap justify-center gap-4">
                     <button onclick="showView('brochure')" class="bg-ch-gold text-ch-dark font-bold px-6 py-3 rounded-full shadow-lg hover:bg-yellow-500 transition text-lg">
                         <i class="fas fa-info-circle mr-2"></i> Scopri la nostra Brochure e Attività
                     </button>
@@ -89,7 +89,7 @@
             </div>
         </div>
 
-        <!-- VIEW: BROCHURE -->
+        <!-- VIEW: BROCHURE (COMPLETA E DETTAGLIATA) -->
         <div id="brochure" class="view max-w-5xl mx-auto py-10 px-4">
             <div class="bg-white rounded-2xl shadow-xl p-8 mb-8 border-t-4 border-ch-blue">
                 <div class="flex justify-between items-center mb-6 border-b pb-4">
@@ -103,12 +103,60 @@
                         <p class="text-gray-700 mb-4 leading-relaxed">
                             L'Associazione Lucana e altre Regioni Italiane ETS-APS <strong>"Giuseppe Novello"</strong> promuove la cultura, la socialità e la partecipazione attiva delle persone.
                         </p>
+                        <p class="text-gray-700 mb-4 leading-relaxed">
+                            Crediamo nel valore delle relazioni, nello scambio di esperienze e nella diffusione della conoscenza come strumenti per una società più inclusiva e solidale. Più di un'associazione... una grande famiglia!
+                        </p>
                     </div>
                     <div class="bg-blue-50 p-6 rounded-xl border border-blue-100">
                         <h3 class="text-xl font-bold text-ch-blue mb-3">Contatti & Sede</h3>
                         <p class="text-sm mb-2"><i class="fas fa-map-marker-alt text-ch-gold mr-2"></i><strong>Sede operativa:</strong> Via Mezzano, 10034 Chivasso (TO)</p>
                         <p class="text-sm mb-2"><i class="fas fa-phone text-ch-gold mr-2"></i><strong>Telefono:</strong> +39 320 1234567</p>
+                        <p class="text-sm mb-2"><i class="fas fa-envelope text-ch-gold mr-2"></i><strong>Email:</strong> info@associazionenovello.it</p>
+                        <p class="text-sm mb-2"><i class="fas fa-globe text-ch-gold mr-2"></i><strong>Sito Web:</strong> www.associazionenovello.it</p>
                     </div>
+                </div>
+
+                <h3 class="text-2xl font-bold text-ch-blue mb-6 border-b pb-2"><i class="fas fa-star mr-2 text-ch-gold"></i> I Nostri Punti di Forza</h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                    <div class="bg-gray-50 p-5 rounded-xl border shadow-sm">
+                        <div class="text-ch-blue text-2xl mb-2"><i class="fas fa-book-reader"></i></div>
+                        <h4 class="font-bold text-lg mb-1">Attività Culturali</h4>
+                        <p class="text-sm text-gray-600">Presentazioni di libri, incontri con autori, conferenze e dibattiti.</p>
+                    </div>
+                    <div class="bg-gray-50 p-5 rounded-xl border shadow-sm">
+                        <div class="text-ch-blue text-2xl mb-2"><i class="fas fa-film"></i></div>
+                        <h4 class="font-bold text-lg mb-1">Proiezioni e Cinema</h4>
+                        <p class="text-sm text-gray-600">Film, documentari e momenti di confronto e crescita collettiva.</p>
+                    </div>
+                    <div class="bg-gray-50 p-5 rounded-xl border shadow-sm">
+                        <div class="text-ch-blue text-2xl mb-2"><i class="fas fa-heartbeat"></i></div>
+                        <h4 class="font-bold text-lg mb-1">Salute e Benessere</h4>
+                        <p class="text-sm text-gray-600">Incontri con medici ed esperti su prevenzione, stili di vita e longevità attiva.</p>
+                    </div>
+                    <div class="bg-gray-50 p-5 rounded-xl border shadow-sm">
+                        <div class="text-ch-blue text-2xl mb-2"><i class="fas fa-plane-departure"></i></div>
+                        <h4 class="font-bold text-lg mb-1">Viaggi ed Escursioni</h4>
+                        <p class="text-sm text-gray-600">Itinerari culturali, naturalistici e turistici alla scoperta di nuovi territori.</p>
+                    </div>
+                    <div class="bg-gray-50 p-5 rounded-xl border shadow-sm">
+                        <div class="text-ch-blue text-2xl mb-2"><i class="fas fa-music"></i></div>
+                        <h4 class="font-bold text-lg mb-1">Musica e Serate</h4>
+                        <p class="text-sm text-gray-600">Eventi musicali, apericena e momenti di convivialità spensierata.</p>
+                    </div>
+                    <div class="bg-gray-50 p-5 rounded-xl border shadow-sm">
+                        <div class="text-ch-blue text-2xl mb-2"><i class="fas fa-users"></i></div>
+                        <h4 class="font-bold text-lg mb-1">Socialità e Amicizia</h4>
+                        <p class="text-sm text-gray-600">Un ambiente accogliente dove condividere passioni e stringere legami duraturi.</p>
+                    </div>
+                </div>
+
+                <div class="bg-blue-50 border-l-4 border-ch-light p-6 rounded-r-xl">
+                    <h4 class="font-bold text-lg text-ch-blue mb-2"><i class="fas fa-clipboard-check mr-2"></i> Condizioni di Partecipazione ai Viaggi ed Escursioni</h4>
+                    <ul class="text-sm text-gray-700 space-y-2 list-disc pl-5">
+                        <li><strong>Destinatari:</strong> Le iniziative sono riservate ai soci dell'Associazione "Giuseppe Novello".</li>
+                        <li><strong>Iscrizioni:</strong> Si effettuano secondo le modalità indicate per ciascun evento o viaggio. La prenotazione si intende confermata al versamento dell'acconto o della quota stabilita.</li>
+                        <li><strong>Quote di Partecipazione:</strong> Comprendono quanto specificato in dettaglio nel programma dell'iniziativa. Sono escluse le spese personali e quanto non espressamente indicato.</li>
+                    </ul>
                 </div>
             </div>
         </div>
@@ -122,10 +170,10 @@
                 </div>
                 <div class="p-8">
                     <form id="form-user-login" onsubmit="userLogin(event)" class="space-y-4">
-                        <div class="text-center mb-6 text-ch-blue"><i class="fas fa-sign-in-alt text-4xl"></i><h2 class="text-2xl font-bold mt-2">Bentornato</h2></div>
+                        <div class="text-center mb-6 text-ch-blue"><i class="fas fa-sign-in-alt text-4xl"></i><h2 class="text-2xl font-bold mt-2">Bentornato</h2><p class="text-gray-500">Accedi per gestire le tue prenotazioni</p></div>
                         <input type="email" id="lu-email" placeholder="La tua Email" required class="w-full p-3 border rounded">
                         <input type="password" id="lu-pass" placeholder="Password" required class="w-full p-3 border rounded">
-                        <button type="submit" class="w-full bg-ch-blue text-white font-bold py-3 rounded shadow">Entra</button>
+                        <button type="submit" class="w-full bg-ch-blue text-white font-bold py-3 rounded shadow hover:bg-blue-800 transition">Entra</button>
                     </form>
 
                     <form id="form-user-register" onsubmit="userRegister(event)" class="hidden space-y-4">
@@ -151,7 +199,7 @@
                             <input type="file" id="ru-docs" multiple accept="image/*,.pdf" required onchange="previewFiles()" class="block w-full text-sm text-gray-500">
                             <div id="file-preview-list" class="mt-3 space-y-1 text-xs text-gray-600 font-semibold"></div>
                         </div>
-                        <button type="submit" class="w-full bg-ch-gold text-ch-dark font-bold text-xl py-4 rounded shadow-lg">Registra Profilo</button>
+                        <button type="submit" class="w-full bg-ch-gold text-ch-dark font-bold text-xl py-4 rounded shadow-lg hover:bg-yellow-500 transition">Registra Profilo</button>
                     </form>
                 </div>
             </div>
@@ -162,7 +210,7 @@
             <div class="bg-white rounded-2xl shadow-xl p-8">
                 <div class="flex justify-between items-center border-b pb-4 mb-6">
                     <h2 class="text-3xl font-bold text-ch-blue" id="ud-welcome">La Tua Area Personale</h2>
-                    <button onclick="userLogout()" class="bg-red-500 text-white px-4 py-2 rounded text-sm font-bold"><i class="fas fa-sign-out-alt"></i> Esci</button>
+                    <button onclick="userLogout()" class="bg-red-500 text-white px-4 py-2 rounded text-sm font-bold shadow hover:bg-red-600"><i class="fas fa-sign-out-alt"></i> Esci</button>
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                     <div class="md:col-span-1 bg-gray-50 p-4 rounded-xl border">
@@ -174,7 +222,7 @@
                     <div class="md:col-span-2">
                         <h3 class="font-bold text-lg mb-3 border-b pb-2">Le tue Iscrizioni</h3>
                         <div id="ud-bookings" class="space-y-3 max-h-64 overflow-y-auto"></div>
-                        <button onclick="goHome()" class="mt-6 w-full bg-ch-light text-white font-bold py-3 rounded">Esplora Viaggi ed Eventi</button>
+                        <button onclick="goHome()" class="mt-6 w-full bg-ch-light text-white font-bold py-3 rounded shadow hover:bg-blue-600 transition">Esplora Viaggi ed Eventi</button>
                     </div>
                 </div>
             </div>
@@ -190,8 +238,8 @@
                     <input type="number" id="bc-persone" min="1" max="20" value="1" class="w-full p-2 border rounded">
                 </div>
                 <div class="flex gap-4">
-                    <button onclick="goHome()" class="w-1/2 bg-gray-200 py-3 rounded font-bold">Annulla</button>
-                    <button onclick="finalizeBooking()" class="w-1/2 bg-green-600 text-white py-3 rounded font-bold">Conferma</button>
+                    <button onclick="goHome()" class="w-1/2 bg-gray-200 py-3 rounded font-bold hover:bg-gray-300 transition">Annulla</button>
+                    <button onclick="finalizeBooking()" class="w-1/2 bg-green-600 text-white py-3 rounded font-bold hover:bg-green-700 transition shadow">Conferma</button>
                 </div>
             </div>
         </div>
@@ -200,7 +248,7 @@
         <div id="admin" class="view max-w-7xl mx-auto py-8 px-4">
             <div class="flex justify-between items-center mb-6">
                 <h2 class="text-3xl font-bold text-ch-blue"><i class="fas fa-database mr-2"></i>Archivio e Gestione Cloud</h2>
-                <button onclick="adminLogout()" class="bg-red-500 text-white px-4 py-2 rounded text-sm font-bold">Chiudi Admin</button>
+                <button onclick="adminLogout()" class="bg-red-500 text-white px-4 py-2 rounded text-sm font-bold shadow hover:bg-red-600">Chiudi Admin</button>
             </div>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
                 <div class="bg-white rounded-xl shadow p-6 border-l-4 border-ch-light">
@@ -212,7 +260,7 @@
                             <input type="date" id="at-al" required class="w-1/2 p-2 border rounded">
                         </div>
                         <input type="text" id="at-costo" required placeholder="Costo e Note" class="w-full p-2 border rounded">
-                        <button type="submit" class="w-full bg-ch-light text-white py-2 rounded font-bold">Pubblica Viaggio</button>
+                        <button type="submit" class="w-full bg-ch-light text-white py-2 rounded font-bold hover:bg-blue-600 transition">Pubblica Viaggio</button>
                     </form>
                 </div>
                 <div class="bg-white rounded-xl shadow p-6 border-l-4 border-orange-500">
@@ -221,7 +269,7 @@
                         <input type="text" id="ae-nome" required placeholder="Nome Evento" class="w-full p-2 border rounded">
                         <input type="date" id="ae-data" required class="w-full p-2 border rounded">
                         <input type="text" id="ae-costo" required placeholder="Costo (€)" class="w-full p-2 border rounded">
-                        <button type="submit" class="w-full bg-orange-500 text-white py-2 rounded font-bold">Pubblica Evento</button>
+                        <button type="submit" class="w-full bg-orange-500 text-white py-2 rounded font-bold hover:bg-orange-600 transition">Pubblica Evento</button>
                     </form>
                 </div>
             </div>
@@ -237,7 +285,7 @@
 
     <footer class="bg-ch-dark text-gray-400 py-10 mt-auto">
         <div class="max-w-7xl mx-auto px-4 text-center">
-            <button onclick="adminLoginPrompt()" class="text-sm text-gray-400 underline"><i class="fas fa-lock mr-1"></i> Accesso Admin</button>
+            <button onclick="adminLoginPrompt()" class="text-sm text-gray-400 hover:text-white underline"><i class="fas fa-lock mr-1"></i> Accesso Admin</button>
         </div>
     </footer>
 
@@ -296,7 +344,7 @@
             if(currentUser) {
                 actions.innerHTML = `<button onclick="showView('user-dashboard')" class="text-sm font-bold bg-ch-gold text-ch-dark px-4 py-2 rounded shadow"><i class="fas fa-user-check mr-1"></i> Ciao, ${currentUser.nome}</button>`;
             } else {
-                actions.innerHTML = `<button onclick="showAuth()" class="text-sm font-bold bg-ch-blue text-white px-4 py-2 rounded shadow"><i class="fas fa-user-circle mr-1"></i> Accedi / Registrati</button>`;
+                actions.innerHTML = `<button onclick="showAuth()" class="text-sm font-bold bg-ch-blue text-white px-4 py-2 rounded shadow hover:bg-blue-800 transition"><i class="fas fa-user-circle mr-1"></i> Accedi / Registrati</button>`;
             }
         }
 
@@ -309,7 +357,7 @@
                         <p class="text-sm text-gray-500 mt-1"><i class="far fa-calendar-alt text-ch-light mr-1"></i> ${t.da} / ${t.al}</p>
                         <p class="text-sm font-semibold mt-2">${t.note}</p>
                     </div>
-                    <button onclick="initBooking('${t.dest}', 'Viaggio')" class="mt-4 w-full bg-ch-light text-white font-bold py-2 rounded shadow">Iscriviti</button>
+                    <button onclick="initBooking('${t.dest}', 'Viaggio')" class="mt-4 w-full bg-ch-light text-white font-bold py-2 rounded shadow hover:bg-blue-600 transition">Iscriviti</button>
                 </div>`).join('') || '<p class="text-gray-400 italic">Nessun viaggio programmato.</p>';
 
             const evCont = document.getElementById('dynamic-events-list');
@@ -320,7 +368,7 @@
                         <p class="text-sm text-gray-500 mt-1"><i class="far fa-calendar mr-1"></i> ${e.data}</p>
                         <p class="text-sm mt-1">Costo: €${e.costo}</p>
                     </div>
-                    <button onclick="initBooking('${e.nome}', 'Evento')" class="mt-4 w-full border-2 border-orange-500 text-orange-600 font-bold py-2 rounded">Prenota</button>
+                    <button onclick="initBooking('${e.nome}', 'Evento')" class="mt-4 w-full border-2 border-orange-500 text-orange-600 font-bold py-2 rounded hover:bg-orange-500 hover:text-white transition">Prenota</button>
                 </div>`).join('') || '<p class="text-gray-400 italic">Nessun evento programmato.</p>';
         }
 
