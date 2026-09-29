@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Club House - Associazione Giuseppe Novello</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        ch: { blue: '#0d47a1', light: '#039be5', gold: '#ffb300', dark: '#111827' }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .view { display: none; animation: fadeIn 0.4s ease-in-out; }
+        .view.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: #039be5; border-radius: 4px; }
+        .hero-bg {
+            background: linear-gradient(rgba(13, 71, 161, 0.82), rgba(3, 155, 229, 0.82)), url('WhatsApp-Image-2021-09-22-at-11.29.18.jpeg--_4.jpg') center/cover no-repeat;
+        }
+        .tab-btn.active { border-bottom: 4px solid #039be5; color: #0d47a1; font-weight: bold; }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans min-h-screen flex flex-col">
+
+    <!-- Header -->
+    <header class="bg-white text-ch-blue shadow-lg sticky top-0 z-50 border-b-4 border-ch-gold">
+        <div class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center space-x-3 cursor-pointer" onclick="goHome()">
+                <div class="bg-ch-light p-2 rounded-full text-white">
+                    <i class="fas fa-globe-europe text-3xl"></i>
+                </div>
+                <div>
+                    <h1 class="text-2xl font-extrabold uppercase tracking-widest text-ch-blue">CLUB HOUSE <span class="text-ch-gold font-normal italic">Viaggi</span></h1>
+                    <span class="text-xs font-semibold text-gray-500 block">Associazione ETS-APS "Giuseppe Novello"</span>
+                </div>
+            </div>
+            <div class="flex items-center space-x-3">
+                <button onclick="showView('brochure')" class="text-sm font-bold bg-orange-500 text-white px-3 py-2 rounded shadow hover:bg-orange-600 transition hidden md:block">
+                    <i class="fas fa-book-open mr-1"></i> Chi Siamo & Attività
+                </button>
+                <div id="header-user-actions">
+                    <button onclick="showAuth()" class="text-sm font-bold bg-ch-blue text-white px-4 py-2 rounded shadow hover:bg-blue-800 transition">
+                        <i class="fas fa-user-circle mr-1"></i> Area Personale
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-grow w-full">
+        <!-- VIEW: HOME -->
+        <div id="home" class="view active">
+            <div class="hero-bg text-white text-center py-24 px-4 shadow-inner">
+                <h2 class="text-4xl md:text-5xl font-extrabold mb-4 drop-shadow-md">Viaggi, cultura e nuove amicizie</h2>
+                <p class="text-xl md:text-2xl font-light italic mb-8 drop-shadow-md">"Condividere esperienze rende la vita più bella."</p>
+                <p class="text-lg max-w-2xl mx-auto drop-shadow-md font-semibold">Esplora - Condividi - Vivi. Esperienze che arricchiscono la vita, a ogni età.</p>
+                <div class="mt-8">
+                    <button onclick="showView('brochure')" class="bg-ch-gold text-ch-dark font-bold px-6 py-3 rounded-full shadow-lg hover:bg-yellow-500 transition text-lg">
+                        <i class="fas fa-info-circle mr-2"></i> Scopri la nostra Brochure e Attività
+                    </button>
+                </div>
+            </div>
+
+            <div class="max-w-7xl mx-auto px-4 py-12">
+                <!-- SEZIONE: VIAGGI -->
+                <div class="bg-white rounded-2xl shadow-lg p-6 mb-8 border-l-4 border-ch-light">
+                    <h3 class="text-2xl font-bold text-ch-blue border-b pb-3 mb-4"><i class="fas fa-map-marked-alt mr-2 text-ch-light"></i> Viaggi ed Escursioni Programmati</h3>
+                    <div id="dynamic-trips-list" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+                </div>
+
+                <!-- SEZIONE: EVENTI E CENE -->
+                <div class="bg-white rounded-2xl shadow-lg p-6 mb-8 border-l-4 border-orange-500">
+                    <h3 class="text-2xl font-bold text-ch-blue border-b pb-3 mb-4"><i class="fas fa-glass-cheers mr-2 text-orange-500"></i> Prossimi Eventi, Cene e Attività Culturali</h3>
+                    <div id="dynamic-events-list" class="grid grid-cols-1 md:grid-cols-3 gap-4"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- VIEW: BROCHURE -->
+        <div id="brochure" class="view max-w-5xl mx-auto py-10 px-4">
+            <div class="bg-white rounded-2xl shadow-xl p-8 mb-8 border-t-4 border-ch-blue">
+                <div class="flex justify-between items-center mb-6 border-b pb-4">
+                    <h2 class="text-3xl font-extrabold text-ch-blue"><i class="fas fa-info-circle mr-2 text-ch-gold"></i> Chi Siamo & Attività del Club</h2>
+                    <button onclick="goHome()" class="bg-gray-200 text-gray-700 px-4 py-2 rounded font-bold hover:bg-gray-300 transition text-sm"><i class="fas fa-arrow-left mr-1"></i> Torna alla Home</button>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+                    <div>
+                        <h3 class="text-xl font-bold text-ch-blue mb-3">La Nostra Identità</h3>
+                        <p class="text-gray-700 mb-4 leading-relaxed">
+                            L'Associazione Lucana e altre Regioni Italiane ETS-APS <strong>"Giuseppe Novello"</strong> promuove la cultura, la socialità e la partecipazione attiva delle persone.
+                        </p>
+                    </div>
+                    <div class="bg-blue-50 p-6 rounded-xl border border-blue-100">
+                        <h3 class="text-xl font-bold text-ch-blue mb-3">Contatti & Sede</h3>
+                        <p class="text-sm mb-2"><i class="fas fa-map-marker-alt text-ch-gold mr-2"></i><strong>Sede operativa:</strong> Via Mezzano, 10034 Chivasso (TO)</p>
+                        <p class="text-sm mb-2"><i class="fas fa-phone text-ch-gold mr-2"></i><strong>Telefono:</strong> +39 320 1234567</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- VIEW: AUTH -->
+        <div id="auth" class="view max-w-3xl mx-auto py-10 px-4">
+            <div class="bg-white rounded-2xl shadow-xl overflow-hidden">
+                <div class="flex border-b">
+                    <button id="tab-login" onclick="switchAuthTab('login')" class="w-1/2 py-4 text-center text-gray-500 tab-btn active uppercase tracking-wider transition">Accedi</button>
+                    <button id="tab-register" onclick="switchAuthTab('register')" class="w-1/2 py-4 text-center text-gray-500 tab-btn uppercase tracking-wider transition">Registrati</button>
+                </div>
+                <div class="p-8">
+                    <form id="form-user-login" onsubmit="userLogin(event)" class="space-y-4">
+                        <div class="text-center mb-6 text-ch-blue"><i class="fas fa-sign-in-alt text-4xl"></i><h2 class="text-2xl font-bold mt-2">Bentornato</h2></div>
+                        <input type="email" id="lu-email" placeholder="La tua Email" required class="w-full p-3 border rounded">
+                        <input type="password" id="lu-pass" placeholder="Password" required class="w-full p-3 border rounded">
+                        <button type="submit" class="w-full bg-ch-blue text-white font-bold py-3 rounded shadow">Entra</button>
+                    </form>
+
+                    <form id="form-user-register" onsubmit="userRegister(event)" class="hidden space-y-4">
+                        <div class="text-center mb-6 text-ch-blue"><i class="fas fa-user-plus text-4xl"></i><h2 class="text-2xl font-bold mt-2">Nuova Registrazione Socio</h2></div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <input type="email" id="ru-email" placeholder="Email (nome utente)" required class="w-full p-2 border rounded">
+                            <input type="password" id="ru-pass" placeholder="Password" required class="w-full p-2 border rounded">
+                            <input type="tel" id="ru-tel" placeholder="Telefono" required class="w-full p-2 border rounded md:col-span-2">
+                            <input type="text" id="ru-nome" placeholder="Nome" required class="w-full p-2 border rounded">
+                            <input type="text" id="ru-cognome" placeholder="Cognome" required class="w-full p-2 border rounded">
+                            <input type="text" id="ru-cf" placeholder="Codice Fiscale" required class="w-full p-2 border rounded uppercase">
+                            <input type="date" id="ru-data" required class="w-full p-2 border rounded">
+                            <input type="text" id="ru-luogo" placeholder="Luogo di Nascita" required class="w-full p-2 border rounded">
+                            <input type="text" id="ru-ind" placeholder="Indirizzo di Residenza" required class="w-full p-2 border rounded">
+                            <select id="ru-tipo-doc" required class="w-full p-2 border rounded text-sm">
+                                <option value="">Tipo Doc...</option><option value="Carta d'Identità">Carta d'Identità</option><option value="Passaporto">Passaporto</option><option value="Patente">Patente</option>
+                            </select>
+                            <input type="text" id="ru-num-doc" placeholder="Numero Doc." required class="w-full p-2 border rounded uppercase">
+                            <input type="date" id="ru-scad-doc" required class="w-full p-2 border rounded text-sm">
+                        </div>
+                        <div class="p-4 bg-blue-50 rounded border">
+                            <label class="block text-sm font-bold text-ch-blue mb-2"><i class="fas fa-file-upload mr-2"></i>Carica Copia Documenti</label>
+                            <input type="file" id="ru-docs" multiple accept="image/*,.pdf" required onchange="previewFiles()" class="block w-full text-sm text-gray-500">
+                            <div id="file-preview-list" class="mt-3 space-y-1 text-xs text-gray-600 font-semibold"></div>
+                        </div>
+                        <button type="submit" class="w-full bg-ch-gold text-ch-dark font-bold text-xl py-4 rounded shadow-lg">Registra Profilo</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- VIEW: USER DASHBOARD -->
+        <div id="user-dashboard" class="view max-w-4xl mx-auto py-10 px-4">
+            <div class="bg-white rounded-2xl shadow-xl p-8">
+                <div class="flex justify-between items-center border-b pb-4 mb-6">
+                    <h2 class="text-3xl font-bold text-ch-blue" id="ud-welcome">La Tua Area Personale</h2>
+                    <button onclick="userLogout()" class="bg-red-500 text-white px-4 py-2 rounded text-sm font-bold"><i class="fas fa-sign-out-alt"></i> Esci</button>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="md:col-span-1 bg-gray-50 p-4 rounded-xl border">
+                        <h3 class="font-bold text-lg mb-3 border-b pb-2">I Tuoi Dati</h3>
+                        <p class="text-sm mb-1"><span id="ud-cf" class="font-semibold uppercase"></span></p>
+                        <p class="text-sm mb-1"><span id="ud-email"></span></p>
+                        <p class="text-sm mb-1"><span id="ud-tel"></span></p>
+                    </div>
+                    <div class="md:col-span-2">
+                        <h3 class="font-bold text-lg mb-3 border-b pb-2">Le tue Iscrizioni</h3>
+                        <div id="ud-bookings" class="space-y-3 max-h-64 overflow-y-auto"></div>
+                        <button onclick="goHome()" class="mt-6 w-full bg-ch-light text-white font-bold py-3 rounded">Esplora Viaggi ed Eventi</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- VIEW: BOOKING CONFIRM -->
+        <div id="booking-confirm" class="view max-w-md mx-auto py-20 px-4">
+            <div class="bg-white rounded-2xl shadow-xl p-8 text-center border-t-4 border-ch-gold">
+                <h2 class="text-2xl font-bold text-ch-blue mb-4">Conferma Prenotazione</h2>
+                <p class="text-xl font-bold text-ch-dark mb-6" id="bc-event-name"></p>
+                <div id="bc-event-options" class="hidden mb-6 text-left">
+                    <label class="block text-sm font-bold text-gray-700 mb-1">Posti:</label>
+                    <input type="number" id="bc-persone" min="1" max="20" value="1" class="w-full p-2 border rounded">
+                </div>
+                <div class="flex gap-4">
+                    <button onclick="goHome()" class="w-1/2 bg-gray-200 py-3 rounded font-bold">Annulla</button>
+                    <button onclick="finalizeBooking()" class="w-1/2 bg-green-600 text-white py-3 rounded font-bold">Conferma</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- VIEW: ADMIN -->
+        <div id="admin" class="view max-w-7xl mx-auto py-8 px-4">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-3xl font-bold text-ch-blue"><i class="fas fa-database mr-2"></i>Archivio e Gestione Cloud</h2>
+                <button onclick="adminLogout()" class="bg-red-500 text-white px-4 py-2 rounded text-sm font-bold">Chiudi Admin</button>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                <div class="bg-white rounded-xl shadow p-6 border-l-4 border-ch-light">
+                    <h3 class="text-xl font-bold mb-4 text-ch-blue">Crea Nuovo Viaggio</h3>
+                    <form id="form-create-trip" onsubmit="createTrip(event)" class="space-y-3">
+                        <input type="text" id="at-dest" required placeholder="Destinazione" class="w-full p-2 border rounded">
+                        <div class="flex space-x-2">
+                            <input type="date" id="at-da" required class="w-1/2 p-2 border rounded">
+                            <input type="date" id="at-al" required class="w-1/2 p-2 border rounded">
+                        </div>
+                        <input type="text" id="at-costo" required placeholder="Costo e Note" class="w-full p-2 border rounded">
+                        <button type="submit" class="w-full bg-ch-light text-white py-2 rounded font-bold">Pubblica Viaggio</button>
+                    </form>
+                </div>
+                <div class="bg-white rounded-xl shadow p-6 border-l-4 border-orange-500">
+                    <h3 class="text-xl font-bold mb-4 text-orange-600">Crea Evento/Cena</h3>
+                    <form id="form-create-event" onsubmit="createEvent(event)" class="space-y-3">
+                        <input type="text" id="ae-nome" required placeholder="Nome Evento" class="w-full p-2 border rounded">
+                        <input type="date" id="ae-data" required class="w-full p-2 border rounded">
+                        <input type="text" id="ae-costo" required placeholder="Costo (€)" class="w-full p-2 border rounded">
+                        <button type="submit" class="w-full bg-orange-500 text-white py-2 rounded font-bold">Pubblica Evento</button>
+                    </form>
+                </div>
+            </div>
+            <div class="bg-white rounded-xl shadow overflow-hidden p-4">
+                <h3 class="text-xl font-bold mb-4 text-ch-blue">Archivio Iscrizioni</h3>
+                <table class="w-full text-left border-collapse">
+                    <thead><tr class="bg-gray-100 border-b"><th class="p-3">Data</th><th class="p-3">Attività</th><th class="p-3">Utente</th><th class="p-3">Dettagli</th></tr></thead>
+                    <tbody id="admin-table-body" class="text-sm"></tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-ch-dark text-gray-400 py-10 mt-auto">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <button onclick="adminLoginPrompt()" class="text-sm text-gray-400 underline"><i class="fas fa-lock mr-1"></i> Accesso Admin</button>
+        </div>
+    </footer>
+
+    <!-- Script di Integrazione con Cloudflare D1 Worker -->
+    <script>
+        const WORKER_URL = "https://clubhouse-api.francesco-fuoco.workers.dev";
+
+        let db = { users: [], trips: [], events: [], registrations: [] };
+        let currentUser = JSON.parse(sessionStorage.getItem('ch_currentUser')) || null;
+        let pendingBooking = null;
+        let isAdmin = false;
+
+        async function loadDbFromCloud() {
+            try {
+                const res = await fetch(`${WORKER_URL}/api/get-data`);
+                if(res.ok) {
+                    db = await res.json();
+                    renderHome();
+                    if(currentUser) renderUserDashboard();
+                }
+            } catch(e) { console.error("Errore caricamento dati dal cloud:", e); }
+        }
+
+        async function sendToCloud(action, payload) {
+            try {
+                await fetch(`${WORKER_URL}/api/save-data`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ action, ...payload })
+                });
+                await loadDbFromCloud();
+            } catch(e) { console.error("Errore salvataggio cloud:", e); }
+        }
+
+        function clearAllForms() {
+            document.querySelectorAll('form').forEach(f => f.reset());
+            const preview = document.getElementById('file-preview-list');
+            if(preview) preview.innerHTML = '';
+        }
+
+        function showView(viewId) {
+            clearAllForms();
+            document.querySelectorAll('.view').forEach(el => el.classList.remove('active'));
+            document.getElementById(viewId).classList.add('active');
+            window.scrollTo(0, 0);
+            updateHeader();
+            if(viewId === 'home') renderHome();
+            if(viewId === 'user-dashboard') renderUserDashboard();
+            if(viewId === 'admin') renderAdmin();
+        }
+
+        function goHome() { pendingBooking = null; showView('home'); }
+
+        function updateHeader() {
+            const actions = document.getElementById('header-user-actions');
+            if(currentUser) {
+                actions.innerHTML = `<button onclick="showView('user-dashboard')" class="text-sm font-bold bg-ch-gold text-ch-dark px-4 py-2 rounded shadow"><i class="fas fa-user-check mr-1"></i> Ciao, ${currentUser.nome}</button>`;
+            } else {
+                actions.innerHTML = `<button onclick="showAuth()" class="text-sm font-bold bg-ch-blue text-white px-4 py-2 rounded shadow"><i class="fas fa-user-circle mr-1"></i> Accedi / Registrati</button>`;
+            }
+        }
+
+        function renderHome() {
+            const tripsCont = document.getElementById('dynamic-trips-list');
+            tripsCont.innerHTML = db.trips.map(t => `
+                <div class="border rounded-xl p-4 bg-gray-50 flex flex-col justify-between shadow-sm">
+                    <div>
+                        <h4 class="font-bold text-lg text-ch-blue uppercase">${t.dest}</h4>
+                        <p class="text-sm text-gray-500 mt-1"><i class="far fa-calendar-alt text-ch-light mr-1"></i> ${t.da} / ${t.al}</p>
+                        <p class="text-sm font-semibold mt-2">${t.note}</p>
+                    </div>
+                    <button onclick="initBooking('${t.dest}', 'Viaggio')" class="mt-4 w-full bg-ch-light text-white font-bold py-2 rounded shadow">Iscriviti</button>
+                </div>`).join('') || '<p class="text-gray-400 italic">Nessun viaggio programmato.</p>';
+
+            const evCont = document.getElementById('dynamic-events-list');
+            evCont.innerHTML = db.events.map(e => `
+                <div class="border rounded-xl p-4 bg-gray-50 flex flex-col justify-between shadow-sm">
+                    <div>
+                        <h4 class="font-bold text-lg text-orange-600">${e.nome}</h4>
+                        <p class="text-sm text-gray-500 mt-1"><i class="far fa-calendar mr-1"></i> ${e.data}</p>
+                        <p class="text-sm mt-1">Costo: €${e.costo}</p>
+                    </div>
+                    <button onclick="initBooking('${e.nome}', 'Evento')" class="mt-4 w-full border-2 border-orange-500 text-orange-600 font-bold py-2 rounded">Prenota</button>
+                </div>`).join('') || '<p class="text-gray-400 italic">Nessun evento programmato.</p>';
+        }
+
+        function initBooking(eventName, type) {
+            pendingBooking = { eventName, type };
+            if(!currentUser) {
+                Swal.fire('Accesso Richiesto', 'Per prenotare devi accedere o registrarti.', 'info').then(()=> showAuth());
+            } else {
+                showBookingConfirm();
+            }
+        }
+
+        function showBookingConfirm() {
+            document.getElementById('bc-event-name').innerText = pendingBooking.eventName;
+            if(pendingBooking.type === 'Evento') document.getElementById('bc-event-options').classList.remove('hidden');
+            else document.getElementById('bc-event-options').classList.add('hidden');
+            showView('booking-confirm');
+        }
+
+        async function finalizeBooking() {
+            const newReg = {
+                id: 'r_' + Date.now(), dataReg: new Date().toLocaleString('it-IT'),
+                evento: pendingBooking.eventName, tipo: pendingBooking.tipo,
+                userId: currentUser.email, nome: currentUser.nome, cognome: currentUser.cognome,
+                dettagli: pendingBooking.type === 'Evento' ? `Posti: ${document.getElementById('bc-persone').value}` : "Iscrizione Viaggio"
+            };
+            await sendToCloud("add_registration", { registration: newReg });
+            Swal.fire('Successo', 'Prenotazione salvata sul cloud!', 'success').then(()=> showView('user-dashboard'));
+        }
+
+        function showAuth() { if(currentUser) showView('user-dashboard'); else { switchAuthTab('login'); showView('auth'); } }
+        
+        function switchAuthTab(tab) {
+            clearAllForms();
+            if(tab==='login') {
+                document.getElementById('form-user-login').classList.remove('hidden'); document.getElementById('form-user-register').classList.add('hidden');
+                document.getElementById('tab-login').classList.add('active'); document.getElementById('tab-register').classList.remove('active');
+            } else {
+                document.getElementById('form-user-login').classList.add('hidden'); document.getElementById('form-user-register').classList.remove('hidden');
+                document.getElementById('tab-login').classList.remove('active'); document.getElementById('tab-register').classList.add('active');
+            }
+        }
+
+        function previewFiles() {
+            const input = document.getElementById('ru-docs');
+            const preview = document.getElementById('file-preview-list');
+            preview.innerHTML = '';
+            if(input.files.length > 0) {
+                let html = '<p class="text-green-600 mb-1">File pronti:</p><ul class="list-disc pl-5">';
+                for(let i=0; i<input.files.length; i++) html += `<li>${input.files[i].name}</li>`;
+                preview.innerHTML = html + '</ul>';
+            }
+        }
+
+        const fileToB64 = file => new Promise((res, rej) => { const reader = new FileReader(); reader.readAsDataURL(file); reader.onload = () => res({ name: file.name, type: file.type, data: reader.result }); reader.onerror = rej; });
+
+        async function userRegister(e) {
+            e.preventDefault();
+            const email = document.getElementById('ru-email').value.toLowerCase();
+            const files = document.getElementById('ru-docs').files;
+            let docs = [];
+            for(let f of files) docs.push(await fileToB64(f));
+
+            const newUser = {
+                email: email, password: document.getElementById('ru-pass').value, tel: document.getElementById('ru-tel').value,
+                nome: document.getElementById('ru-nome').value, cognome: document.getElementById('ru-cognome').value,
+                cf: document.getElementById('ru-cf').value, dataNascita: document.getElementById('ru-data').value,
+                luogoNascita: document.getElementById('ru-luogo').value, ind: document.getElementById('ru-ind').value,
+                tipoDoc: document.getElementById('ru-tipo-doc').value, numDoc: document.getElementById('ru-num-doc').value,
+                scadDoc: document.getElementById('ru-scad-doc').value, docs: docs
+            };
+
+            await sendToCloud("register_user", { user: newUser });
+            currentUser = newUser; sessionStorage.setItem('ch_currentUser', JSON.stringify(currentUser));
+            Swal.fire('Benvenuto!', 'Profilo salvato sul cloud.', 'success').then(() => showView('user-dashboard'));
+        }
+
+        async function userLogin(e) {
+            e.preventDefault();
+            const email = document.getElementById('lu-email').value.toLowerCase();
+            const pass = document.getElementById('lu-pass').value;
+            const user = db.users.find(u => u.email === email && u.password === pass);
+            if(user) {
+                currentUser = user; sessionStorage.setItem('ch_currentUser', JSON.stringify(currentUser));
+                if(pendingBooking) showBookingConfirm(); else showView('user-dashboard');
+            } else { Swal.fire('Errore', 'Credenziali errate.', 'error'); }
+        }
+
+        function userLogout() { currentUser = null; sessionStorage.removeItem('ch_currentUser'); goHome(); }
+
+        function renderUserDashboard() {
+            document.getElementById('ud-welcome').innerText = `Ciao, ${currentUser.nome}!`;
+            document.getElementById('ud-cf').innerText = currentUser.cf;
+            document.getElementById('ud-email').innerText = currentUser.email;
+            document.getElementById('ud-tel').innerText = currentUser.tel;
+
+            const myRegs = db.registrations.filter(r => r.userId === currentUser.email).reverse();
+            document.getElementById('ud-bookings').innerHTML = myRegs.map(r => `
+                <div class="p-3 bg-white border rounded flex justify-between items-center">
+                    <div><span class="font-bold">${r.evento}</span></div>
+                    <span class="text-xs text-gray-500">${r.dataReg.split(',')[0]}</span>
+                </div>`).join('') || '<p class="text-gray-500 italic">Nessuna prenotazione.</p>';
+        }
+
+        function adminLoginPrompt() {
+            Swal.fire({ title: 'Accesso Admin', html: '<input id="swal-user" class="swal2-input" placeholder="Utente"><input id="swal-pass" type="password" class="swal2-input" placeholder="Password">',
+                preConfirm: () => {
+                    if(document.getElementById('swal-user').value === 'admin' && document.getElementById('swal-pass').value === '1234') { isAdmin = true; showView('admin'); } else { Swal.showValidationMessage('Errato'); }
+                }
+            });
+        }
+        function adminLogout() { isAdmin = false; goHome(); }
+
+        function renderAdmin() {
+            const tb = document.getElementById('admin-table-body');
+            tb.innerHTML = [...db.registrations].reverse().map(r => `
+                <tr class="border-b"><td class="p-3">${r.dataReg.split(',')[0]}</td><td class="p-3 font-bold">${r.evento}</td><td class="p-3">${r.cognome} ${r.nome}</td><td class="p-3 text-xs">${r.dettagli}</td></tr>`).join('');
+        }
+
+        async function createTrip(e) {
+            e.preventDefault();
+            const t = { id: 't_'+Date.now(), dest: document.getElementById('at-dest').value, da: document.getElementById('at-da').value, al: document.getElementById('at-al').value, note: document.getElementById('at-costo').value };
+            await sendToCloud("add_trip", { trip: t });
+            Swal.fire('Creato', 'Viaggio pubblicato sul cloud', 'success');
+        }
+
+        async function createEvent(e) {
+            e.preventDefault();
+            const ev = { id: 'e_'+Date.now(), nome: document.getElementById('ae-nome').value, data: document.getElementById('ae-data').value, costo: document.getElementById('ae-costo').value };
+            await sendToCloud("add_event", { event: ev });
+            Swal.fire('Creato', 'Evento pubblicato sul cloud', 'success');
+        }
+
+        loadDbFromCloud();
+    </script>
+</body>
+</html>
