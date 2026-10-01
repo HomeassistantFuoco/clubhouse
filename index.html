@@ -14,12 +14,11 @@
                 extend: {
                     colors: {
                         ch: { 
-                            darkblue: '#0B192C', 
-                            blue: '#1E3E62', 
-                            accent: '#008DDA', 
-                            light: '#41C9E2',
-                            gold: '#D4AF37',
-                            dark: '#0A0A0A'
+                            primary: '#4A1525',    /* Bordeaux elegante */
+                            secondary: '#6D2338',  /* Bordeaux chiaro */
+                            accent: '#C5A880',     /* Bronzo / Oro antico */
+                            light: '#FDFBF7',      /* Avorio chiaro di sfondo */
+                            dark: '#1C1917'        /* Nero caldo */
                         }
                     }
                 }
@@ -28,52 +27,52 @@
     </script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #f4f7f6; color: #1e293b; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #FDFBF7; color: #1C1917; }
         .view { display: none; opacity: 0; transform: translateY(8px); transition: opacity 0.3s ease, transform 0.3s ease; }
         .view.active { display: block; opacity: 1; transform: translateY(0); }
-        .glass-card { background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.6); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04); }
-        .tab-btn.active { border-bottom: 3px solid #008DDA; color: #0B192C; font-weight: 700; background: rgba(0, 141, 218, 0.05); }
-        .hero-gradient { background: linear-gradient(135deg, #0B192C 0%, #1E3E62 100%); }
+        .glass-card { background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(16px); border: 1px solid rgba(197, 168, 128, 0.2); box-shadow: 0 10px 30px rgba(74, 21, 37, 0.04); }
+        .tab-btn.active { border-bottom: 3px solid #C5A880; color: #4A1525; font-weight: 700; background: rgba(197, 168, 128, 0.1); }
+        .hero-gradient { background: linear-gradient(135deg, #4A1525 0%, #2B0D15 100%); }
     </style>
 </head>
 <body class="flex flex-col min-h-screen selection:bg-ch-accent selection:text-white">
 
-    <!-- HEADER ELEGANTE -->
-    <header class="bg-white/90 backdrop-blur-md sticky top-0 z-50 border-b border-slate-100 shadow-sm">
+    <!-- HEADER -->
+    <header class="bg-white/95 backdrop-blur-md sticky top-0 z-50 border-b border-stone-200 shadow-sm">
         <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
             <div class="flex items-center space-x-3.5 cursor-pointer group" onclick="goHome()">
                 <div class="hero-gradient p-2.5 rounded-2xl text-white shadow-md group-hover:scale-105 transition duration-300">
-                    <i class="fas fa-compass text-xl"></i>
+                    <i class="fas fa-compass text-xl text-ch-accent"></i>
                 </div>
                 <div>
-                    <h1 class="text-lg font-extrabold tracking-tight text-ch-darkblue">CLUB HOUSE <span class="text-ch-gold font-bold">Viaggi</span></h1>
-                    <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Associazione Giuseppe Novello</span>
+                    <h1 class="text-lg font-extrabold tracking-tight text-ch-primary">CLUB HOUSE <span class="text-ch-accent font-bold">Viaggi</span></h1>
+                    <span class="text-[10px] font-bold text-stone-400 uppercase tracking-wider block">Associazione Giuseppe Novello</span>
                 </div>
             </div>
             <div class="flex items-center space-x-4">
-                <button onclick="showView('brochure')" class="text-xs font-semibold text-slate-600 hover:text-ch-accent transition hidden md:flex items-center">
-                    <i class="fas fa-book-open mr-1.5 text-ch-accent"></i> Chi Siamo
+                <button onclick="showView('brochure')" class="text-xs font-semibold text-stone-600 hover:text-ch-primary transition hidden md:flex items-center">
+                    <i class="fas fa-book-open mr-1.5 text-ch-accent"></i> La Nostra Storia & Attività
                 </button>
                 <div id="header-user-actions">
-                    <button onclick="showAuth()" class="text-xs font-bold bg-ch-darkblue text-white px-5 py-2.5 rounded-xl shadow-sm hover:bg-ch-blue transition duration-300 flex items-center">
-                        <i class="fas fa-user mr-2 text-ch-gold"></i> Area Soci
+                    <button onclick="showAuth()" class="text-xs font-bold bg-ch-primary text-white px-5 py-2.5 rounded-xl shadow-sm hover:bg-ch-secondary transition duration-300 flex items-center">
+                        <i class="fas fa-user mr-2 text-ch-accent"></i> Area Soci
                     </button>
                 </div>
             </div>
         </div>
     </header>
 
-    <!-- CONTENUTO PRINCIPALE -->
+    <!-- MAIN CONTENT -->
     <main class="flex-grow w-full">
         
         <!-- HOME -->
         <div id="home" class="view active">
             <div class="hero-gradient text-white py-20 px-6 text-center relative overflow-hidden shadow-xl">
-                <div class="absolute inset-0 opacity-10 bg-[radial-gradient(#fff_1px,transparent_1px)] [background-size:16px_16px]"></div>
+                <div class="absolute inset-0 opacity-10 bg-[radial-gradient(#C5A880_1px,transparent_1px)] [background-size:16px_16px]"></div>
                 <div class="relative max-w-2xl mx-auto">
-                    <span class="inline-block uppercase tracking-widest text-[11px] font-extrabold text-ch-gold bg-ch-gold/10 px-3 py-1 rounded-full mb-4 border border-ch-gold/20">Esplora • Condividi • Vivi</span>
+                    <span class="inline-block uppercase tracking-widest text-[11px] font-extrabold text-ch-accent bg-ch-accent/10 px-3.5 py-1.5 rounded-full mb-4 border border-ch-accent/30">Esplora • Condividi • Vivi</span>
                     <h2 class="text-3xl md:text-5xl font-extrabold mb-4 tracking-tight">Viaggi, Cultura & Nuove Amicizie</h2>
-                    <p class="text-sm md:text-base text-slate-300 font-light italic">"Condividere esperienze rende la vita straordinaria."</p>
+                    <p class="text-sm md:text-base text-stone-300 font-light italic">"Condividere esperienze rende la vita straordinaria."</p>
                 </div>
             </div>
 
@@ -81,7 +80,7 @@
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-10">
                     <div>
                         <div class="flex items-center justify-between mb-6">
-                            <h3 class="text-xl font-extrabold text-slate-900 flex items-center">
+                            <h3 class="text-xl font-extrabold text-stone-900 flex items-center">
                                 <span class="w-2.5 h-6 bg-ch-accent rounded-full mr-2.5"></span> Viaggi Programmati
                             </h3>
                         </div>
@@ -89,8 +88,8 @@
                     </div>
                     <div>
                         <div class="flex items-center justify-between mb-6">
-                            <h3 class="text-xl font-extrabold text-slate-900 flex items-center">
-                                <span class="w-2.5 h-6 bg-amber-500 rounded-full mr-2.5"></span> Eventi & Incontri
+                            <h3 class="text-xl font-extrabold text-stone-900 flex items-center">
+                                <span class="w-2.5 h-6 bg-amber-600 rounded-full mr-2.5"></span> Eventi & Incontri
                             </h3>
                         </div>
                         <div id="dynamic-events-list" class="space-y-4"></div>
@@ -99,126 +98,146 @@
             </div>
         </div>
 
-        <!-- CHI SIAMO -->
-        <div id="brochure" class="view max-w-3xl mx-auto py-16 px-6">
-            <div class="glass-card rounded-3xl p-8 md:p-12 shadow-sm border border-slate-200/60">
-                <div class="flex justify-between items-center mb-6 pb-4 border-b border-slate-100">
-                    <h2 class="text-2xl font-extrabold text-ch-darkblue">La Nostra Associazione</h2>
-                    <button onclick="goHome()" class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-4 py-2 rounded-xl text-xs font-bold transition">Indietro</button>
+        <!-- BROCHURE / ATTIVITA COMPLETA -->
+        <div id="brochure" class="view max-w-4xl mx-auto py-16 px-6">
+            <div class="glass-card rounded-3xl p-8 md:p-12 shadow-sm border border-stone-200">
+                <div class="flex justify-between items-center mb-6 pb-4 border-b border-stone-200">
+                    <h2 class="text-2xl font-extrabold text-ch-primary">La Nostra Storia & Attività</h2>
+                    <button onclick="goHome()" class="bg-stone-100 hover:bg-stone-200 text-stone-700 px-4 py-2 rounded-xl text-xs font-bold transition">Indietro</button>
                 </div>
-                <p class="text-slate-600 text-sm leading-relaxed mb-4">L'Associazione Lucana e altre Regioni Italiane ETS-APS <strong>"Giuseppe Novello"</strong> nasce per promuovere la socialità, la cultura, il turismo ricreativo e la condivisione di momenti unici tra associati.</p>
-                <p class="text-slate-600 text-sm leading-relaxed mb-6">Organizziamo gite fuori porta, viaggi culturali ed eventi enogastronomici pensati per unire le persone in un clima familiare e stimolante.</p>
-                <div class="bg-slate-50 p-4 rounded-2xl border border-slate-100 text-xs text-slate-500 flex items-center">
-                    <i class="fas fa-map-marker-alt text-ch-accent text-base mr-3"></i>
-                    <div><strong>Sede operativa:</strong> Via Mezzano, 10034 Chivasso (TO)</div>
+                
+                <div class="space-y-6 text-stone-700 text-sm leading-relaxed">
+                    <div class="bg-ch-accent/10 p-6 rounded-2xl border-l-4 border-ch-accent">
+                        <h3 class="font-extrabold text-ch-primary text-base mb-2">Associazione Giuseppe Novello (ETS-APS)</h3>
+                        <p>L'Associazione Lucana e altre Regioni Italiane ETS-APS "Giuseppe Novello" nasce per promuovere la socialità, la riscoperta delle tradizioni, la cultura e il turismo ricreativo tra associati.</p>
+                    </div>
+
+                    <div>
+                        <h4 class="font-extrabold text-stone-900 text-base mb-2 flex items-center">
+                            <i class="fas fa-globe-americas text-ch-accent mr-2"></i> Cosa Facciamo (Le Nostre Attività)
+                        </h4>
+                        <p class="mb-3">Il nostro club organizza regolarmente attività culturali e ricreative aperte a tutti i soci:</p>
+                        <ul class="list-disc pl-5 space-y-2 text-stone-600">
+                            <li><strong>Viaggi Culturali e Gite Sociali:</strong> Escursioni giornaliere e tour di più giorni in Italia e all'estero, studiati per unire la scoperta di mete straordinarie al piacere della compagnia.</li>
+                            <li><strong>Incontri Enogastronomici:</strong> Cene sociali, degustazioni e momenti conviviali per valorizzare le eccellenze culinarie regionali e stare insieme.</li>
+                            <li><strong>Eventi e Attività Ricreative:</strong> Pomeriggi culturali, incontri di aggregazione, feste e iniziative solidali radicate sul territorio.</li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <h4 class="font-extrabold text-stone-900 text-base mb-2 flex items-center">
+                            <i class="fas fa-map-marker-alt text-ch-accent mr-2"></i> Dove Siamo
+                        </h4>
+                        <p>La nostra sede operativa di riferimento si trova a <strong>Chivasso (TO) in Via Mezzano</strong>. È il punto d'incontro ufficiale per organizzare le partenze, ritirare i programmi di viaggio e condividere idee per le prossime mete.</p>
+                    </div>
                 </div>
             </div>
         </div>
 
         <!-- ACCESSO & REGISTRAZIONE -->
         <div id="auth" class="view max-w-md mx-auto py-16 px-6">
-            <div class="glass-card rounded-3xl overflow-hidden shadow-xl border border-slate-200">
-                <div class="flex bg-slate-100/80 p-1.5 m-2 rounded-2xl">
+            <div class="glass-card rounded-3xl overflow-hidden shadow-xl border border-stone-200">
+                <div class="flex bg-stone-100 p-1.5 m-2 rounded-2xl">
                     <button id="tab-login" onclick="switchAuthTab('login')" class="w-1/2 py-2.5 text-center tab-btn active text-xs rounded-xl transition font-semibold">Accedi</button>
-                    <button id="tab-register" onclick="switchAuthTab('register')" class="w-1/2 py-2.5 text-center tab-btn text-xs rounded-xl transition font-semibold text-slate-500">Registrati</button>
+                    <button id="tab-register" onclick="switchAuthTab('register')" class="w-1/2 py-2.5 text-center tab-btn text-xs rounded-xl transition font-semibold text-stone-500">Registrati</button>
                 </div>
                 <div class="p-8 pt-4">
                     <form id="form-user-login" onsubmit="userLogin(event)" class="space-y-4">
-                        <h2 class="text-xl font-extrabold text-slate-900 mb-1">Bentornato</h2>
-                        <p class="text-xs text-slate-400 mb-6">Inserisci le tue credenziali per accedere all'area riservata.</p>
+                        <h2 class="text-xl font-extrabold text-stone-900 mb-1">Bentornato</h2>
+                        <p class="text-xs text-stone-400 mb-6">Inserisci le tue credenziali per accedere all'area riservata.</p>
                         <div>
-                            <label class="block text-[11px] font-bold text-slate-500 uppercase mb-1">Email</label>
-                            <input type="email5" id="lu-email" placeholder="nome@email.it" required class="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 text-sm focus:outline-none focus:border-ch-accent transition">
+                            <label class="block text-[11px] font-bold text-stone-500 uppercase mb-1">Email</label>
+                            <input type="email" id="lu-email" placeholder="nome@email.it" required class="w-full px-4 py-3 rounded-xl bg-white border border-stone-200 text-sm focus:outline-none focus:border-ch-accent transition">
                         </div>
                         <div>
-                            <label class="block text-[11px] font-bold text-slate-500 uppercase mb-1">Password</label>
-                            <input type="password" id="lu-pass" placeholder="••••••••" required class="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 text-sm focus:outline-none focus:border-ch-accent transition">
+                            <label class="block text-[11px] font-bold text-stone-500 uppercase mb-1">Password</label>
+                            <input type="password" id="lu-pass" placeholder="••••••••" required class="w-full px-4 py-3 rounded-xl bg-white border border-stone-200 text-sm focus:outline-none focus:border-ch-accent transition">
                         </div>
                         <button type="submit" class="w-full hero-gradient text-white font-bold py-3.5 rounded-xl text-sm shadow-md hover:opacity-95 transition mt-2">Accedi al Profilo</button>
                     </form>
 
                     <form id="form-user-register" onsubmit="userRegister(event)" class="hidden space-y-3.5">
-                        <h2 class="text-xl font-extrabold text-slate-900 mb-1">Nuovo Socio</h2>
-                        <p class="text-xs text-slate-400 mb-4">Compila i dati per registrarti all'associazione.</p>
+                        <h2 class="text-xl font-extrabold text-stone-900 mb-1">Nuovo Socio</h2>
+                        <p class="text-xs text-stone-400 mb-4">Compila i dati per registrarti all'associazione.</p>
                         <div class="grid grid-cols-2 gap-3">
-                            <input type="text" id="ru-nome" placeholder="Nome" required class="px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-xs focus:outline-none focus:border-ch-accent">
-                            <input type="text" id="ru-cognome" placeholder="Cognome" required class="px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-xs focus:outline-none focus:border-ch-accent">
+                            <input type="text" id="ru-nome" placeholder="Nome" required class="px-3.5 py-2.5 rounded-xl bg-white border border-stone-200 text-xs focus:outline-none focus:border-ch-accent">
+                            <input type="text" id="ru-cognome" placeholder="Cognome" required class="px-3.5 py-2.5 rounded-xl bg-white border border-stone-200 text-xs focus:outline-none focus:border-ch-accent">
                         </div>
-                        <input type="email" id="ru-email" placeholder="Indirizzo Email" required class="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-xs focus:outline-none focus:border-ch-accent">
-                        <input type="password" id="ru-pass" placeholder="Crea Password" required class="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-xs focus:outline-none focus:border-ch-accent">
-                        <input type="text" id="ru-cf" placeholder="Codice Fiscale" required class="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-xs uppercase focus:outline-none focus:border-ch-accent">
-                        <input type="tel" id="ru-tel" placeholder="Telefono" required class="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-xs focus:outline-none focus:border-ch-accent">
-                        <button type="submit" class="w-full bg-ch-gold text-ch-dark font-extrabold py-3.5 rounded-xl text-xs shadow-md hover:bg-amber-400 transition mt-2">Conferma Registrazione</button>
+                        <input type="email" id="ru-email" placeholder="Indirizzo Email" required class="w-full px-3.5 py-2.5 rounded-xl bg-white border border-stone-200 text-xs focus:outline-none focus:border-ch-accent">
+                        <input type="password" id="ru-pass" placeholder="Crea Password" required class="w-full px-3.5 py-2.5 rounded-xl bg-white border border-stone-200 text-xs focus:outline-none focus:border-ch-accent">
+                        <input type="text" id="ru-cf" placeholder="Codice Fiscale" required class="w-full px-3.5 py-2.5 rounded-xl bg-white border border-stone-200 text-xs uppercase focus:outline-none focus:border-ch-accent">
+                        <input type="tel" id="ru-tel" placeholder="Telefono" required class="w-full px-3.5 py-2.5 rounded-xl bg-white border border-stone-200 text-xs focus:outline-none focus:border-ch-accent">
+                        <button type="submit" class="w-full bg-ch-accent text-ch-dark font-extrabold py-3.5 rounded-xl text-xs shadow-md hover:bg-amber-600 hover:text-white transition mt-2">Conferma Registrazione</button>
                     </form>
                 </div>
             </div>
         </div>
 
-        <!-- AREA PERSONALE UTENTE -->
+        <!-- AREA PERSONALE -->
         <div id="user-dashboard" class="view max-w-4xl mx-auto py-16 px-6">
-            <div class="glass-card rounded-3xl p-8 md:p-10 shadow-sm border border-slate-200">
-                <div class="flex justify-between items-center border-b border-slate-100 pb-6 mb-8">
+            <div class="glass-card rounded-3xl p-8 md:p-10 shadow-sm border border-stone-200">
+                <div class="flex justify-between items-center border-b border-stone-200 pb-6 mb-8">
                     <div>
                         <span class="text-[11px] font-bold text-ch-accent uppercase tracking-wider block mb-1">Area Riservata</span>
-                        <h2 class="text-2xl font-extrabold text-slate-900" id="ud-welcome">Benvenuto</h2>
+                        <h2 class="text-2xl font-extrabold text-stone-900" id="ud-welcome">Benvenuto</h2>
                     </div>
                     <button onclick="userLogout()" class="bg-red-50 hover:bg-red-100 text-red-600 px-4 py-2 rounded-xl text-xs font-bold transition flex items-center">
                         <i class="fas fa-sign-out-alt mr-1.5"></i> Esci
                     </button>
                 </div>
-                <h3 class="font-extrabold text-sm text-slate-700 uppercase tracking-wide mb-4">Le tue prenotazioni e partecipazioni</h3>
+                <h3 class="font-extrabold text-sm text-stone-700 uppercase tracking-wide mb-4">Le tue prenotazioni e partecipazioni</h3>
                 <div id="ud-bookings" class="space-y-3"></div>
             </div>
         </div>
 
-        <!-- PANNELLO ADMIN / SEGRETERIA -->
+        <!-- PANNELLO ADMIN -->
         <div id="admin" class="view max-w-6xl mx-auto py-16 px-6">
-            <div class="flex justify-between items-center mb-8 hero-gradient text-white p-6 md:p-8 rounded-3xl shadow-lg">
+            <div class="flex justify-between items-center mb-8 hero-gradient text-white p-6 md:p-8 rounded-3xl shadow-lg border border-ch-accent/30">
                 <div>
-                    <span class="text-[11px] font-bold text-ch-gold uppercase tracking-wider block mb-1">Pannello di Controllo</span>
-                    <h2 class="text-xl md:text-2xl font-extrabold"><i class="fas fa-shield-alt text-ch-gold mr-2"></i> Segreteria Club House</h2>
+                    <span class="text-[11px] font-bold text-ch-accent uppercase tracking-wider block mb-1">Pannello di Controllo</span>
+                    <h2 class="text-xl md:text-2xl font-extrabold"><i class="fas fa-shield-alt text-ch-accent mr-2"></i> Segreteria Club House</h2>
                 </div>
                 <button onclick="adminLogout()" class="bg-white/10 hover:bg-white/20 text-white px-4 py-2.5 rounded-xl text-xs font-bold transition border border-white/20">Chiudi Admin</button>
             </div>
             
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
-                <div class="bg-white p-6 md:p-8 rounded-3xl shadow-sm border border-slate-100">
-                    <h3 class="font-extrabold text-base text-ch-blue mb-4 flex items-center"><i class="fas fa-plane-departure mr-2"></i> Crea Nuovo Viaggio</h3>
+                <div class="bg-white p-6 md:p-8 rounded-3xl shadow-sm border border-stone-200">
+                    <h3 class="font-extrabold text-base text-ch-primary mb-4 flex items-center"><i class="fas fa-plane-departure mr-2 text-ch-accent"></i> Crea Nuovo Viaggio</h3>
                     <form id="form-create-trip" onsubmit="createTrip(event)" class="space-y-3.5">
-                        <input type="text" id="at-dest" placeholder="Destinazione (es. Roma - Gita Culturale)" required class="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 text-xs focus:outline-none focus:border-ch-accent">
+                        <input type="text" id="at-dest" placeholder="Destinazione (es. Roma - Gita Culturale)" required class="w-full px-4 py-3 rounded-xl bg-stone-50 border border-stone-200 text-xs focus:outline-none focus:border-ch-accent">
                         <div class="grid grid-cols-2 gap-3">
-                            <input type="date" id="at-da" required class="px-3.5 py-3 rounded-xl bg-slate-50 border border-slate-200 text-xs">
-                            <input type="date" id="at-al" required class="px-3.5 py-3 rounded-xl bg-slate-50 border border-slate-200 text-xs">
+                            <input type="date" id="at-da" required class="px-3.5 py-3 rounded-xl bg-stone-50 border border-stone-200 text-xs">
+                            <input type="date" id="at-al" required class="px-3.5 py-3 rounded-xl bg-stone-50 border border-stone-200 text-xs">
                         </div>
-                        <input type="text" id="at-costo" placeholder="Note / Costo (es. € 150 a persona)" required class="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 text-xs">
+                        <input type="text" id="at-costo" placeholder="Note / Costo (es. € 150 a persona)" required class="w-full px-4 py-3 rounded-xl bg-stone-50 border border-stone-200 text-xs">
                         <button type="submit" class="w-full hero-gradient text-white py-3 rounded-xl text-xs font-bold shadow-sm hover:opacity-95 transition">Pubblica Viaggio</button>
                     </form>
                 </div>
                 
-                <div class="bg-white p-6 md:p-8 rounded-3xl shadow-sm border border-slate-100">
-                    <h3 class="font-extrabold text-base text-orange-600 mb-4 flex items-center"><i class="fas fa-glass-cheers mr-2"></i> Crea Nuovo Evento</h3>
+                <div class="bg-white p-6 md:p-8 rounded-3xl shadow-sm border border-stone-200">
+                    <h3 class="font-extrabold text-base text-amber-700 mb-4 flex items-center"><i class="fas fa-glass-cheers mr-2"></i> Crea Nuovo Evento</h3>
                     <form id="form-create-event" onsubmit="createEvent(event)" class="space-y-3.5">
-                        <input type="text" id="ae-nome" placeholder="Nome Evento (es. Cena Sociale)" required class="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 text-xs focus:outline-none focus:border-orange-500">
-                        <input type="date" id="ae-data" required class="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 text-xs">
-                        <input type="text" id="ae-costo" placeholder="Costo (es. € 25)" required class="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 text-xs">
-                        <button type="submit" class="w-full bg-orange-500 text-white py-3 rounded-xl text-xs font-bold shadow-sm hover:bg-orange-600 transition">Pubblica Evento</button>
+                        <input type="text" id="ae-nome" placeholder="Nome Evento (es. Cena Sociale)" required class="w-full px-4 py-3 rounded-xl bg-stone-50 border border-stone-200 text-xs focus:outline-none focus:border-amber-600">
+                        <input type="date" id="ae-data" required class="w-full px-4 py-3 rounded-xl bg-stone-50 border border-stone-200 text-xs">
+                        <input type="text" id="ae-costo" placeholder="Costo (es. € 25)" required class="w-full px-4 py-3 rounded-xl bg-stone-50 border border-stone-200 text-xs">
+                        <button type="submit" class="w-full bg-amber-600 text-white py-3 rounded-xl text-xs font-bold shadow-sm hover:bg-amber-700 transition">Pubblica Evento</button>
                     </form>
                 </div>
             </div>
 
-            <div class="bg-white p-6 md:p-8 rounded-3xl shadow-sm border border-slate-100">
-                <h3 class="font-extrabold text-base text-slate-900 mb-6 flex items-center"><i class="fas fa-clipboard-list mr-2 text-slate-400"></i> Registro Iscrizioni e Prenotazioni</h3>
+            <div class="bg-white p-6 md:p-8 rounded-3xl shadow-sm border border-stone-200">
+                <h3 class="font-extrabold text-base text-stone-900 mb-6 flex items-center"><i class="fas fa-clipboard-list mr-2 text-stone-400"></i> Registro Iscrizioni e Prenotazioni</h3>
                 <div class="overflow-x-auto">
                     <table class="w-full text-left border-collapse">
                         <thead>
-                            <tr class="border-b border-slate-100 text-slate-400 text-[11px] uppercase tracking-wider">
+                            <tr class="border-b border-stone-100 text-stone-400 text-[11px] uppercase tracking-wider">
                                 <th class="pb-3 font-bold">Data</th>
                                 <th class="pb-3 font-bold">Attività</th>
                                 <th class="pb-3 font-bold">Socio</th>
                                 <th class="pb-3 font-bold">Dettagli</th>
                             </tr>
                         </thead>
-                        <tbody id="admin-table-body" class="text-xs divide-y divide-slate-50"></tbody>
+                        <tbody id="admin-table-body" class="text-xs divide-y divide-stone-50"></tbody>
                     </table>
                 </div>
             </div>
@@ -226,16 +245,16 @@
     </main>
 
     <!-- FOOTER -->
-    <footer class="bg-ch-dark text-slate-400 py-10 mt-auto text-center border-t border-slate-800">
+    <footer class="bg-ch-dark text-stone-400 py-10 mt-auto text-center border-t border-stone-800">
         <div class="max-w-7xl mx-auto px-6 flex flex-col items-center justify-center space-y-4">
-            <p class="text-xs text-slate-500">Associazione Giuseppe Novello • Tutti i diritti riservati</p>
-            <button onclick="adminLoginPrompt()" class="text-[11px] text-slate-400 hover:text-white uppercase tracking-widest font-bold bg-slate-900 px-4 py-2 rounded-xl border border-slate-800 transition flex items-center">
-                <i class="fas fa-lock mr-1.5 text-ch-gold"></i> Accesso Segreteria
+            <p class="text-xs text-stone-500">Associazione Giuseppe Novello • Tutti i diritti riservati</p>
+            <button onclick="adminLoginPrompt()" class="text-[11px] text-stone-400 hover:text-white uppercase tracking-widest font-bold bg-stone-900 px-4 py-2 rounded-xl border border-stone-800 transition flex items-center">
+                <i class="fas fa-lock mr-1.5 text-ch-accent"></i> Accesso Segreteria
             </button>
         </div>
     </footer>
 
-    <!-- LOGICA JAVASCRIPT -->
+    <!-- JAVASCRIPT -->
     <script>
         const WORKER_URL = "https://clubhouse-api.francesco-fuoco.workers.dev";
         let db = { users: [], trips: [], events: [], registrations: [] };
@@ -284,9 +303,9 @@
         function updateHeader() {
             const actions = document.getElementById('header-user-actions');
             if(currentUser) {
-                actions.innerHTML = `<button onclick="showView('user-dashboard')" class="text-xs font-bold bg-amber-400 text-ch-dark px-4 py-2.5 rounded-xl shadow-sm hover:bg-amber-500 transition flex items-center"><i class="fas fa-user-circle mr-1.5"></i> ${currentUser.nome}</button>`;
+                actions.innerHTML = `<button onclick="showView('user-dashboard')" class="text-xs font-bold bg-ch-accent text-ch-dark px-4 py-2.5 rounded-xl shadow-sm hover:bg-amber-600 hover:text-white transition flex items-center"><i class="fas fa-user-circle mr-1.5"></i> ${currentUser.nome}</button>`;
             } else {
-                actions.innerHTML = `<button onclick="showAuth()" class="text-xs font-bold bg-ch-darkblue text-white px-5 py-2.5 rounded-xl shadow-sm hover:bg-ch-blue transition flex items-center"><i class="fas fa-user mr-2 text-ch-gold"></i> Area Soci</button>`;
+                actions.innerHTML = `<button onclick="showAuth()" class="text-xs font-bold bg-ch-primary text-white px-5 py-2.5 rounded-xl shadow-sm hover:bg-ch-secondary transition flex items-center"><i class="fas fa-user mr-2 text-ch-accent"></i> Area Soci</button>`;
             }
         }
 
@@ -294,28 +313,28 @@
             document.getElementById('dynamic-trips-list').innerHTML = db.trips.map(t => `
                 <div class="glass-card p-5 rounded-2xl flex justify-between items-center border-l-4 border-l-ch-accent hover:shadow-md transition">
                     <div>
-                        <h4 class="font-extrabold text-sm text-slate-900">${t.dest}</h4>
-                        <p class="text-xs text-slate-500 mt-0.5"><i class="far fa-calendar-alt mr-1"></i> Dal ${t.da} al ${t.al}</p>
-                        <p class="text-xs font-semibold text-ch-accent mt-1">${t.note}</p>
+                        <h4 class="font-extrabold text-sm text-stone-900">${t.dest}</h4>
+                        <p class="text-xs text-stone-500 mt-0.5"><i class="far fa-calendar-alt mr-1"></i> Dal ${t.da} al ${t.al}</p>
+                        <p class="text-xs font-semibold text-ch-primary mt-1">${t.note}</p>
                     </div>
-                    <button onclick="initBooking('${t.dest}', 'Viaggio')" class="bg-ch-darkblue hover:bg-ch-blue text-white px-4 py-2.5 rounded-xl text-xs font-bold transition shadow-sm">Partecipa</button>
-                </div>`).join('') || '<div class="glass-card p-6 rounded-2xl text-center text-slate-400 text-xs italic">Nessun viaggio in programma al momento.</div>';
+                    <button onclick="initBooking('${t.dest}', 'Viaggio')" class="bg-ch-primary hover:bg-ch-secondary text-white px-4 py-2.5 rounded-xl text-xs font-bold transition shadow-sm">Partecipa</button>
+                </div>`).join('') || '<div class="glass-card p-6 rounded-2xl text-center text-stone-400 text-xs italic">Nessun viaggio in programma al momento.</div>';
 
             document.getElementById('dynamic-events-list').innerHTML = db.events.map(e => `
-                <div class="glass-card p-5 rounded-2xl flex justify-between items-center border-l-4 border-l-orange-500 hover:shadow-md transition">
+                <div class="glass-card p-5 rounded-2xl flex justify-between items-center border-l-4 border-l-amber-600 hover:shadow-md transition">
                     <div>
-                        <h4 class="font-extrabold text-sm text-slate-900">${e.nome}</h4>
-                        <p class="text-xs text-slate-500 mt-0.5"><i class="far fa-clock mr-1"></i> ${e.data}</p>
-                        <p class="text-xs font-bold text-orange-600 mt-1">Quota: €${e.costo}</p>
+                        <h4 class="font-extrabold text-sm text-stone-900">${e.nome}</h4>
+                        <p class="text-xs text-stone-500 mt-0.5"><i class="far fa-clock mr-1"></i> ${e.data}</p>
+                        <p class="text-xs font-bold text-amber-700 mt-1">Quota: €${e.costo}</p>
                     </div>
-                    <button onclick="initBooking('${e.nome}', 'Evento')" class="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2.5 rounded-xl text-xs font-bold transition shadow-sm">Prenota</button>
-                </div>`).join('') || '<div class="glass-card p-6 rounded-2xl text-center text-slate-400 text-xs italic">Nessun evento in programma al momento.</div>';
+                    <button onclick="initBooking('${e.nome}', 'Evento')" class="bg-amber-600 hover:bg-amber-700 text-white px-4 py-2.5 rounded-xl text-xs font-bold transition shadow-sm">Prenota</button>
+                </div>`).join('') || '<div class="glass-card p-6 rounded-2xl text-center text-stone-400 text-xs italic">Nessun evento in programma al momento.</div>';
         }
 
         function initBooking(eventName, type) {
             pendingBooking = { eventName, type };
             if(!currentUser) { 
-                Swal.fire({ title: 'Area Riservata', text: 'Devi effettuare laccesso per prenotare.', icon: 'info', confirmButtonColor: '#1E3E62' }).then(()=> showAuth()); 
+                Swal.fire({ title: 'Area Riservata', text: 'Devi effettuare l accesso per prenotare.', icon: 'info', confirmButtonColor: '#4A1525' }).then(()=> showAuth()); 
             } else { 
                 finalizeBooking(); 
             }
@@ -328,7 +347,7 @@
                 userId: currentUser.email, nome: currentUser.nome, cognome: currentUser.cognome, dettagli: "Confermato"
             };
             const success = await sendToCloud("add_registration", { registration: newReg });
-            if(success) Swal.fire({ title: 'Prenotazione Effettuata!', text: 'La tua richiesta è stata registrata con successo.', icon: 'success', confirmButtonColor: '#1E3E62' }).then(()=> showView('user-dashboard'));
+            if(success) Swal.fire({ title: 'Prenotazione Effettuata!', text: 'La tua richiesta è stata registrata con successo.', icon: 'success', confirmButtonColor: '#4A1525' }).then(()=> showView('user-dashboard'));
         }
 
         function showAuth() { if(currentUser) showView('user-dashboard'); else { switchAuthTab('login'); showView('auth'); } }
@@ -355,7 +374,7 @@
             const success = await sendToCloud("register_user", { user: newUser });
             if(success) {
                 currentUser = newUser; sessionStorage.setItem('ch_currentUser', JSON.stringify(currentUser));
-                Swal.fire({ title: 'Benvenuto!', text: 'Registrazione completata con successo.', icon: 'success', confirmButtonColor: '#1E3E62' }).then(() => showView('user-dashboard'));
+                Swal.fire({ title: 'Benvenuto!', text: 'Registrazione completata con successo.', icon: 'success', confirmButtonColor: '#4A1525' }).then(() => showView('user-dashboard'));
             }
         }
 
@@ -369,7 +388,7 @@
                 currentUser = user; sessionStorage.setItem('ch_currentUser', JSON.stringify(currentUser));
                 if(pendingBooking) finalizeBooking(); else showView('user-dashboard');
             } else { 
-                Swal.fire({ title: 'Accesso Negato', text: 'Email o password errati.', icon: 'error', confirmButtonColor: '#1E3E62' }); 
+                Swal.fire({ title: 'Accesso Negato', text: 'Email o password errati.', icon: 'error', confirmButtonColor: '#4A1525' }); 
             }
         }
 
@@ -379,20 +398,20 @@
             document.getElementById('ud-welcome').innerText = `Ciao, ${currentUser.nome}!`;
             const myRegs = db.registrations.filter(r => r.userId === currentUser.email).reverse();
             document.getElementById('ud-bookings').innerHTML = myRegs.map(r => `
-                <div class="p-4 bg-slate-50/80 border border-slate-100 rounded-2xl flex justify-between items-center">
+                <div class="p-4 bg-stone-50 border border-stone-200 rounded-2xl flex justify-between items-center">
                     <div>
-                        <span class="font-extrabold text-xs text-slate-900 block">${r.evento}</span>
-                        <span class="text-[11px] text-slate-400">Tipologia: ${r.tipo}</span>
+                        <span class="font-extrabold text-xs text-stone-900 block">${r.evento}</span>
+                        <span class="text-[11px] text-stone-400">Tipologia: ${r.tipo}</span>
                     </div>
-                    <span class="text-[11px] font-bold text-ch-accent bg-ch-accent/10 px-3 py-1 rounded-full">${r.dataReg}</span>
-                </div>`).join('') || '<p class="text-slate-400 text-xs italic">Nessuna prenotazione attiva al momento.</p>';
+                    <span class="text-[11px] font-bold text-ch-primary bg-ch-accent/20 px-3 py-1 rounded-full">${r.dataReg}</span>
+                </div>`).join('') || '<p class="text-stone-400 text-xs italic">Nessuna prenotazione attiva al momento.</p>';
         }
 
         function adminLoginPrompt() {
             Swal.fire({ 
                 title: 'Accesso Segreteria', 
                 html: '<input id="swal-user" class="swal2-input !text-xs" placeholder="Utente"><input id="swal-pass" type="password" class="swal2-input !text-xs" placeholder="Password">',
-                confirmButtonText: 'Accedi', confirmButtonColor: '#1E3E62',
+                confirmButtonText: 'Accedi', confirmButtonColor: '#4A1525',
                 preConfirm: () => {
                     if(document.getElementById('swal-user').value === 'admin' && document.getElementById('swal-pass').value === 'Giuliano59') { 
                         showView('admin'); 
@@ -406,12 +425,12 @@
 
         function renderAdmin() {
             document.getElementById('admin-table-body').innerHTML = [...db.registrations].reverse().map(r => `
-                <tr class="border-b border-slate-50 hover:bg-slate-50/50 transition">
-                    <td class="py-3.5 text-slate-400 text-[11px]">${r.dataReg}</td>
-                    <td class="py-3.5 font-extrabold text-slate-800">${r.evento}</td>
-                    <td class="py-3.5 text-slate-600 font-medium">${r.cognome} ${r.nome}</td>
-                    <td class="py-3.5 text-xs text-ch-accent font-semibold">${r.dettagli}</td>
-                </tr>`).join('') || '<tr><td colspan="4" class="py-6 text-center text-slate-400 italic text-xs">Nessuna iscrizione registrata nel database.</td></tr>';
+                <tr class="border-b border-stone-100 hover:bg-stone-50 transition">
+                    <td class="py-3.5 text-stone-400 text-[11px]">${r.dataReg}</td>
+                    <td class="py-3.5 font-extrabold text-stone-800">${r.evento}</td>
+                    <td class="py-3.5 text-stone-600 font-medium">${r.cognome} ${r.nome}</td>
+                    <td class="py-3.5 text-xs text-ch-primary font-semibold">${r.dettagli}</td>
+                </tr>`).join('') || '<tr><td colspan="4" class="py-6 text-center text-stone-400 italic text-xs">Nessuna iscrizione registrata nel database.</td></tr>';
         }
 
         async function createTrip(e) {
@@ -419,7 +438,7 @@
             const t = { id: 't_'+Date.now(), dest: document.getElementById('at-dest').value, da: document.getElementById('at-da').value, al: document.getElementById('at-al').value, note: document.getElementById('at-costo').value };
             const success = await sendToCloud("add_trip", { trip: t });
             if(success) { 
-                Swal.fire({ title: 'Pubblicato!', text: 'Il viaggio è ora online.', icon: 'success', confirmButtonColor: '#1E3E62' }); 
+                Swal.fire({ title: 'Pubblicato!', text: 'Il viaggio è ora online.', icon: 'success', confirmButtonColor: '#4A1525' }); 
                 document.getElementById('form-create-trip').reset(); 
             }
         }
@@ -429,7 +448,7 @@
             const ev = { id: 'e_'+Date.now(), nome: document.getElementById('ae-nome').value, data: document.getElementById('ae-data').value, costo: document.getElementById('ae-costo').value };
             const success = await sendToCloud("add_event", { event: ev });
             if(success) { 
-                Swal.fire({ title: 'Pubblicato!', text: ' Lvento è ora online.', icon: 'success', confirmButtonColor: '#1E3E62' }); 
+                Swal.fire({ title: 'Pubblicato!', text: 'L\'evento è ora online.', icon: 'success', confirmButtonColor: '#4A1525' }); 
                 document.getElementById('form-create-event').reset(); 
             }
         }
