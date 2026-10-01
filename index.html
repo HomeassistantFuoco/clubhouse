@@ -14,350 +14,233 @@
                 extend: {
                     colors: {
                         ch: { 
-                            darkblue: '#0a192f',
-                            blue: '#1e3a8a', 
-                            light: '#3b82f6', 
-                            gold: '#fbbf24', 
-                            dark: '#0f172a' 
+                            darkblue: '#0B192C', 
+                            blue: '#1E3E62', 
+                            accent: '#008DDA', 
+                            light: '#41C9E2',
+                            gold: '#D4AF37',
+                            dark: '#0A0A0A'
                         }
-                    },
-                    fontFamily: {
-                        sans: ['Inter', 'ui-sans-serif', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'sans-serif'],
                     }
                 }
             }
         }
     </script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap');
-        
-        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; }
-        .view { display: none; animation: fadeInUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; opacity: 0; transform: translateY(20px); }
-        .view.active { display: block; }
-        
-        @keyframes fadeInUp { to { opacity: 1; transform: translateY(0); } }
-        
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #f1f5f9; }
-        ::-webkit-scrollbar-thumb { background: #3b82f6; border-radius: 4px; }
-        
-        .hero-bg {
-            background: linear-gradient(to right, rgba(10, 25, 47, 0.9), rgba(30, 58, 138, 0.8)), url('https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?ixlib=rb-4.0.3&auto=format&fit=crop&w=2021&q=80') center/cover no-repeat;
-            background-attachment: fixed;
-        }
-        
-        .glass-card {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255,255,255,0.2);
-            box-shadow: 0 20px 40px -15px rgba(0,0,0,0.05);
-        }
-
-        .hover-lift { transition: transform 0.3s ease, box-shadow 0.3s ease; }
-        .hover-lift:hover { transform: translateY(-5px); box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04); }
-        
-        .tab-btn { transition: all 0.3s ease; }
-        .tab-btn.active { border-bottom: 3px solid #3b82f6; color: #1e3a8a; font-weight: 800; background: linear-gradient(to top, #eff6ff, transparent); }
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #f4f7f6; color: #1e293b; }
+        .view { display: none; opacity: 0; transform: translateY(8px); transition: opacity 0.3s ease, transform 0.3s ease; }
+        .view.active { display: block; opacity: 1; transform: translateY(0); }
+        .glass-card { background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.6); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04); }
+        .tab-btn.active { border-bottom: 3px solid #008DDA; color: #0B192C; font-weight: 700; background: rgba(0, 141, 218, 0.05); }
+        .hero-gradient { background: linear-gradient(135deg, #0B192C 0%, #1E3E62 100%); }
     </style>
 </head>
-<body class="text-slate-800 flex flex-col min-h-screen">
+<body class="flex flex-col min-h-screen selection:bg-ch-accent selection:text-white">
 
-    <!-- Header Elegante -->
-    <header class="bg-white/90 backdrop-blur-md shadow-sm sticky top-0 z-50 border-b border-slate-200">
-        <div class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
-            <div class="flex items-center space-x-3 cursor-pointer group" onclick="goHome()">
-                <div class="bg-gradient-to-tr from-ch-blue to-ch-light p-2 rounded-xl text-white shadow-lg group-hover:rotate-12 transition transform duration-300">
-                    <i class="fas fa-compass text-3xl"></i>
+    <!-- HEADER ELEGANTE -->
+    <header class="bg-white/90 backdrop-blur-md sticky top-0 z-50 border-b border-slate-100 shadow-sm">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="flex items-center space-x-3.5 cursor-pointer group" onclick="goHome()">
+                <div class="hero-gradient p-2.5 rounded-2xl text-white shadow-md group-hover:scale-105 transition duration-300">
+                    <i class="fas fa-compass text-xl"></i>
                 </div>
                 <div>
-                    <h1 class="text-2xl font-extrabold tracking-tight text-ch-darkblue">CLUB HOUSE <span class="text-ch-gold font-semibold">Viaggi</span></h1>
-                    <span class="text-xs font-semibold text-slate-500 uppercase tracking-wider block">Associazione Giuseppe Novello</span>
+                    <h1 class="text-lg font-extrabold tracking-tight text-ch-darkblue">CLUB HOUSE <span class="text-ch-gold font-bold">Viaggi</span></h1>
+                    <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Associazione Giuseppe Novello</span>
                 </div>
             </div>
             <div class="flex items-center space-x-4">
-                <button onclick="showView('brochure')" class="text-sm font-semibold text-slate-600 hover:text-ch-blue transition hidden md:block">
-                    <i class="fas fa-book-open mr-1"></i> La Nostra Storia
+                <button onclick="showView('brochure')" class="text-xs font-semibold text-slate-600 hover:text-ch-accent transition hidden md:flex items-center">
+                    <i class="fas fa-book-open mr-1.5 text-ch-accent"></i> Chi Siamo
                 </button>
                 <div id="header-user-actions">
-                    <button onclick="showAuth()" class="text-sm font-bold bg-ch-darkblue text-white px-5 py-2.5 rounded-full shadow-md hover:bg-ch-blue hover:shadow-lg transition-all hover-lift">
-                        <i class="fas fa-user-circle mr-2"></i> Area Soci
+                    <button onclick="showAuth()" class="text-xs font-bold bg-ch-darkblue text-white px-5 py-2.5 rounded-xl shadow-sm hover:bg-ch-blue transition duration-300 flex items-center">
+                        <i class="fas fa-user mr-2 text-ch-gold"></i> Area Soci
                     </button>
                 </div>
             </div>
         </div>
     </header>
 
+    <!-- CONTENUTO PRINCIPALE -->
     <main class="flex-grow w-full">
-        <!-- VIEW: HOME -->
+        
+        <!-- HOME -->
         <div id="home" class="view active">
-            <div class="hero-bg text-white text-center py-32 px-4 shadow-inner relative overflow-hidden">
-                <div class="absolute inset-0 bg-ch-blue mix-blend-multiply opacity-20"></div>
-                <div class="relative z-10">
-                    <span class="uppercase tracking-[0.3em] text-sm font-bold text-ch-gold mb-4 block">Scopri il mondo con noi</span>
-                    <h2 class="text-5xl md:text-7xl font-extrabold mb-6 drop-shadow-xl tracking-tight">Viaggi, Cultura<br><span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-300 to-white">& Nuove Amicizie</span></h2>
-                    <p class="text-xl md:text-2xl font-light mb-10 text-blue-100 max-w-2xl mx-auto">"Condividere esperienze rende la vita più bella."</p>
-                    <div class="flex flex-wrap justify-center gap-4">
-                        <button onclick="showView('brochure')" class="bg-ch-gold text-ch-darkblue font-bold px-8 py-4 rounded-full shadow-xl hover:bg-yellow-400 hover:scale-105 transition-all text-lg">
-                            Esplora le Attività <i class="fas fa-arrow-right ml-2"></i>
-                        </button>
-                    </div>
+            <div class="hero-gradient text-white py-20 px-6 text-center relative overflow-hidden shadow-xl">
+                <div class="absolute inset-0 opacity-10 bg-[radial-gradient(#fff_1px,transparent_1px)] [background-size:16px_16px]"></div>
+                <div class="relative max-w-2xl mx-auto">
+                    <span class="inline-block uppercase tracking-widest text-[11px] font-extrabold text-ch-gold bg-ch-gold/10 px-3 py-1 rounded-full mb-4 border border-ch-gold/20">Esplora • Condividi • Vivi</span>
+                    <h2 class="text-3xl md:text-5xl font-extrabold mb-4 tracking-tight">Viaggi, Cultura & Nuove Amicizie</h2>
+                    <p class="text-sm md:text-base text-slate-300 font-light italic">"Condividere esperienze rende la vita straordinaria."</p>
                 </div>
             </div>
 
-            <div class="max-w-7xl mx-auto px-4 py-16">
+            <div class="max-w-7xl mx-auto px-6 py-12">
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-10">
-                    <!-- SEZIONE: VIAGGI -->
                     <div>
-                        <div class="flex items-center mb-8">
-                            <div class="bg-blue-100 p-3 rounded-lg text-ch-blue mr-4"><i class="fas fa-map-marked-alt text-2xl"></i></div>
-                            <h3 class="text-3xl font-extrabold text-slate-800 tracking-tight">I Prossimi Viaggi</h3>
+                        <div class="flex items-center justify-between mb-6">
+                            <h3 class="text-xl font-extrabold text-slate-900 flex items-center">
+                                <span class="w-2.5 h-6 bg-ch-accent rounded-full mr-2.5"></span> Viaggi Programmati
+                            </h3>
                         </div>
-                        <div id="dynamic-trips-list" class="space-y-6"></div>
+                        <div id="dynamic-trips-list" class="space-y-4"></div>
                     </div>
-
-                    <!-- SEZIONE: EVENTI E CENE -->
                     <div>
-                        <div class="flex items-center mb-8">
-                            <div class="bg-orange-100 p-3 rounded-lg text-orange-600 mr-4"><i class="fas fa-glass-cheers text-2xl"></i></div>
-                            <h3 class="text-3xl font-extrabold text-slate-800 tracking-tight">Eventi & Incontri</h3>
+                        <div class="flex items-center justify-between mb-6">
+                            <h3 class="text-xl font-extrabold text-slate-900 flex items-center">
+                                <span class="w-2.5 h-6 bg-amber-500 rounded-full mr-2.5"></span> Eventi & Incontri
+                            </h3>
                         </div>
-                        <div id="dynamic-events-list" class="space-y-6"></div>
+                        <div id="dynamic-events-list" class="space-y-4"></div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- VIEW: BROCHURE -->
-        <div id="brochure" class="view max-w-6xl mx-auto py-16 px-4">
-            <div class="glass-card rounded-3xl p-10 mb-8 border-t-8 border-t-ch-blue relative overflow-hidden">
-                <div class="absolute top-0 right-0 -mt-10 -mr-10 text-blue-50 opacity-20 text-[20rem] pointer-events-none"><i class="fas fa-quote-right"></i></div>
+        <!-- CHI SIAMO -->
+        <div id="brochure" class="view max-w-3xl mx-auto py-16 px-6">
+            <div class="glass-card rounded-3xl p-8 md:p-12 shadow-sm border border-slate-200/60">
+                <div class="flex justify-between items-center mb-6 pb-4 border-b border-slate-100">
+                    <h2 class="text-2xl font-extrabold text-ch-darkblue">La Nostra Associazione</h2>
+                    <button onclick="goHome()" class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-4 py-2 rounded-xl text-xs font-bold transition">Indietro</button>
+                </div>
+                <p class="text-slate-600 text-sm leading-relaxed mb-4">L'Associazione Lucana e altre Regioni Italiane ETS-APS <strong>"Giuseppe Novello"</strong> nasce per promuovere la socialità, la cultura, il turismo ricreativo e la condivisione di momenti unici tra associati.</p>
+                <p class="text-slate-600 text-sm leading-relaxed mb-6">Organizziamo gite fuori porta, viaggi culturali ed eventi enogastronomici pensati per unire le persone in un clima familiare e stimolante.</p>
+                <div class="bg-slate-50 p-4 rounded-2xl border border-slate-100 text-xs text-slate-500 flex items-center">
+                    <i class="fas fa-map-marker-alt text-ch-accent text-base mr-3"></i>
+                    <div><strong>Sede operativa:</strong> Via Mezzano, 10034 Chivasso (TO)</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ACCESSO & REGISTRAZIONE -->
+        <div id="auth" class="view max-w-md mx-auto py-16 px-6">
+            <div class="glass-card rounded-3xl overflow-hidden shadow-xl border border-slate-200">
+                <div class="flex bg-slate-100/80 p-1.5 m-2 rounded-2xl">
+                    <button id="tab-login" onclick="switchAuthTab('login')" class="w-1/2 py-2.5 text-center tab-btn active text-xs rounded-xl transition font-semibold">Accedi</button>
+                    <button id="tab-register" onclick="switchAuthTab('register')" class="w-1/2 py-2.5 text-center tab-btn text-xs rounded-xl transition font-semibold text-slate-500">Registrati</button>
+                </div>
+                <div class="p-8 pt-4">
+                    <form id="form-user-login" onsubmit="userLogin(event)" class="space-y-4">
+                        <h2 class="text-xl font-extrabold text-slate-900 mb-1">Bentornato</h2>
+                        <p class="text-xs text-slate-400 mb-6">Inserisci le tue credenziali per accedere all'area riservata.</p>
+                        <div>
+                            <label class="block text-[11px] font-bold text-slate-500 uppercase mb-1">Email</label>
+                            <input type="email5" id="lu-email" placeholder="nome@email.it" required class="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 text-sm focus:outline-none focus:border-ch-accent transition">
+                        </div>
+                        <div>
+                            <label class="block text-[11px] font-bold text-slate-500 uppercase mb-1">Password</label>
+                            <input type="password" id="lu-pass" placeholder="••••••••" required class="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 text-sm focus:outline-none focus:border-ch-accent transition">
+                        </div>
+                        <button type="submit" class="w-full hero-gradient text-white font-bold py-3.5 rounded-xl text-sm shadow-md hover:opacity-95 transition mt-2">Accedi al Profilo</button>
+                    </form>
+
+                    <form id="form-user-register" onsubmit="userRegister(event)" class="hidden space-y-3.5">
+                        <h2 class="text-xl font-extrabold text-slate-900 mb-1">Nuovo Socio</h2>
+                        <p class="text-xs text-slate-400 mb-4">Compila i dati per registrarti all'associazione.</p>
+                        <div class="grid grid-cols-2 gap-3">
+                            <input type="text" id="ru-nome" placeholder="Nome" required class="px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-xs focus:outline-none focus:border-ch-accent">
+                            <input type="text" id="ru-cognome" placeholder="Cognome" required class="px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-xs focus:outline-none focus:border-ch-accent">
+                        </div>
+                        <input type="email" id="ru-email" placeholder="Indirizzo Email" required class="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-xs focus:outline-none focus:border-ch-accent">
+                        <input type="password" id="ru-pass" placeholder="Crea Password" required class="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-xs focus:outline-none focus:border-ch-accent">
+                        <input type="text" id="ru-cf" placeholder="Codice Fiscale" required class="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-xs uppercase focus:outline-none focus:border-ch-accent">
+                        <input type="tel" id="ru-tel" placeholder="Telefono" required class="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-xs focus:outline-none focus:border-ch-accent">
+                        <button type="submit" class="w-full bg-ch-gold text-ch-dark font-extrabold py-3.5 rounded-xl text-xs shadow-md hover:bg-amber-400 transition mt-2">Conferma Registrazione</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- AREA PERSONALE UTENTE -->
+        <div id="user-dashboard" class="view max-w-4xl mx-auto py-16 px-6">
+            <div class="glass-card rounded-3xl p-8 md:p-10 shadow-sm border border-slate-200">
+                <div class="flex justify-between items-center border-b border-slate-100 pb-6 mb-8">
+                    <div>
+                        <span class="text-[11px] font-bold text-ch-accent uppercase tracking-wider block mb-1">Area Riservata</span>
+                        <h2 class="text-2xl font-extrabold text-slate-900" id="ud-welcome">Benvenuto</h2>
+                    </div>
+                    <button onclick="userLogout()" class="bg-red-50 hover:bg-red-100 text-red-600 px-4 py-2 rounded-xl text-xs font-bold transition flex items-center">
+                        <i class="fas fa-sign-out-alt mr-1.5"></i> Esci
+                    </button>
+                </div>
+                <h3 class="font-extrabold text-sm text-slate-700 uppercase tracking-wide mb-4">Le tue prenotazioni e partecipazioni</h3>
+                <div id="ud-bookings" class="space-y-3"></div>
+            </div>
+        </div>
+
+        <!-- PANNELLO ADMIN / SEGRETERIA -->
+        <div id="admin" class="view max-w-6xl mx-auto py-16 px-6">
+            <div class="flex justify-between items-center mb-8 hero-gradient text-white p-6 md:p-8 rounded-3xl shadow-lg">
+                <div>
+                    <span class="text-[11px] font-bold text-ch-gold uppercase tracking-wider block mb-1">Pannello di Controllo</span>
+                    <h2 class="text-xl md:text-2xl font-extrabold"><i class="fas fa-shield-alt text-ch-gold mr-2"></i> Segreteria Club House</h2>
+                </div>
+                <button onclick="adminLogout()" class="bg-white/10 hover:bg-white/20 text-white px-4 py-2.5 rounded-xl text-xs font-bold transition border border-white/20">Chiudi Admin</button>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+                <div class="bg-white p-6 md:p-8 rounded-3xl shadow-sm border border-slate-100">
+                    <h3 class="font-extrabold text-base text-ch-blue mb-4 flex items-center"><i class="fas fa-plane-departure mr-2"></i> Crea Nuovo Viaggio</h3>
+                    <form id="form-create-trip" onsubmit="createTrip(event)" class="space-y-3.5">
+                        <input type="text" id="at-dest" placeholder="Destinazione (es. Roma - Gita Culturale)" required class="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 text-xs focus:outline-none focus:border-ch-accent">
+                        <div class="grid grid-cols-2 gap-3">
+                            <input type="date" id="at-da" required class="px-3.5 py-3 rounded-xl bg-slate-50 border border-slate-200 text-xs">
+                            <input type="date" id="at-al" required class="px-3.5 py-3 rounded-xl bg-slate-50 border border-slate-200 text-xs">
+                        </div>
+                        <input type="text" id="at-costo" placeholder="Note / Costo (es. € 150 a persona)" required class="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 text-xs">
+                        <button type="submit" class="w-full hero-gradient text-white py-3 rounded-xl text-xs font-bold shadow-sm hover:opacity-95 transition">Pubblica Viaggio</button>
+                    </form>
+                </div>
                 
-                <div class="flex justify-between items-center mb-10 relative z-10 border-b border-slate-100 pb-6">
-                    <div>
-                        <span class="text-ch-gold font-bold tracking-widest uppercase text-sm mb-1 block">Chi Siamo</span>
-                        <h2 class="text-4xl font-extrabold text-ch-darkblue">L'Associazione Novello</h2>
-                    </div>
-                    <button onclick="goHome()" class="bg-slate-100 text-slate-600 px-5 py-2.5 rounded-full font-semibold hover:bg-slate-200 transition text-sm flex items-center"><i class="fas fa-arrow-left mr-2"></i> Indietro</button>
-                </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-5 gap-10 mb-16 relative z-10">
-                    <div class="md:col-span-3">
-                        <p class="text-lg text-slate-600 mb-6 leading-relaxed font-light">
-                            L'Associazione Lucana e altre Regioni Italiane ETS-APS <strong class="text-ch-blue font-bold">"Giuseppe Novello"</strong> promuove la cultura, la socialità e la partecipazione attiva delle persone.
-                        </p>
-                        <p class="text-lg text-slate-600 mb-4 leading-relaxed font-light">
-                            Crediamo nel valore delle relazioni, nello scambio di esperienze e nella diffusione della conoscenza come strumenti per una società più inclusiva e solidale. Più di un'associazione... una grande famiglia!
-                        </p>
-                    </div>
-                    <div class="md:col-span-2 bg-gradient-to-br from-blue-50 to-slate-50 p-6 rounded-2xl border border-blue-100 shadow-sm">
-                        <h3 class="text-xl font-bold text-ch-darkblue mb-4 border-b border-blue-200 pb-2">I Nostri Contatti</h3>
-                        <ul class="space-y-4 text-slate-600">
-                            <li class="flex items-start"><i class="fas fa-map-marker-alt text-ch-light mt-1 mr-3 text-lg"></i><span><strong>Sede:</strong><br>Via Mezzano, 10034 Chivasso (TO)</span></li>
-                            <li class="flex items-center"><i class="fas fa-phone text-ch-light mr-3 text-lg"></i><span><strong>Tel:</strong> +39 320 1234567</span></li>
-                            <li class="flex items-center"><i class="fas fa-envelope text-ch-light mr-3 text-lg"></i><span><strong>Email:</strong> info@associazionenovello.it</span></li>
-                        </ul>
-                    </div>
-                </div>
-
-                <h3 class="text-3xl font-extrabold text-center text-ch-darkblue mb-12 relative z-10">Le Nostre Attività Principali</h3>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 relative z-10">
-                    <!-- Cards Attività -->
-                    <div class="bg-white p-8 rounded-2xl shadow-sm hover-lift border border-slate-100 text-center group">
-                        <div class="w-16 h-16 mx-auto bg-blue-50 text-ch-blue rounded-full flex items-center justify-center text-2xl mb-4 group-hover:bg-ch-blue group-hover:text-white transition-colors duration-300"><i class="fas fa-book-reader"></i></div>
-                        <h4 class="font-bold text-xl mb-2 text-slate-800">Attività Culturali</h4>
-                        <p class="text-slate-500 font-light">Presentazioni di libri, incontri con autori e conferenze.</p>
-                    </div>
-                    <div class="bg-white p-8 rounded-2xl shadow-sm hover-lift border border-slate-100 text-center group">
-                        <div class="w-16 h-16 mx-auto bg-purple-50 text-purple-600 rounded-full flex items-center justify-center text-2xl mb-4 group-hover:bg-purple-600 group-hover:text-white transition-colors duration-300"><i class="fas fa-film"></i></div>
-                        <h4 class="font-bold text-xl mb-2 text-slate-800">Cinema</h4>
-                        <p class="text-slate-500 font-light">Proiezioni di film, documentari e momenti di dibattito.</p>
-                    </div>
-                    <div class="bg-white p-8 rounded-2xl shadow-sm hover-lift border border-slate-100 text-center group">
-                        <div class="w-16 h-16 mx-auto bg-green-50 text-green-600 rounded-full flex items-center justify-center text-2xl mb-4 group-hover:bg-green-600 group-hover:text-white transition-colors duration-300"><i class="fas fa-heartbeat"></i></div>
-                        <h4 class="font-bold text-xl mb-2 text-slate-800">Salute e Benessere</h4>
-                        <p class="text-slate-500 font-light">Prevenzione, stili di vita sani e longevità attiva.</p>
-                    </div>
-                    <div class="bg-white p-8 rounded-2xl shadow-sm hover-lift border border-slate-100 text-center group">
-                        <div class="w-16 h-16 mx-auto bg-orange-50 text-orange-500 rounded-full flex items-center justify-center text-2xl mb-4 group-hover:bg-orange-500 group-hover:text-white transition-colors duration-300"><i class="fas fa-plane-departure"></i></div>
-                        <h4 class="font-bold text-xl mb-2 text-slate-800">Viaggi ed Escursioni</h4>
-                        <p class="text-slate-500 font-light">Itinerari culturali e turistici sul territorio.</p>
-                    </div>
-                    <div class="bg-white p-8 rounded-2xl shadow-sm hover-lift border border-slate-100 text-center group">
-                        <div class="w-16 h-16 mx-auto bg-pink-50 text-pink-500 rounded-full flex items-center justify-center text-2xl mb-4 group-hover:bg-pink-500 group-hover:text-white transition-colors duration-300"><i class="fas fa-music"></i></div>
-                        <h4 class="font-bold text-xl mb-2 text-slate-800">Musica e Serate</h4>
-                        <p class="text-slate-500 font-light">Eventi musicali e momenti di convivialità.</p>
-                    </div>
-                    <div class="bg-white p-8 rounded-2xl shadow-sm hover-lift border border-slate-100 text-center group">
-                        <div class="w-16 h-16 mx-auto bg-teal-50 text-teal-600 rounded-full flex items-center justify-center text-2xl mb-4 group-hover:bg-teal-600 group-hover:text-white transition-colors duration-300"><i class="fas fa-users"></i></div>
-                        <h4 class="font-bold text-xl mb-2 text-slate-800">Amicizia</h4>
-                        <p class="text-slate-500 font-light">Un ambiente accogliente per stringere legami veri.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- VIEW: AUTH -->
-        <div id="auth" class="view max-w-3xl mx-auto py-16 px-4">
-            <div class="glass-card rounded-3xl overflow-hidden shadow-2xl shadow-blue-900/10">
-                <div class="flex bg-slate-50/50">
-                    <button id="tab-login" onclick="switchAuthTab('login')" class="w-1/2 py-5 text-center text-slate-500 tab-btn active uppercase tracking-widest text-sm transition">Accedi</button>
-                    <button id="tab-register" onclick="switchAuthTab('register')" class="w-1/2 py-5 text-center text-slate-500 tab-btn uppercase tracking-widest text-sm transition">Diventa Socio</button>
-                </div>
-                <div class="p-10">
-                    <!-- Login Form -->
-                    <form id="form-user-login" onsubmit="userLogin(event)" class="space-y-6 max-w-md mx-auto">
-                        <div class="text-center mb-8 text-ch-blue">
-                            <div class="bg-blue-50 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4"><i class="fas fa-user-lock text-3xl"></i></div>
-                            <h2 class="text-3xl font-extrabold text-slate-800">Bentornato!</h2>
-                            <p class="text-slate-500 mt-2">Accedi per prenotare i tuoi prossimi viaggi</p>
-                        </div>
-                        <div>
-                            <label class="block text-sm font-semibold text-slate-600 mb-1">Email</label>
-                            <input type="email" id="lu-email" required class="w-full p-4 border border-slate-200 rounded-xl bg-slate-50 focus:bg-white focus:ring-2 focus:ring-blue-400 focus:outline-none transition">
-                        </div>
-                        <div>
-                            <label class="block text-sm font-semibold text-slate-600 mb-1">Password</label>
-                            <input type="password" id="lu-pass" required class="w-full p-4 border border-slate-200 rounded-xl bg-slate-50 focus:bg-white focus:ring-2 focus:ring-blue-400 focus:outline-none transition">
-                        </div>
-                        <button type="submit" class="w-full bg-gradient-to-r from-ch-blue to-ch-light text-white font-bold py-4 rounded-xl shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300">Accedi all'Area Soci</button>
-                    </form>
-
-                    <!-- Register Form -->
-                    <form id="form-user-register" onsubmit="userRegister(event)" class="hidden space-y-6">
-                        <div class="text-center mb-8">
-                            <h2 class="text-3xl font-extrabold text-slate-800">Modulo Iscrizione Socio</h2>
-                            <p class="text-slate-500 mt-2">Compila i dati per entrare a far parte dell'Associazione</p>
-                        </div>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-                            <div class="md:col-span-2"><label class="block text-sm font-semibold text-slate-600 mb-1">Email (Nome Utente)</label><input type="email" id="ru-email" required class="w-full p-3 border border-slate-200 rounded-xl bg-slate-50 focus:bg-white"></div>
-                            <div><label class="block text-sm font-semibold text-slate-600 mb-1">Password</label><input type="password" id="ru-pass" required class="w-full p-3 border border-slate-200 rounded-xl bg-slate-50 focus:bg-white"></div>
-                            <div><label class="block text-sm font-semibold text-slate-600 mb-1">Telefono</label><input type="tel" id="ru-tel" required class="w-full p-3 border border-slate-200 rounded-xl bg-slate-50 focus:bg-white"></div>
-                            
-                            <div><label class="block text-sm font-semibold text-slate-600 mb-1">Nome</label><input type="text" id="ru-nome" required class="w-full p-3 border border-slate-200 rounded-xl bg-slate-50 focus:bg-white"></div>
-                            <div><label class="block text-sm font-semibold text-slate-600 mb-1">Cognome</label><input type="text" id="ru-cognome" required class="w-full p-3 border border-slate-200 rounded-xl bg-slate-50 focus:bg-white"></div>
-                            <div><label class="block text-sm font-semibold text-slate-600 mb-1">Codice Fiscale</label><input type="text" id="ru-cf" required class="w-full p-3 border border-slate-200 rounded-xl bg-slate-50 focus:bg-white uppercase"></div>
-                            <div><label class="block text-sm font-semibold text-slate-600 mb-1">Data di Nascita</label><input type="date" id="ru-data" required class="w-full p-3 border border-slate-200 rounded-xl bg-slate-50 focus:bg-white"></div>
-                            <div class="md:col-span-2"><label class="block text-sm font-semibold text-slate-600 mb-1">Indirizzo di Residenza</label><input type="text" id="ru-ind" required class="w-full p-3 border border-slate-200 rounded-xl bg-slate-50 focus:bg-white"></div>
-                            
-                            <div class="md:col-span-2 p-5 bg-blue-50/50 rounded-2xl border border-blue-100">
-                                <h4 class="font-bold text-ch-blue mb-3 border-b border-blue-200 pb-2">Documento d'Identità</h4>
-                                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
-                                    <select id="ru-tipo-doc" required class="w-full p-3 border border-slate-200 rounded-xl bg-white"><option value="">Tipo...</option><option value="Carta Identità">Carta Identità</option><option value="Passaporto">Passaporto</option><option value="Patente">Patente</option></select>
-                                    <input type="text" id="ru-num-doc" placeholder="Numero Doc." required class="w-full p-3 border border-slate-200 rounded-xl bg-white uppercase">
-                                    <input type="date" id="ru-scad-doc" required class="w-full p-3 border border-slate-200 rounded-xl bg-white text-sm" title="Scadenza">
-                                </div>
-                                <label class="block text-sm font-semibold text-slate-700 mb-2"><i class="fas fa-file-upload text-ch-light mr-2"></i>Allega Copia (Foto o PDF)</label>
-                                <input type="file" id="ru-docs" multiple accept="image/*,.pdf" onchange="previewFiles()" class="block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-100 file:text-ch-blue hover:file:bg-blue-200">
-                                <div id="file-preview-list" class="mt-3 text-xs font-semibold text-slate-600"></div>
-                            </div>
-                        </div>
-                        <button type="submit" class="w-full bg-ch-gold text-ch-darkblue font-extrabold text-xl py-5 rounded-xl shadow-lg hover:shadow-xl hover:bg-yellow-400 hover:-translate-y-1 transition-all duration-300">Conferma Registrazione</button>
+                <div class="bg-white p-6 md:p-8 rounded-3xl shadow-sm border border-slate-100">
+                    <h3 class="font-extrabold text-base text-orange-600 mb-4 flex items-center"><i class="fas fa-glass-cheers mr-2"></i> Crea Nuovo Evento</h3>
+                    <form id="form-create-event" onsubmit="createEvent(event)" class="space-y-3.5">
+                        <input type="text" id="ae-nome" placeholder="Nome Evento (es. Cena Sociale)" required class="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 text-xs focus:outline-none focus:border-orange-500">
+                        <input type="date" id="ae-data" required class="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 text-xs">
+                        <input type="text" id="ae-costo" placeholder="Costo (es. € 25)" required class="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 text-xs">
+                        <button type="submit" class="w-full bg-orange-500 text-white py-3 rounded-xl text-xs font-bold shadow-sm hover:bg-orange-600 transition">Pubblica Evento</button>
                     </form>
                 </div>
             </div>
-        </div>
 
-        <!-- VIEW: USER DASHBOARD -->
-        <div id="user-dashboard" class="view max-w-5xl mx-auto py-16 px-4">
-            <div class="flex justify-between items-center mb-8">
-                <div>
-                    <h2 class="text-4xl font-extrabold text-slate-800" id="ud-welcome">La Tua Area</h2>
-                    <p class="text-slate-500 mt-1">Gestisci i tuoi dati e le tue partecipazioni.</p>
-                </div>
-                <button onclick="userLogout()" class="bg-white border border-slate-200 text-slate-600 hover:text-red-500 hover:border-red-200 px-5 py-2.5 rounded-full font-semibold transition shadow-sm"><i class="fas fa-sign-out-alt mr-2"></i> Esci</button>
-            </div>
-            
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <!-- Profilo -->
-                <div class="md:col-span-1 glass-card p-6 rounded-3xl relative overflow-hidden">
-                    <div class="absolute top-0 right-0 w-24 h-24 bg-blue-100 rounded-bl-full -mr-4 -mt-4 opacity-50 z-0"></div>
-                    <div class="relative z-10">
-                        <div class="w-16 h-16 bg-gradient-to-tr from-ch-blue to-ch-light text-white rounded-full flex items-center justify-center text-2xl font-bold mb-4 shadow-md" id="ud-initials"></div>
-                        <h3 class="font-bold text-xl mb-4 text-slate-800 border-b border-slate-200 pb-2">I Tuoi Dati</h3>
-                        <p class="text-sm text-slate-500 mb-1">Codice Fiscale</p>
-                        <p class="font-semibold text-slate-800 mb-4 uppercase" id="ud-cf"></p>
-                        <p class="text-sm text-slate-500 mb-1">Contatti</p>
-                        <p class="font-semibold text-slate-800 mb-1" id="ud-email"></p>
-                        <p class="font-semibold text-slate-800" id="ud-tel"></p>
-                    </div>
-                </div>
-
-                <!-- Storico -->
-                <div class="md:col-span-2 glass-card p-8 rounded-3xl">
-                    <div class="flex justify-between items-center border-b border-slate-200 pb-4 mb-6">
-                        <h3 class="font-bold text-xl text-slate-800"><i class="fas fa-ticket-alt text-ch-light mr-2"></i> Le tue Iscrizioni</h3>
-                    </div>
-                    <div id="ud-bookings" class="space-y-4 max-h-80 overflow-y-auto pr-2"></div>
-                    <button onclick="goHome()" class="mt-8 w-full bg-slate-800 text-white font-bold py-4 rounded-xl hover:bg-slate-700 hover:shadow-lg transition">Sfoglia Nuovi Viaggi ed Eventi</button>
-                </div>
-            </div>
-        </div>
-
-        <!-- VIEW: ADMIN -->
-        <div id="admin" class="view max-w-7xl mx-auto py-12 px-4">
-            <div class="flex justify-between items-center mb-10 bg-slate-800 text-white p-6 rounded-2xl shadow-lg">
-                <div>
-                    <h2 class="text-2xl font-bold"><i class="fas fa-shield-alt text-ch-gold mr-3"></i>Pannello Amministratore</h2>
-                    <p class="text-slate-300 text-sm mt-1">Connesso al Database Cloudflare D1</p>
-                </div>
-                <button onclick="adminLogout()" class="bg-red-500 text-white px-5 py-2.5 rounded-full font-bold hover:bg-red-600 transition shadow-md">Chiudi Admin</button>
-            </div>
-            
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-10">
-                <!-- Crea Viaggio -->
-                <div class="bg-white rounded-3xl shadow-sm border border-slate-200 p-8">
-                    <h3 class="text-xl font-bold mb-6 text-ch-blue flex items-center"><span class="bg-blue-100 p-2 rounded-lg mr-3"><i class="fas fa-plane"></i></span> Pubblica Nuovo Viaggio</h3>
-                    <form id="form-create-trip" onsubmit="createTrip(event)" class="space-y-4">
-                        <input type="text" id="at-dest" required placeholder="Titolo/Destinazione" class="w-full p-3 border border-slate-300 rounded-xl bg-slate-50">
-                        <div class="flex gap-4">
-                            <div class="w-1/2"><label class="text-xs font-semibold text-slate-500 ml-1">Dal</label><input type="date" id="at-da" required class="w-full p-3 border border-slate-300 rounded-xl bg-slate-50 text-sm"></div>
-                            <div class="w-1/2"><label class="text-xs font-semibold text-slate-500 ml-1">Al</label><input type="date" id="at-al" required class="w-full p-3 border border-slate-300 rounded-xl bg-slate-50 text-sm"></div>
-                        </div>
-                        <textarea id="at-costo" required placeholder="Note e Costi (es. Quota €350 in doppia...)" rows="2" class="w-full p-3 border border-slate-300 rounded-xl bg-slate-50"></textarea>
-                        <button type="submit" class="w-full bg-ch-blue text-white py-3.5 rounded-xl font-bold hover:bg-blue-800 transition shadow">Pubblica Viaggio Online</button>
-                    </form>
-                </div>
-
-                <!-- Crea Evento -->
-                <div class="bg-white rounded-3xl shadow-sm border border-slate-200 p-8">
-                    <h3 class="text-xl font-bold mb-6 text-orange-600 flex items-center"><span class="bg-orange-100 p-2 rounded-lg mr-3"><i class="fas fa-calendar-star"></i></span> Pubblica Nuovo Evento</h3>
-                    <form id="form-create-event" onsubmit="createEvent(event)" class="space-y-4">
-                        <input type="text" id="ae-nome" required placeholder="Nome Evento / Cena" class="w-full p-3 border border-slate-300 rounded-xl bg-slate-50">
-                        <input type="date" id="ae-data" required class="w-full p-3 border border-slate-300 rounded-xl bg-slate-50 text-sm">
-                        <input type="text" id="ae-costo" required placeholder="Costo a persona (es. €35)" class="w-full p-3 border border-slate-300 rounded-xl bg-slate-50">
-                        <button type="submit" class="w-full bg-orange-500 text-white py-3.5 rounded-xl font-bold hover:bg-orange-600 transition shadow mt-10">Pubblica Evento Online</button>
-                    </form>
-                </div>
-            </div>
-            
-            <div class="bg-white rounded-3xl shadow-sm border border-slate-200 overflow-hidden p-6">
-                <h3 class="text-xl font-bold mb-6 text-slate-800"><i class="fas fa-list-ul mr-2 text-slate-400"></i> Registro Iscrizioni Soci</h3>
+            <div class="bg-white p-6 md:p-8 rounded-3xl shadow-sm border border-slate-100">
+                <h3 class="font-extrabold text-base text-slate-900 mb-6 flex items-center"><i class="fas fa-clipboard-list mr-2 text-slate-400"></i> Registro Iscrizioni e Prenotazioni</h3>
                 <div class="overflow-x-auto">
-                    <table class="w-full text-left border-collapse min-w-[600px]">
-                        <thead><tr class="bg-slate-50 text-slate-500 border-b border-slate-200"><th class="p-4 font-semibold rounded-tl-xl">Data Reg.</th><th class="p-4 font-semibold">Attività</th><th class="p-4 font-semibold">Socio</th><th class="p-4 font-semibold rounded-tr-xl">Dettagli</th></tr></thead>
-                        <tbody id="admin-table-body" class="text-sm text-slate-700"></tbody>
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="border-b border-slate-100 text-slate-400 text-[11px] uppercase tracking-wider">
+                                <th class="pb-3 font-bold">Data</th>
+                                <th class="pb-3 font-bold">Attività</th>
+                                <th class="pb-3 font-bold">Socio</th>
+                                <th class="pb-3 font-bold">Dettagli</th>
+                            </tr>
+                        </thead>
+                        <tbody id="admin-table-body" class="text-xs divide-y divide-slate-50"></tbody>
                     </table>
                 </div>
             </div>
         </div>
-
     </main>
 
-    <footer class="bg-ch-dark text-slate-400 py-12 mt-auto border-t-4 border-ch-gold">
-        <div class="max-w-7xl mx-auto px-4 text-center">
-            <h2 class="text-xl font-bold text-white tracking-widest mb-4">CLUB HOUSE VIAGGI</h2>
-            <p class="text-sm mb-6 max-w-md mx-auto">Promuoviamo la cultura, l'amicizia e la scoperta del mondo. Chivasso (TO).</p>
-            <button onclick="adminLoginPrompt()" class="text-xs text-slate-500 hover:text-white transition uppercase tracking-wider font-semibold bg-slate-800 px-4 py-2 rounded-lg"><i class="fas fa-lock mr-2"></i> Accesso Segreteria</button>
+    <!-- FOOTER -->
+    <footer class="bg-ch-dark text-slate-400 py-10 mt-auto text-center border-t border-slate-800">
+        <div class="max-w-7xl mx-auto px-6 flex flex-col items-center justify-center space-y-4">
+            <p class="text-xs text-slate-500">Associazione Giuseppe Novello • Tutti i diritti riservati</p>
+            <button onclick="adminLoginPrompt()" class="text-[11px] text-slate-400 hover:text-white uppercase tracking-widest font-bold bg-slate-900 px-4 py-2 rounded-xl border border-slate-800 transition flex items-center">
+                <i class="fas fa-lock mr-1.5 text-ch-gold"></i> Accesso Segreteria
+            </button>
         </div>
     </footer>
 
-    <!-- Script di Integrazione -->
+    <!-- LOGICA JAVASCRIPT -->
     <script>
         const WORKER_URL = "https://clubhouse-api.francesco-fuoco.workers.dev";
         let db = { users: [], trips: [], events: [], registrations: [] };
         let currentUser = JSON.parse(sessionStorage.getItem('ch_currentUser')) || null;
         let pendingBooking = null;
-        let isAdmin = false;
 
         async function loadDbFromCloud() {
             try {
@@ -367,7 +250,7 @@
                     renderHome();
                     if(currentUser) renderUserDashboard();
                 }
-            } catch(e) { console.error("Errore caricamento cloud:", e); }
+            } catch(e) { console.error(e); }
         }
 
         async function sendToCloud(action, payload) {
@@ -381,15 +264,12 @@
                 await loadDbFromCloud();
                 return true;
             } catch(e) {
-                Swal.fire('Attenzione', 'Connessione al database non riuscita. Riprova tra poco.', 'warning');
+                Swal.fire('Errore', 'Impossibile salvare sul database cloud.', 'error');
                 return false;
             }
         }
 
-        function clearForms() { document.querySelectorAll('form').forEach(f => f.reset()); }
-
         function showView(viewId) {
-            clearForms();
             document.querySelectorAll('.view').forEach(el => el.classList.remove('active'));
             document.getElementById(viewId).classList.add('active');
             window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -404,76 +284,56 @@
         function updateHeader() {
             const actions = document.getElementById('header-user-actions');
             if(currentUser) {
-                actions.innerHTML = `<button onclick="showView('user-dashboard')" class="text-sm font-bold bg-ch-gold text-ch-darkblue px-5 py-2.5 rounded-full shadow hover:bg-yellow-400 hover:shadow-lg transition-all hover-lift"><i class="fas fa-user-check mr-2"></i> Ciao, ${currentUser.nome}</button>`;
+                actions.innerHTML = `<button onclick="showView('user-dashboard')" class="text-xs font-bold bg-amber-400 text-ch-dark px-4 py-2.5 rounded-xl shadow-sm hover:bg-amber-500 transition flex items-center"><i class="fas fa-user-circle mr-1.5"></i> ${currentUser.nome}</button>`;
             } else {
-                actions.innerHTML = `<button onclick="showAuth()" class="text-sm font-bold bg-ch-darkblue text-white px-5 py-2.5 rounded-full shadow hover:bg-ch-blue hover:shadow-lg transition-all hover-lift"><i class="fas fa-user-circle mr-2"></i> Area Soci</button>`;
+                actions.innerHTML = `<button onclick="showAuth()" class="text-xs font-bold bg-ch-darkblue text-white px-5 py-2.5 rounded-xl shadow-sm hover:bg-ch-blue transition flex items-center"><i class="fas fa-user mr-2 text-ch-gold"></i> Area Soci</button>`;
             }
         }
 
         function renderHome() {
-            const tripsCont = document.getElementById('dynamic-trips-list');
-            tripsCont.innerHTML = db.trips.map(t => `
-                <div class="glass-card rounded-2xl p-6 flex flex-col md:flex-row justify-between items-center hover-lift border-l-4 border-l-ch-blue group">
-                    <div class="w-full md:w-3/4 mb-4 md:mb-0">
-                        <h4 class="font-black text-xl text-slate-800 uppercase tracking-wide group-hover:text-ch-blue transition-colors">${t.dest}</h4>
-                        <div class="flex items-center text-sm font-semibold text-ch-light mt-2 mb-2 bg-blue-50 w-fit px-3 py-1 rounded-md"><i class="far fa-calendar-alt mr-2"></i> ${t.da} ➔ ${t.al}</div>
-                        <p class="text-sm text-slate-600 line-clamp-2">${t.note}</p>
+            document.getElementById('dynamic-trips-list').innerHTML = db.trips.map(t => `
+                <div class="glass-card p-5 rounded-2xl flex justify-between items-center border-l-4 border-l-ch-accent hover:shadow-md transition">
+                    <div>
+                        <h4 class="font-extrabold text-sm text-slate-900">${t.dest}</h4>
+                        <p class="text-xs text-slate-500 mt-0.5"><i class="far fa-calendar-alt mr-1"></i> Dal ${t.da} al ${t.al}</p>
+                        <p class="text-xs font-semibold text-ch-accent mt-1">${t.note}</p>
                     </div>
-                    <button onclick="initBooking('${t.dest}', 'Viaggio')" class="w-full md:w-auto bg-slate-800 text-white font-bold py-3 px-8 rounded-xl hover:bg-ch-blue transition-colors shadow-md whitespace-nowrap">Partecipa</button>
-                </div>`).join('') || '<div class="p-8 text-center bg-slate-50 rounded-2xl border border-dashed border-slate-300 text-slate-400">Nessun viaggio in programma al momento.</div>';
+                    <button onclick="initBooking('${t.dest}', 'Viaggio')" class="bg-ch-darkblue hover:bg-ch-blue text-white px-4 py-2.5 rounded-xl text-xs font-bold transition shadow-sm">Partecipa</button>
+                </div>`).join('') || '<div class="glass-card p-6 rounded-2xl text-center text-slate-400 text-xs italic">Nessun viaggio in programma al momento.</div>';
 
-            const evCont = document.getElementById('dynamic-events-list');
-            evCont.innerHTML = db.events.map(e => `
-                <div class="glass-card rounded-2xl p-6 flex flex-col md:flex-row justify-between items-center hover-lift border-l-4 border-l-orange-500 group">
-                    <div class="w-full md:w-3/4 mb-4 md:mb-0">
-                        <h4 class="font-black text-xl text-slate-800 group-hover:text-orange-600 transition-colors">${e.nome}</h4>
-                        <div class="flex gap-3 mt-2">
-                            <span class="text-xs font-bold text-orange-600 bg-orange-50 px-2 py-1 rounded"><i class="far fa-calendar mr-1"></i> ${e.data}</span>
-                            <span class="text-xs font-bold text-emerald-600 bg-emerald-50 px-2 py-1 rounded"><i class="fas fa-euro-sign mr-1"></i> ${e.costo}</span>
-                        </div>
+            document.getElementById('dynamic-events-list').innerHTML = db.events.map(e => `
+                <div class="glass-card p-5 rounded-2xl flex justify-between items-center border-l-4 border-l-orange-500 hover:shadow-md transition">
+                    <div>
+                        <h4 class="font-extrabold text-sm text-slate-900">${e.nome}</h4>
+                        <p class="text-xs text-slate-500 mt-0.5"><i class="far fa-clock mr-1"></i> ${e.data}</p>
+                        <p class="text-xs font-bold text-orange-600 mt-1">Quota: €${e.costo}</p>
                     </div>
-                    <button onclick="initBooking('${e.nome}', 'Evento')" class="w-full md:w-auto border-2 border-orange-500 text-orange-600 font-bold py-2.5 px-6 rounded-xl hover:bg-orange-500 hover:text-white transition-colors">Prenota</button>
-                </div>`).join('') || '<div class="p-8 text-center bg-slate-50 rounded-2xl border border-dashed border-slate-300 text-slate-400">Nessun evento in programma.</div>';
+                    <button onclick="initBooking('${e.nome}', 'Evento')" class="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2.5 rounded-xl text-xs font-bold transition shadow-sm">Prenota</button>
+                </div>`).join('') || '<div class="glass-card p-6 rounded-2xl text-center text-slate-400 text-xs italic">Nessun evento in programma al momento.</div>';
         }
 
         function initBooking(eventName, type) {
             pendingBooking = { eventName, type };
-            if(!currentUser) {
-                Swal.fire({title: 'Area Riservata', text: 'Devi essere registrato per partecipare.', icon: 'info', confirmButtonText: 'Accedi / Registrati', confirmButtonColor: '#1e3a8a'}).then(()=> showAuth());
-            } else { showBookingConfirm(); }
+            if(!currentUser) { 
+                Swal.fire({ title: 'Area Riservata', text: 'Devi effettuare laccesso per prenotare.', icon: 'info', confirmButtonColor: '#1E3E62' }).then(()=> showAuth()); 
+            } else { 
+                finalizeBooking(); 
+            }
         }
 
-        function showBookingConfirm() {
-            Swal.fire({
-                title: 'Conferma Iscrizione',
-                html: `<div class="text-left mt-4">
-                        <p class="font-bold text-lg text-slate-800 mb-4">${pendingBooking.eventName}</p>
-                        ${pendingBooking.type === 'Evento' ? '<label class="block text-sm font-semibold text-slate-600 mb-1">Quanti posti vuoi prenotare?</label><input type="number" id="swal-posti" min="1" max="10" value="1" class="w-full p-3 border border-slate-300 rounded-xl">' : ''}
-                       </div>`,
-                showCancelButton: true, confirmButtonText: 'Conferma', cancelButtonText: 'Annulla',
-                confirmButtonColor: '#10b981', cancelButtonColor: '#94a3b8',
-                preConfirm: () => {
-                    const posti = pendingBooking.type === 'Evento' ? document.getElementById('swal-posti').value : '1';
-                    finalizeBooking(posti);
-                }
-            });
-        }
-
-        async function finalizeBooking(posti) {
+        async function finalizeBooking() {
             const newReg = {
                 id: 'r_' + Date.now(), dataReg: new Date().toLocaleDateString('it-IT'),
                 evento: pendingBooking.eventName, tipo: pendingBooking.tipo,
-                userId: currentUser.email, nome: currentUser.nome, cognome: currentUser.cognome,
-                dettagli: pendingBooking.type === 'Evento' ? `Prenotati: ${posti} posti` : "Iscrizione Viaggio"
+                userId: currentUser.email, nome: currentUser.nome, cognome: currentUser.cognome, dettagli: "Confermato"
             };
             const success = await sendToCloud("add_registration", { registration: newReg });
-            if(success) Swal.fire('Fatto!', 'Prenotazione salvata nel database.', 'success').then(()=> showView('user-dashboard'));
+            if(success) Swal.fire({ title: 'Prenotazione Effettuata!', text: 'La tua richiesta è stata registrata con successo.', icon: 'success', confirmButtonColor: '#1E3E62' }).then(()=> showView('user-dashboard'));
         }
 
         function showAuth() { if(currentUser) showView('user-dashboard'); else { switchAuthTab('login'); showView('auth'); } }
         
         function switchAuthTab(tab) {
-            clearForms();
             if(tab==='login') {
                 document.getElementById('form-user-login').classList.remove('hidden'); document.getElementById('form-user-register').classList.add('hidden');
                 document.getElementById('tab-login').classList.add('active'); document.getElementById('tab-register').classList.remove('active');
@@ -483,113 +343,97 @@
             }
         }
 
-        function previewFiles() {
-            const input = document.getElementById('ru-docs');
-            const preview = document.getElementById('file-preview-list');
-            if(input.files.length > 0) {
-                preview.innerHTML = `<span class="text-emerald-600"><i class="fas fa-check-circle mr-1"></i> ${input.files.length} file allegati pronti</span>`;
-            } else { preview.innerHTML = ''; }
-        }
-
-        const fileToB64 = file => new Promise((res, rej) => { const reader = new FileReader(); reader.readAsDataURL(file); reader.onload = () => res({ name: file.name, type: file.type, data: reader.result }); reader.onerror = rej; });
-
         async function userRegister(e) {
             e.preventDefault();
-            Swal.fire({title: 'Invio in corso...', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
+            Swal.fire({ title: 'Registrazione in corso...', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
             
-            let docs = [];
-            for(let f of document.getElementById('ru-docs').files) docs.push(await fileToB64(f));
-
             const newUser = {
                 email: document.getElementById('ru-email').value.toLowerCase(), password: document.getElementById('ru-pass').value,
-                tel: document.getElementById('ru-tel').value, nome: document.getElementById('ru-nome').value, cognome: document.getElementById('ru-cognome').value,
-                cf: document.getElementById('ru-cf').value, dataNascita: document.getElementById('ru-data').value, luogoNascita: document.getElementById('ru-luogo').value,
-                ind: document.getElementById('ru-ind').value, tipoDoc: document.getElementById('ru-tipo-doc').value, numDoc: document.getElementById('ru-num-doc').value,
-                scadDoc: document.getElementById('ru-scad-doc').value, docs: docs
+                nome: document.getElementById('ru-nome').value, cognome: document.getElementById('ru-cognome').value,
+                cf: document.getElementById('ru-cf').value, tel: document.getElementById('ru-tel').value, docs: []
             };
-
             const success = await sendToCloud("register_user", { user: newUser });
             if(success) {
                 currentUser = newUser; sessionStorage.setItem('ch_currentUser', JSON.stringify(currentUser));
-                Swal.fire('Benvenuto!', 'Registrazione completata.', 'success').then(() => showView('user-dashboard'));
+                Swal.fire({ title: 'Benvenuto!', text: 'Registrazione completata con successo.', icon: 'success', confirmButtonColor: '#1E3E62' }).then(() => showView('user-dashboard'));
             }
         }
 
         async function userLogin(e) {
             e.preventDefault();
+            await loadDbFromCloud();
             const email = document.getElementById('lu-email').value.toLowerCase();
             const pass = document.getElementById('lu-pass').value;
-            await loadDbFromCloud(); // Forza sync prima di loggare
             const user = db.users.find(u => u.email === email && u.password === pass);
             if(user) {
                 currentUser = user; sessionStorage.setItem('ch_currentUser', JSON.stringify(currentUser));
-                if(pendingBooking) showBookingConfirm(); else showView('user-dashboard');
-            } else { Swal.fire('Errore', 'Credenziali errate.', 'error'); }
+                if(pendingBooking) finalizeBooking(); else showView('user-dashboard');
+            } else { 
+                Swal.fire({ title: 'Accesso Negato', text: 'Email o password errati.', icon: 'error', confirmButtonColor: '#1E3E62' }); 
+            }
         }
 
         function userLogout() { currentUser = null; sessionStorage.removeItem('ch_currentUser'); goHome(); }
 
         function renderUserDashboard() {
             document.getElementById('ud-welcome').innerText = `Ciao, ${currentUser.nome}!`;
-            document.getElementById('ud-initials').innerText = currentUser.nome.charAt(0) + currentUser.cognome.charAt(0);
-            document.getElementById('ud-cf').innerText = currentUser.cf;
-            document.getElementById('ud-email').innerText = currentUser.email;
-            document.getElementById('ud-tel').innerText = currentUser.tel;
-
             const myRegs = db.registrations.filter(r => r.userId === currentUser.email).reverse();
             document.getElementById('ud-bookings').innerHTML = myRegs.map(r => `
-                <div class="p-4 bg-white border border-slate-100 rounded-2xl flex justify-between items-center shadow-sm">
+                <div class="p-4 bg-slate-50/80 border border-slate-100 rounded-2xl flex justify-between items-center">
                     <div>
-                        <span class="font-bold text-slate-800 block">${r.evento}</span>
-                        <span class="text-xs font-semibold text-slate-400 bg-slate-100 px-2 py-0.5 rounded mt-1 inline-block">${r.dettagli}</span>
+                        <span class="font-extrabold text-xs text-slate-900 block">${r.evento}</span>
+                        <span class="text-[11px] text-slate-400">Tipologia: ${r.tipo}</span>
                     </div>
-                    <span class="text-xs font-bold text-ch-light bg-blue-50 px-3 py-1 rounded-full">${r.dataReg}</span>
-                </div>`).join('') || '<div class="text-center p-6 text-slate-400 bg-slate-50 rounded-2xl border border-dashed border-slate-200">Non hai ancora effettuato prenotazioni.</div>';
+                    <span class="text-[11px] font-bold text-ch-accent bg-ch-accent/10 px-3 py-1 rounded-full">${r.dataReg}</span>
+                </div>`).join('') || '<p class="text-slate-400 text-xs italic">Nessuna prenotazione attiva al momento.</p>';
         }
 
         function adminLoginPrompt() {
             Swal.fire({ 
                 title: 'Accesso Segreteria', 
-                html: '<input id="swal-user" class="swal2-input bg-slate-50 rounded-xl border-slate-300" placeholder="Utente"><input id="swal-pass" type="password" class="swal2-input bg-slate-50 rounded-xl border-slate-300" placeholder="Password">',
-                confirmButtonText: 'Accedi', confirmButtonColor: '#1e3a8a',
+                html: '<input id="swal-user" class="swal2-input !text-xs" placeholder="Utente"><input id="swal-pass" type="password" class="swal2-input !text-xs" placeholder="Password">',
+                confirmButtonText: 'Accedi', confirmButtonColor: '#1E3E62',
                 preConfirm: () => {
-                    // LA PASSWORD IMPOSTATA È: Giuliano59
                     if(document.getElementById('swal-user').value === 'admin' && document.getElementById('swal-pass').value === 'Giuliano59') { 
-                        isAdmin = true; showView('admin'); 
+                        showView('admin'); 
                     } else { 
-                        Swal.showValidationMessage('Credenziali errate'); 
+                        Swal.showValidationMessage('Credenziali segreteria errate'); 
                     }
                 }
             });
         }
-        function adminLogout() { isAdmin = false; goHome(); }
+        function adminLogout() { goHome(); }
 
         function renderAdmin() {
-            const tb = document.getElementById('admin-table-body');
-            tb.innerHTML = [...db.registrations].reverse().map(r => `
-                <tr class="border-b border-slate-100 hover:bg-slate-50 transition">
-                    <td class="p-4 text-xs font-semibold text-slate-500">${r.dataReg}</td>
-                    <td class="p-4 font-bold text-ch-blue">${r.evento}</td>
-                    <td class="p-4 font-semibold text-slate-700">${r.cognome} ${r.nome}</td>
-                    <td class="p-4 text-xs text-slate-500"><span class="bg-slate-200 px-2 py-1 rounded-md text-slate-600 font-medium">${r.dettagli}</span></td>
-                </tr>`).join('');
+            document.getElementById('admin-table-body').innerHTML = [...db.registrations].reverse().map(r => `
+                <tr class="border-b border-slate-50 hover:bg-slate-50/50 transition">
+                    <td class="py-3.5 text-slate-400 text-[11px]">${r.dataReg}</td>
+                    <td class="py-3.5 font-extrabold text-slate-800">${r.evento}</td>
+                    <td class="py-3.5 text-slate-600 font-medium">${r.cognome} ${r.nome}</td>
+                    <td class="py-3.5 text-xs text-ch-accent font-semibold">${r.dettagli}</td>
+                </tr>`).join('') || '<tr><td colspan="4" class="py-6 text-center text-slate-400 italic text-xs">Nessuna iscrizione registrata nel database.</td></tr>';
         }
 
         async function createTrip(e) {
             e.preventDefault();
             const t = { id: 't_'+Date.now(), dest: document.getElementById('at-dest').value, da: document.getElementById('at-da').value, al: document.getElementById('at-al').value, note: document.getElementById('at-costo').value };
             const success = await sendToCloud("add_trip", { trip: t });
-            if(success) { Swal.fire('Fatto', 'Viaggio pubblicato.', 'success'); document.getElementById('form-create-trip').reset(); }
+            if(success) { 
+                Swal.fire({ title: 'Pubblicato!', text: 'Il viaggio è ora online.', icon: 'success', confirmButtonColor: '#1E3E62' }); 
+                document.getElementById('form-create-trip').reset(); 
+            }
         }
 
         async function createEvent(e) {
             e.preventDefault();
             const ev = { id: 'e_'+Date.now(), nome: document.getElementById('ae-nome').value, data: document.getElementById('ae-data').value, costo: document.getElementById('ae-costo').value };
             const success = await sendToCloud("add_event", { event: ev });
-            if(success) { Swal.fire('Fatto', 'Evento pubblicato.', 'success'); document.getElementById('form-create-event').reset(); }
+            if(success) { 
+                Swal.fire({ title: 'Pubblicato!', text: ' Lvento è ora online.', icon: 'success', confirmButtonColor: '#1E3E62' }); 
+                document.getElementById('form-create-event').reset(); 
+            }
         }
 
-        // Avvio
         loadDbFromCloud();
     </script>
 </body>
