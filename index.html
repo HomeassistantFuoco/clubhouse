@@ -14,11 +14,11 @@
                 extend: {
                     colors: {
                         ch: { 
-                            primary: '#4A1525',    /* Bordeaux elegante */
-                            secondary: '#6D2338',  /* Bordeaux chiaro */
-                            accent: '#C5A880',     /* Bronzo / Oro antico */
-                            light: '#FDFBF7',      /* Avorio chiaro di sfondo */
-                            dark: '#1C1917'        /* Nero caldo */
+                            primary: '#1b3b5c',    /* Blu istituzionale elegante */
+                            secondary: '#2d68c4',  /* Blu chiaro */
+                            accent: '#d4af37',     /* Oro / Bronzo caldo */
+                            light: '#f8f9fa',      /* Sfondo chiaro */
+                            dark: '#0f172a'        /* Nero scuro */
                         }
                     }
                 }
@@ -27,18 +27,18 @@
     </script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #FDFBF7; color: #1C1917; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #f8f9fa; color: #1e293b; }
         .view { display: none; opacity: 0; transform: translateY(8px); transition: opacity 0.3s ease, transform 0.3s ease; }
         .view.active { display: block; opacity: 1; transform: translateY(0); }
-        .glass-card { background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(16px); border: 1px solid rgba(197, 168, 128, 0.2); box-shadow: 0 10px 30px rgba(74, 21, 37, 0.04); }
-        .tab-btn.active { border-bottom: 3px solid #C5A880; color: #4A1525; font-weight: 700; background: rgba(197, 168, 128, 0.1); }
-        .hero-gradient { background: linear-gradient(135deg, #4A1525 0%, #2B0D15 100%); }
+        .glass-card { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(16px); border: 1px solid rgba(27, 59, 92, 0.1); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04); }
+        .tab-btn.active { border-bottom: 3px solid #1b3b5c; color: #1b3b5c; font-weight: 700; background: rgba(27, 59, 92, 0.05); }
+        .hero-gradient { background: linear-gradient(135deg, #1b3b5c 0%, #0f172a 100%); }
     </style>
 </head>
-<body class="flex flex-col min-h-screen selection:bg-ch-accent selection:text-white">
+<body class="flex flex-col min-h-screen selection:bg-ch-primary selection:text-white">
 
     <!-- HEADER -->
-    <header class="bg-white/95 backdrop-blur-md sticky top-0 z-50 border-b border-stone-200 shadow-sm">
+    <header class="bg-white/95 backdrop-blur-md sticky top-0 z-50 border-b border-slate-200 shadow-sm">
         <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
             <div class="flex items-center space-x-3.5 cursor-pointer group" onclick="goHome()">
                 <div class="hero-gradient p-2.5 rounded-2xl text-white shadow-md group-hover:scale-105 transition duration-300">
@@ -46,12 +46,12 @@
                 </div>
                 <div>
                     <h1 class="text-lg font-extrabold tracking-tight text-ch-primary">CLUB HOUSE <span class="text-ch-accent font-bold">Viaggi</span></h1>
-                    <span class="text-[10px] font-bold text-stone-400 uppercase tracking-wider block">Associazione Giuseppe Novello</span>
+                    <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Associazione Giuseppe Novello (ETS-APS)</span>
                 </div>
             </div>
-            <div class="flex items-center space-x-4">
-                <button onclick="showView('brochure')" class="text-xs font-semibold text-stone-600 hover:text-ch-primary transition hidden md:flex items-center">
-                    <i class="fas fa-book-open mr-1.5 text-ch-accent"></i> La Nostra Storia & Attività
+            <div class="flex items-center space-x-3">
+                <button onclick="showView('brochure')" class="text-xs font-semibold text-slate-600 hover:text-ch-primary transition hidden md:flex items-center">
+                    <i class="fas fa-book-open mr-1.5 text-ch-primary"></i> La Nostra Brochure & Attività
                 </button>
                 <div id="header-user-actions">
                     <button onclick="showAuth()" class="text-xs font-bold bg-ch-primary text-white px-5 py-2.5 rounded-xl shadow-sm hover:bg-ch-secondary transition duration-300 flex items-center">
@@ -68,11 +68,15 @@
         <!-- HOME -->
         <div id="home" class="view active">
             <div class="hero-gradient text-white py-20 px-6 text-center relative overflow-hidden shadow-xl">
-                <div class="absolute inset-0 opacity-10 bg-[radial-gradient(#C5A880_1px,transparent_1px)] [background-size:16px_16px]"></div>
-                <div class="relative max-w-2xl mx-auto">
+                <div class="absolute inset-0 opacity-10 bg-[radial-gradient(#d4af37_1px,transparent_1px)] [background-size:16px_16px]"></div>
+                <div class="relative max-w-3xl mx-auto">
                     <span class="inline-block uppercase tracking-widest text-[11px] font-extrabold text-ch-accent bg-ch-accent/10 px-3.5 py-1.5 rounded-full mb-4 border border-ch-accent/30">Esplora • Condividi • Vivi</span>
-                    <h2 class="text-3xl md:text-5xl font-extrabold mb-4 tracking-tight">Viaggi, Cultura & Nuove Amicizie</h2>
-                    <p class="text-sm md:text-base text-stone-300 font-light italic">"Condividere esperienze rende la vita straordinaria."</p>
+                    <h2 class="text-3xl md:text-5xl font-extrabold mb-4 tracking-tight">Viaggi, cultura e nuove amicizie</h2>
+                    <p class="text-base md:text-lg text-slate-300 font-light italic mb-6">"Esperienze che arricchiscono la vita, a ogni età. Più di un'associazione... una grande famiglia!"</p>
+                    <div class="flex flex-wrap justify-center gap-3">
+                        <button onclick="showView('brochure')" class="bg-ch-accent text-ch-dark px-6 py-3 rounded-xl text-xs font-extrabold shadow hover:bg-amber-400 transition">Scopri le Attività</button>
+                        <button onclick="showAuth()" class="bg-white/10 border border-white/30 text-white px-6 py-3 rounded-xl text-xs font-bold hover:bg-white/20 transition">Diventa Socio</button>
+                    </div>
                 </div>
             </div>
 
@@ -80,15 +84,15 @@
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-10">
                     <div>
                         <div class="flex items-center justify-between mb-6">
-                            <h3 class="text-xl font-extrabold text-stone-900 flex items-center">
-                                <span class="w-2.5 h-6 bg-ch-accent rounded-full mr-2.5"></span> Viaggi Programmati
+                            <h3 class="text-xl font-extrabold text-slate-900 flex items-center">
+                                <span class="w-2.5 h-6 bg-ch-primary rounded-full mr-2.5"></span> Viaggi Programmati
                             </h3>
                         </div>
                         <div id="dynamic-trips-list" class="space-y-4"></div>
                     </div>
                     <div>
                         <div class="flex items-center justify-between mb-6">
-                            <h3 class="text-xl font-extrabold text-stone-900 flex items-center">
+                            <h3 class="text-xl font-extrabold text-slate-900 flex items-center">
                                 <span class="w-2.5 h-6 bg-amber-600 rounded-full mr-2.5"></span> Eventi & Incontri
                             </h3>
                         </div>
@@ -98,76 +102,128 @@
             </div>
         </div>
 
-        <!-- BROCHURE / ATTIVITA COMPLETA -->
-        <div id="brochure" class="view max-w-4xl mx-auto py-16 px-6">
-            <div class="glass-card rounded-3xl p-8 md:p-12 shadow-sm border border-stone-200">
-                <div class="flex justify-between items-center mb-6 pb-4 border-b border-stone-200">
-                    <h2 class="text-2xl font-extrabold text-ch-primary">La Nostra Storia & Attività</h2>
-                    <button onclick="goHome()" class="bg-stone-100 hover:bg-stone-200 text-stone-700 px-4 py-2 rounded-xl text-xs font-bold transition">Indietro</button>
+        <!-- BROCHURE / ATTIVITA' E PUNTO DI FORZA -->
+        <div id="brochure" class="view max-w-5xl mx-auto py-16 px-6">
+            <div class="glass-card rounded-3xl p-8 md:p-12 shadow-sm border border-slate-200">
+                <div class="flex justify-between items-center mb-8 pb-4 border-b border-slate-200">
+                    <div>
+                        <span class="text-[11px] font-bold text-ch-primary uppercase tracking-wider">Presentazione Ufficiale</span>
+                        <h2 class="text-2xl font-extrabold text-ch-primary">Chi Siamo & Le Nostre Attività</h2>
+                    </div>
+                    <button onclick="goHome()" class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-4 py-2 rounded-xl text-xs font-bold transition">Indietro</button>
                 </div>
                 
-                <div class="space-y-6 text-stone-700 text-sm leading-relaxed">
-                    <div class="bg-ch-accent/10 p-6 rounded-2xl border-l-4 border-ch-accent">
-                        <h3 class="font-extrabold text-ch-primary text-base mb-2">Associazione Giuseppe Novello (ETS-APS)</h3>
-                        <p>L'Associazione Lucana e altre Regioni Italiane ETS-APS "Giuseppe Novello" nasce per promuovere la socialità, la riscoperta delle tradizioni, la cultura e il turismo ricreativo tra associati.</p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+                    <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200/60">
+                        <h3 class="font-extrabold text-ch-primary text-base mb-3 flex items-center"><i class="fas fa-heart text-red-500 mr-2"></i> La Nostra Filosofia</h3>
+                        <p class="text-slate-600 text-xs leading-relaxed mb-3">L'Associazione Lucana e altre Regioni Italiane ETS-APS <strong>"Giuseppe Novello"</strong> promuove la cultura, la socialità e la partecipazione attiva delle persone[span_0](start_span)[span_0](end_span).</p>
+                        <p class="text-slate-600 text-xs leading-relaxed">Crediamo nel valore delle relazioni, nello scambio di esperienze e nella diffusione della conoscenza come strumenti per una società più inclusiva e solidale[span_1](start_span)[span_1](end_span).</p>
                     </div>
+                    <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200/60">
+                        <h3 class="font-extrabold text-ch-primary text-base mb-3 flex items-center"><i class="fas fa-map-marker-alt text-ch-primary mr-2"></i> Contatti & Sede</h3>
+                        <p class="text-slate-600 text-xs mb-2"><strong>Sede operativa:</strong> Via Mezzano, 10034 Chivasso (TO)[span_2](start_span)[span_2](end_span)</p>
+                        <p class="text-slate-600 text-xs mb-2"><strong>Telefono:</strong> +39 320 1234567[span_3](start_span)[span_3](end_span)</p>
+                        <p class="text-slate-600 text-xs mb-2"><strong>Email:</strong> info@associazionenovello.it[span_4](start_span)[span_4](end_span)</p>
+                        <p class="text-slate-600 text-xs"><strong>Web:</strong> www.associazionenovello.it[span_5](start_span)[span_5](end_span)</p>
+                    </div>
+                </div>
 
-                    <div>
-                        <h4 class="font-extrabold text-stone-900 text-base mb-2 flex items-center">
-                            <i class="fas fa-globe-americas text-ch-accent mr-2"></i> Cosa Facciamo (Le Nostre Attività)
-                        </h4>
-                        <p class="mb-3">Il nostro club organizza regolarmente attività culturali e ricreative aperte a tutti i soci:</p>
-                        <ul class="list-disc pl-5 space-y-2 text-stone-600">
-                            <li><strong>Viaggi Culturali e Gite Sociali:</strong> Escursioni giornaliere e tour di più giorni in Italia e all'estero, studiati per unire la scoperta di mete straordinarie al piacere della compagnia.</li>
-                            <li><strong>Incontri Enogastronomici:</strong> Cene sociali, degustazioni e momenti conviviali per valorizzare le eccellenze culinarie regionali e stare insieme.</li>
-                            <li><strong>Eventi e Attività Ricreative:</strong> Pomeriggi culturali, incontri di aggregazione, feste e iniziative solidali radicate sul territorio.</li>
-                        </ul>
+                <h3 class="font-extrabold text-lg text-slate-900 mb-6 flex items-center"><i class="fas fa-star text-ch-accent mr-2"></i> I Nostri Punti di Forza</h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-12">
+                    <div class="p-5 bg-white rounded-2xl border border-slate-200 shadow-sm">
+                        <div class="text-ch-primary text-lg mb-2"><i class="fas fa-book-open"></i></div>
+                        <h4 class="font-bold text-xs text-slate-900 mb-1">Attività Culturali</h4>
+                        <p class="text-[11px] text-slate-500">Presentazioni di libri, incontri con autori, conferenze e dibattiti[span_6](start_span)[span_6](end_span).</p>
                     </div>
+                    <div class="p-5 bg-white rounded-2xl border border-slate-200 shadow-sm">
+                        <div class="text-ch-primary text-lg mb-2"><i class="fas fa-film"></i></div>
+                        <h4 class="font-bold text-xs text-slate-900 mb-1">Proiezioni e Cinema</h4>
+                        <p class="text-[11px] text-slate-500">Film, documentari e momenti di confronto e condivisione[span_7](start_span)[span_7](end_span).</p>
+                    </div>
+                    <div class="p-5 bg-white rounded-2xl border border-slate-200 shadow-sm">
+                        <div class="text-ch-primary text-lg mb-2"><i class="fas fa-heartbeat"></i></div>
+                        <h4 class="font-bold text-xs text-slate-900 mb-1">Salute e Benessere</h4>
+                        <p class="text-[11px] text-slate-500">Incontri con medici ed esperti su prevenzione e stili di vita[span_8](start_span)[span_8](end_span).</p>
+                    </div>
+                    <div class="p-5 bg-white rounded-2xl border border-slate-200 shadow-sm">
+                        <div class="text-ch-primary text-lg mb-2"><i class="fas fa-plane"></i></div>
+                        <h4 class="font-bold text-xs text-slate-900 mb-1">Viaggi ed Escursioni</h4>
+                        <p class="text-[11px] text-slate-500">Itinerari culturali, naturalistici e turistici alla scoperta di nuovi territori[span_9](start_span)[span_9](end_span).</p>
+                    </div>
+                    <div class="p-5 bg-white rounded-2xl border border-slate-200 shadow-sm">
+                        <div class="text-ch-primary text-lg mb-2"><i class="fas fa-music"></i></div>
+                        <h4 class="font-bold text-xs text-slate-900 mb-1">Musica e Serate</h4>
+                        <p class="text-[11px] text-slate-500">Eventi musicali, apericena e momenti di convivialità[span_10](start_span)[span_10](end_span).</p>
+                    </div>
+                    <div class="p-5 bg-white rounded-2xl border border-slate-200 shadow-sm">
+                        <div class="text-ch-primary text-lg mb-2"><i class="fas fa-users"></i></div>
+                        <h4 class="font-bold text-xs text-slate-900 mb-1">Socialità e Amicizia</h4>
+                        <p class="text-[11px] text-slate-500">Un ambiente accogliente dove condividere esperienze e creare nuove relazioni[span_11](start_span)[span_11](end_span).</p>
+                    </div>
+                </div>
 
+                <div class="bg-ch-primary text-white p-6 rounded-2xl flex flex-col md:flex-row justify-between items-center">
                     <div>
-                        <h4 class="font-extrabold text-stone-900 text-base mb-2 flex items-center">
-                            <i class="fas fa-map-marker-alt text-ch-accent mr-2"></i> Dove Siamo
-                        </h4>
-                        <p>La nostra sede operativa di riferimento si trova a <strong>Chivasso (TO) in Via Mezzano</strong>. È il punto d'incontro ufficiale per organizzare le partenze, ritirare i programmi di viaggio e condividere idee per le prossime mete.</p>
+                        <h4 class="font-extrabold text-sm mb-1">Condizioni di Partecipazione</h4>
+                        <p class="text-xs text-slate-300">Le iniziative sono riservate ai soci dell'associazione. Scopri regolamenti, assicurazioni e rimborsi.</p>
                     </div>
+                    <button onclick="showView('conditions')" class="mt-4 md:mt-0 bg-ch-accent text-ch-dark px-5 py-2.5 rounded-xl text-xs font-bold hover:bg-amber-400 transition">Leggi Condizioni</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- CONDIZIONI DI PARTECIPAZIONE (Foglio Condizioni della Brochure) -->
+        <div id="conditions" class="view max-w-4xl mx-auto py-16 px-6">
+            <div class="glass-card rounded-3xl p-8 md:p-12 shadow-sm border border-slate-200">
+                <div class="flex justify-between items-center mb-6 pb-4 border-b border-slate-200">
+                    <h2 class="text-2xl font-extrabold text-ch-primary">Viaggi ed Escursioni • Condizioni</h2>
+                    <button onclick="showView('brochure')" class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-4 py-2 rounded-xl text-xs font-bold transition">Torna a Chi Siamo</button>
+                </div>
+                <div class="space-y-4 text-xs text-slate-700 leading-relaxed">
+                    <div class="p-4 bg-slate-50 rounded-xl"><strong>Destinatari:</strong> Le iniziative sono riservate ai soci dell'Associazione Lucana e altre Regioni Italiane ETS-APS "Giuseppe Novello[span_12](start_span)"[span_12](end_span).</div>
+                    <div class="p-4 bg-slate-50 rounded-xl"><strong>Iscrizioni:</strong> Si effettuano secondo le modalità indicate per ciascun viaggio. La prenotazione è confermata al versamento dell'acconto[span_13](start_span)[span_13](end_span).</div>
+                    <div class="p-4 bg-slate-50 rounded-xl"><strong>Quote di Partecipazione:</strong> Comprendono quanto specificato nel programma (viaggio, trasporto, pernottamento, visite, assicurazione, ecc.). Non comprendono spese personali[span_14](start_span)[span_14](end_span).</div>
+                    <div class="p-4 bg-slate-50 rounded-xl"><strong>Pagamenti:</strong> È richiesto un acconto alla prenotazione e il saldo entro la data indicata nel programma[span_15](start_span)[span_15](end_span).</div>
+                    <div class="p-4 bg-slate-50 rounded-xl"><strong>Rinunce e Rimborsi:</strong> In caso di rinuncia si applicano le condizioni stabilite dai fornitori (compagnie di trasporto, hotel, ecc.) comunicate al momento dell'iscrizione[span_16](start_span)[span_16](end_span).</div>
+                    <div class="p-4 bg-slate-50 rounded-xl"><strong>Assicurazione e Salute:</strong> Tutti i viaggi includono assicurazione base (ulteriori coperture su richiesta). È importante segnalare esigenze particolari di salute o mobilità al momento dell'iscrizione[span_17](start_span)[span_17](end_span).</div>
                 </div>
             </div>
         </div>
 
         <!-- ACCESSO & REGISTRAZIONE -->
         <div id="auth" class="view max-w-md mx-auto py-16 px-6">
-            <div class="glass-card rounded-3xl overflow-hidden shadow-xl border border-stone-200">
-                <div class="flex bg-stone-100 p-1.5 m-2 rounded-2xl">
+            <div class="glass-card rounded-3xl overflow-hidden shadow-xl border border-slate-200">
+                <div class="flex bg-slate-100 p-1.5 m-2 rounded-2xl">
                     <button id="tab-login" onclick="switchAuthTab('login')" class="w-1/2 py-2.5 text-center tab-btn active text-xs rounded-xl transition font-semibold">Accedi</button>
-                    <button id="tab-register" onclick="switchAuthTab('register')" class="w-1/2 py-2.5 text-center tab-btn text-xs rounded-xl transition font-semibold text-stone-500">Registrati</button>
+                    <button id="tab-register" onclick="switchAuthTab('register')" class="w-1/2 py-2.5 text-center tab-btn text-xs rounded-xl transition font-semibold text-slate-500">Registrati</button>
                 </div>
                 <div class="p-8 pt-4">
                     <form id="form-user-login" onsubmit="userLogin(event)" class="space-y-4">
-                        <h2 class="text-xl font-extrabold text-stone-900 mb-1">Bentornato</h2>
-                        <p class="text-xs text-stone-400 mb-6">Inserisci le tue credenziali per accedere all'area riservata.</p>
+                        <h2 class="text-xl font-extrabold text-slate-900 mb-1">Bentornato</h2>
+                        <p class="text-xs text-slate-400 mb-6">Accedi all'area riservata soci.</p>
                         <div>
-                            <label class="block text-[11px] font-bold text-stone-500 uppercase mb-1">Email</label>
-                            <input type="email" id="lu-email" placeholder="nome@email.it" required class="w-full px-4 py-3 rounded-xl bg-white border border-stone-200 text-sm focus:outline-none focus:border-ch-accent transition">
+                            <label class="block text-[11px] font-bold text-slate-500 uppercase mb-1">Email</label>
+                            <input type="email" id="lu-email" placeholder="nome@email.it" required class="w-full px-4 py-3 rounded-xl bg-white border border-slate-200 text-sm focus:outline-none focus:border-ch-primary transition">
                         </div>
                         <div>
-                            <label class="block text-[11px] font-bold text-stone-500 uppercase mb-1">Password</label>
-                            <input type="password" id="lu-pass" placeholder="••••••••" required class="w-full px-4 py-3 rounded-xl bg-white border border-stone-200 text-sm focus:outline-none focus:border-ch-accent transition">
+                            <label class="block text-[11px] font-bold text-slate-500 uppercase mb-1">Password</label>
+                            <input type="password" id="lu-pass" placeholder="••••••••" required class="w-full px-4 py-3 rounded-xl bg-white border border-slate-200 text-sm focus:outline-none focus:border-ch-primary transition">
                         </div>
-                        <button type="submit" class="w-full hero-gradient text-white font-bold py-3.5 rounded-xl text-sm shadow-md hover:opacity-95 transition mt-2">Accedi al Profilo</button>
+                        <button type="submit" class="w-full hero-gradient text-white font-bold py-3.5 rounded-xl text-sm shadow-md hover:opacity-95 transition mt-2">Accedi</button>
                     </form>
 
                     <form id="form-user-register" onsubmit="userRegister(event)" class="hidden space-y-3.5">
-                        <h2 class="text-xl font-extrabold text-stone-900 mb-1">Nuovo Socio</h2>
-                        <p class="text-xs text-stone-400 mb-4">Compila i dati per registrarti all'associazione.</p>
+                        <h2 class="text-xl font-extrabold text-slate-900 mb-1">Nuovo Socio</h2>
+                        <p class="text-xs text-slate-400 mb-4">Compila i dati per la registrazione associativa.</p>
                         <div class="grid grid-cols-2 gap-3">
-                            <input type="text" id="ru-nome" placeholder="Nome" required class="px-3.5 py-2.5 rounded-xl bg-white border border-stone-200 text-xs focus:outline-none focus:border-ch-accent">
-                            <input type="text" id="ru-cognome" placeholder="Cognome" required class="px-3.5 py-2.5 rounded-xl bg-white border border-stone-200 text-xs focus:outline-none focus:border-ch-accent">
+                            <input type="text" id="ru-nome" placeholder="Nome" required class="px-3.5 py-2.5 rounded-xl bg-white border border-slate-200 text-xs focus:outline-none focus:border-ch-primary">
+                            <input type="text" id="ru-cognome" placeholder="Cognome" required class="px-3.5 py-2.5 rounded-xl bg-white border border-slate-200 text-xs focus:outline-none focus:border-ch-primary">
                         </div>
-                        <input type="email" id="ru-email" placeholder="Indirizzo Email" required class="w-full px-3.5 py-2.5 rounded-xl bg-white border border-stone-200 text-xs focus:outline-none focus:border-ch-accent">
-                        <input type="password" id="ru-pass" placeholder="Crea Password" required class="w-full px-3.5 py-2.5 rounded-xl bg-white border border-stone-200 text-xs focus:outline-none focus:border-ch-accent">
-                        <input type="text" id="ru-cf" placeholder="Codice Fiscale" required class="w-full px-3.5 py-2.5 rounded-xl bg-white border border-stone-200 text-xs uppercase focus:outline-none focus:border-ch-accent">
-                        <input type="tel" id="ru-tel" placeholder="Telefono" required class="w-full px-3.5 py-2.5 rounded-xl bg-white border border-stone-200 text-xs focus:outline-none focus:border-ch-accent">
-                        <button type="submit" class="w-full bg-ch-accent text-ch-dark font-extrabold py-3.5 rounded-xl text-xs shadow-md hover:bg-amber-600 hover:text-white transition mt-2">Conferma Registrazione</button>
+                        <input type="email" id="ru-email" placeholder="Indirizzo Email" required class="w-full px-3.5 py-2.5 rounded-xl bg-white border border-slate-200 text-xs focus:outline-none focus:border-ch-primary">
+                        <input type="password" id="ru-pass" placeholder="Crea Password" required class="w-full px-3.5 py-2.5 rounded-xl bg-white border border-slate-200 text-xs focus:outline-none focus:border-ch-primary">
+                        <input type="text" id="ru-cf" placeholder="Codice Fiscale" required class="w-full px-3.5 py-2.5 rounded-xl bg-white border border-slate-200 text-xs uppercase focus:outline-none focus:border-ch-primary">
+                        <input type="tel" id="ru-tel" placeholder="Telefono" required class="w-full px-3.5 py-2.5 rounded-xl bg-white border border-slate-200 text-xs focus:outline-none focus:border-ch-primary">
+                        <button type="submit" class="w-full bg-ch-accent text-ch-dark font-extrabold py-3.5 rounded-xl text-xs shadow-md hover:bg-amber-400 transition mt-2">Conferma Registrazione</button>
                     </form>
                 </div>
             </div>
@@ -175,17 +231,17 @@
 
         <!-- AREA PERSONALE -->
         <div id="user-dashboard" class="view max-w-4xl mx-auto py-16 px-6">
-            <div class="glass-card rounded-3xl p-8 md:p-10 shadow-sm border border-stone-200">
-                <div class="flex justify-between items-center border-b border-stone-200 pb-6 mb-8">
+            <div class="glass-card rounded-3xl p-8 md:p-10 shadow-sm border border-slate-200">
+                <div class="flex justify-between items-center border-b border-slate-200 pb-6 mb-8">
                     <div>
-                        <span class="text-[11px] font-bold text-ch-accent uppercase tracking-wider block mb-1">Area Riservata</span>
-                        <h2 class="text-2xl font-extrabold text-stone-900" id="ud-welcome">Benvenuto</h2>
+                        <span class="text-[11px] font-bold text-ch-primary uppercase tracking-wider block mb-1">Area Riservata</span>
+                        <h2 class="text-2xl font-extrabold text-slate-900" id="ud-welcome">Benvenuto</h2>
                     </div>
                     <button onclick="userLogout()" class="bg-red-50 hover:bg-red-100 text-red-600 px-4 py-2 rounded-xl text-xs font-bold transition flex items-center">
                         <i class="fas fa-sign-out-alt mr-1.5"></i> Esci
                     </button>
                 </div>
-                <h3 class="font-extrabold text-sm text-stone-700 uppercase tracking-wide mb-4">Le tue prenotazioni e partecipazioni</h3>
+                <h3 class="font-extrabold text-sm text-slate-700 uppercase tracking-wide mb-4">Le tue prenotazioni</h3>
                 <div id="ud-bookings" class="space-y-3"></div>
             </div>
         </div>
@@ -201,43 +257,43 @@
             </div>
             
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
-                <div class="bg-white p-6 md:p-8 rounded-3xl shadow-sm border border-stone-200">
+                <div class="bg-white p-6 md:p-8 rounded-3xl shadow-sm border border-slate-200">
                     <h3 class="font-extrabold text-base text-ch-primary mb-4 flex items-center"><i class="fas fa-plane-departure mr-2 text-ch-accent"></i> Crea Nuovo Viaggio</h3>
                     <form id="form-create-trip" onsubmit="createTrip(event)" class="space-y-3.5">
-                        <input type="text" id="at-dest" placeholder="Destinazione (es. Roma - Gita Culturale)" required class="w-full px-4 py-3 rounded-xl bg-stone-50 border border-stone-200 text-xs focus:outline-none focus:border-ch-accent">
+                        <input type="text" id="at-dest" placeholder="Destinazione (es. Roma - Gita Culturale)" required class="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 text-xs focus:outline-none focus:border-ch-primary">
                         <div class="grid grid-cols-2 gap-3">
-                            <input type="date" id="at-da" required class="px-3.5 py-3 rounded-xl bg-stone-50 border border-stone-200 text-xs">
-                            <input type="date" id="at-al" required class="px-3.5 py-3 rounded-xl bg-stone-50 border border-stone-200 text-xs">
+                            <input type="date" id="at-da" required class="px-3.5 py-3 rounded-xl bg-slate-50 border border-slate-200 text-xs">
+                            <input type="date" id="at-al" required class="px-3.5 py-3 rounded-xl bg-slate-50 border border-slate-200 text-xs">
                         </div>
-                        <input type="text" id="at-costo" placeholder="Note / Costo (es. € 150 a persona)" required class="w-full px-4 py-3 rounded-xl bg-stone-50 border border-stone-200 text-xs">
+                        <input type="text" id="at-costo" placeholder="Note / Costo (es. € 150 a persona)" required class="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 text-xs">
                         <button type="submit" class="w-full hero-gradient text-white py-3 rounded-xl text-xs font-bold shadow-sm hover:opacity-95 transition">Pubblica Viaggio</button>
                     </form>
                 </div>
                 
-                <div class="bg-white p-6 md:p-8 rounded-3xl shadow-sm border border-stone-200">
-                    <h3 class="font-extrabold text-base text-amber-700 mb-4 flex items-center"><i class="fas fa-glass-cheers mr-2"></i> Crea Nuovo Evento</h3>
+                <div class="bg-white p-6 md:p-8 rounded-3xl shadow-sm border border-slate-200">
+                    <h3 class="font-extrabold text-base text-amber-600 mb-4 flex items-center"><i class="fas fa-glass-cheers mr-2"></i> Crea Nuovo Evento</h3>
                     <form id="form-create-event" onsubmit="createEvent(event)" class="space-y-3.5">
-                        <input type="text" id="ae-nome" placeholder="Nome Evento (es. Cena Sociale)" required class="w-full px-4 py-3 rounded-xl bg-stone-50 border border-stone-200 text-xs focus:outline-none focus:border-amber-600">
-                        <input type="date" id="ae-data" required class="w-full px-4 py-3 rounded-xl bg-stone-50 border border-stone-200 text-xs">
-                        <input type="text" id="ae-costo" placeholder="Costo (es. € 25)" required class="w-full px-4 py-3 rounded-xl bg-stone-50 border border-stone-200 text-xs">
+                        <input type="text" id="ae-nome" placeholder="Nome Evento (es. Cena Sociale)" required class="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 text-xs focus:outline-none focus:border-amber-500">
+                        <input type="date" id="ae-data" required class="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 text-xs">
+                        <input type="text" id="ae-costo" placeholder="Costo (es. € 25)" required class="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 text-xs">
                         <button type="submit" class="w-full bg-amber-600 text-white py-3 rounded-xl text-xs font-bold shadow-sm hover:bg-amber-700 transition">Pubblica Evento</button>
                     </form>
                 </div>
             </div>
 
-            <div class="bg-white p-6 md:p-8 rounded-3xl shadow-sm border border-stone-200">
-                <h3 class="font-extrabold text-base text-stone-900 mb-6 flex items-center"><i class="fas fa-clipboard-list mr-2 text-stone-400"></i> Registro Iscrizioni e Prenotazioni</h3>
+            <div class="bg-white p-6 md:p-8 rounded-3xl shadow-sm border border-slate-200">
+                <h3 class="font-extrabold text-base text-slate-900 mb-6 flex items-center"><i class="fas fa-clipboard-list mr-2 text-slate-400"></i> Registro Iscrizioni e Prenotazioni</h3>
                 <div class="overflow-x-auto">
                     <table class="w-full text-left border-collapse">
                         <thead>
-                            <tr class="border-b border-stone-100 text-stone-400 text-[11px] uppercase tracking-wider">
+                            <tr class="border-b border-slate-100 text-slate-400 text-[11px] uppercase tracking-wider">
                                 <th class="pb-3 font-bold">Data</th>
                                 <th class="pb-3 font-bold">Attività</th>
                                 <th class="pb-3 font-bold">Socio</th>
                                 <th class="pb-3 font-bold">Dettagli</th>
                             </tr>
                         </thead>
-                        <tbody id="admin-table-body" class="text-xs divide-y divide-stone-50"></tbody>
+                        <tbody id="admin-table-body" class="text-xs divide-y divide-slate-50"></tbody>
                     </table>
                 </div>
             </div>
@@ -245,10 +301,10 @@
     </main>
 
     <!-- FOOTER -->
-    <footer class="bg-ch-dark text-stone-400 py-10 mt-auto text-center border-t border-stone-800">
+    <footer class="bg-ch-dark text-slate-400 py-10 mt-auto text-center border-t border-slate-800">
         <div class="max-w-7xl mx-auto px-6 flex flex-col items-center justify-center space-y-4">
-            <p class="text-xs text-stone-500">Associazione Giuseppe Novello • Tutti i diritti riservati</p>
-            <button onclick="adminLoginPrompt()" class="text-[11px] text-stone-400 hover:text-white uppercase tracking-widest font-bold bg-stone-900 px-4 py-2 rounded-xl border border-stone-800 transition flex items-center">
+            <p class="text-xs text-slate-500">Associazione Giuseppe Novello • Esperienze, persone, luoghi. Sempre con te[span_18](start_span)[span_18](end_span).</p>
+            <button onclick="adminLoginPrompt()" class="text-[11px] text-slate-400 hover:text-white uppercase tracking-widest font-bold bg-slate-900 px-4 py-2 rounded-xl border border-slate-800 transition flex items-center">
                 <i class="fas fa-lock mr-1.5 text-ch-accent"></i> Accesso Segreteria
             </button>
         </div>
@@ -303,7 +359,7 @@
         function updateHeader() {
             const actions = document.getElementById('header-user-actions');
             if(currentUser) {
-                actions.innerHTML = `<button onclick="showView('user-dashboard')" class="text-xs font-bold bg-ch-accent text-ch-dark px-4 py-2.5 rounded-xl shadow-sm hover:bg-amber-600 hover:text-white transition flex items-center"><i class="fas fa-user-circle mr-1.5"></i> ${currentUser.nome}</button>`;
+                actions.innerHTML = `<button onclick="showView('user-dashboard')" class="text-xs font-bold bg-ch-accent text-ch-dark px-4 py-2.5 rounded-xl shadow-sm hover:bg-amber-400 transition flex items-center"><i class="fas fa-user-circle mr-1.5"></i> ${currentUser.nome}</button>`;
             } else {
                 actions.innerHTML = `<button onclick="showAuth()" class="text-xs font-bold bg-ch-primary text-white px-5 py-2.5 rounded-xl shadow-sm hover:bg-ch-secondary transition flex items-center"><i class="fas fa-user mr-2 text-ch-accent"></i> Area Soci</button>`;
             }
@@ -311,30 +367,30 @@
 
         function renderHome() {
             document.getElementById('dynamic-trips-list').innerHTML = db.trips.map(t => `
-                <div class="glass-card p-5 rounded-2xl flex justify-between items-center border-l-4 border-l-ch-accent hover:shadow-md transition">
+                <div class="glass-card p-5 rounded-2xl flex justify-between items-center border-l-4 border-l-ch-primary hover:shadow-md transition">
                     <div>
-                        <h4 class="font-extrabold text-sm text-stone-900">${t.dest}</h4>
-                        <p class="text-xs text-stone-500 mt-0.5"><i class="far fa-calendar-alt mr-1"></i> Dal ${t.da} al ${t.al}</p>
+                        <h4 class="font-extrabold text-sm text-slate-900">${t.dest}</h4>
+                        <p class="text-xs text-slate-500 mt-0.5"><i class="far fa-calendar-alt mr-1"></i> Dal ${t.da} al ${t.al}</p>
                         <p class="text-xs font-semibold text-ch-primary mt-1">${t.note}</p>
                     </div>
                     <button onclick="initBooking('${t.dest}', 'Viaggio')" class="bg-ch-primary hover:bg-ch-secondary text-white px-4 py-2.5 rounded-xl text-xs font-bold transition shadow-sm">Partecipa</button>
-                </div>`).join('') || '<div class="glass-card p-6 rounded-2xl text-center text-stone-400 text-xs italic">Nessun viaggio in programma al momento.</div>';
+                </div>`).join('') || '<div class="glass-card p-6 rounded-2xl text-center text-slate-400 text-xs italic">Nessun viaggio in programma al momento.</div>';
 
             document.getElementById('dynamic-events-list').innerHTML = db.events.map(e => `
                 <div class="glass-card p-5 rounded-2xl flex justify-between items-center border-l-4 border-l-amber-600 hover:shadow-md transition">
                     <div>
-                        <h4 class="font-extrabold text-sm text-stone-900">${e.nome}</h4>
-                        <p class="text-xs text-stone-500 mt-0.5"><i class="far fa-clock mr-1"></i> ${e.data}</p>
-                        <p class="text-xs font-bold text-amber-700 mt-1">Quota: €${e.costo}</p>
+                        <h4 class="font-extrabold text-sm text-slate-900">${e.nome}</h4>
+                        <p class="text-xs text-slate-500 mt-0.5"><i class="far fa-clock mr-1"></i> ${e.data}</p>
+                        <p class="text-xs font-bold text-amber-600 mt-1">Quota: €${e.costo}</p>
                     </div>
                     <button onclick="initBooking('${e.nome}', 'Evento')" class="bg-amber-600 hover:bg-amber-700 text-white px-4 py-2.5 rounded-xl text-xs font-bold transition shadow-sm">Prenota</button>
-                </div>`).join('') || '<div class="glass-card p-6 rounded-2xl text-center text-stone-400 text-xs italic">Nessun evento in programma al momento.</div>';
+                </div>`).join('') || '<div class="glass-card p-6 rounded-2xl text-center text-slate-400 text-xs italic">Nessun evento in programma al momento.</div>';
         }
 
         function initBooking(eventName, type) {
             pendingBooking = { eventName, type };
             if(!currentUser) { 
-                Swal.fire({ title: 'Area Riservata', text: 'Devi effettuare l accesso per prenotare.', icon: 'info', confirmButtonColor: '#4A1525' }).then(()=> showAuth()); 
+                Swal.fire({ title: 'Area Riservata', text: 'Devi effettuare l accesso per prenotare.', icon: 'info', confirmButtonColor: '#1b3b5c' }).then(()=> showAuth()); 
             } else { 
                 finalizeBooking(); 
             }
@@ -347,7 +403,7 @@
                 userId: currentUser.email, nome: currentUser.nome, cognome: currentUser.cognome, dettagli: "Confermato"
             };
             const success = await sendToCloud("add_registration", { registration: newReg });
-            if(success) Swal.fire({ title: 'Prenotazione Effettuata!', text: 'La tua richiesta è stata registrata con successo.', icon: 'success', confirmButtonColor: '#4A1525' }).then(()=> showView('user-dashboard'));
+            if(success) Swal.fire({ title: 'Prenotazione Effettuata!', text: 'La tua richiesta è stata registrata con successo.', icon: 'success', confirmButtonColor: '#1b3b5c' }).then(()=> showView('user-dashboard'));
         }
 
         function showAuth() { if(currentUser) showView('user-dashboard'); else { switchAuthTab('login'); showView('auth'); } }
@@ -374,7 +430,7 @@
             const success = await sendToCloud("register_user", { user: newUser });
             if(success) {
                 currentUser = newUser; sessionStorage.setItem('ch_currentUser', JSON.stringify(currentUser));
-                Swal.fire({ title: 'Benvenuto!', text: 'Registrazione completata con successo.', icon: 'success', confirmButtonColor: '#4A1525' }).then(() => showView('user-dashboard'));
+                Swal.fire({ title: 'Benvenuto!', text: 'Registrazione completata con successo.', icon: 'success', confirmButtonColor: '#1b3b5c' }).then(() => showView('user-dashboard'));
             }
         }
 
@@ -388,7 +444,7 @@
                 currentUser = user; sessionStorage.setItem('ch_currentUser', JSON.stringify(currentUser));
                 if(pendingBooking) finalizeBooking(); else showView('user-dashboard');
             } else { 
-                Swal.fire({ title: 'Accesso Negato', text: 'Email o password errati.', icon: 'error', confirmButtonColor: '#4A1525' }); 
+                Swal.fire({ title: 'Accesso Negato', text: 'Email o password errati.', icon: 'error', confirmButtonColor: '#1b3b5c' }); 
             }
         }
 
@@ -398,20 +454,20 @@
             document.getElementById('ud-welcome').innerText = `Ciao, ${currentUser.nome}!`;
             const myRegs = db.registrations.filter(r => r.userId === currentUser.email).reverse();
             document.getElementById('ud-bookings').innerHTML = myRegs.map(r => `
-                <div class="p-4 bg-stone-50 border border-stone-200 rounded-2xl flex justify-between items-center">
+                <div class="p-4 bg-slate-50 border border-slate-200 rounded-2xl flex justify-between items-center">
                     <div>
-                        <span class="font-extrabold text-xs text-stone-900 block">${r.evento}</span>
-                        <span class="text-[11px] text-stone-400">Tipologia: ${r.tipo}</span>
+                        <span class="font-extrabold text-xs text-slate-900 block">${r.evento}</span>
+                        <span class="text-[11px] text-slate-400">Tipologia: ${r.tipo}</span>
                     </div>
                     <span class="text-[11px] font-bold text-ch-primary bg-ch-accent/20 px-3 py-1 rounded-full">${r.dataReg}</span>
-                </div>`).join('') || '<p class="text-stone-400 text-xs italic">Nessuna prenotazione attiva al momento.</p>';
+                </div>`).join('') || '<p class="text-slate-400 text-xs italic">Nessuna prenotazione attiva al momento.</p>';
         }
 
         function adminLoginPrompt() {
             Swal.fire({ 
                 title: 'Accesso Segreteria', 
                 html: '<input id="swal-user" class="swal2-input !text-xs" placeholder="Utente"><input id="swal-pass" type="password" class="swal2-input !text-xs" placeholder="Password">',
-                confirmButtonText: 'Accedi', confirmButtonColor: '#4A1525',
+                confirmButtonText: 'Accedi', confirmButtonColor: '#1b3b5c',
                 preConfirm: () => {
                     if(document.getElementById('swal-user').value === 'admin' && document.getElementById('swal-pass').value === 'Giuliano59') { 
                         showView('admin'); 
@@ -425,12 +481,12 @@
 
         function renderAdmin() {
             document.getElementById('admin-table-body').innerHTML = [...db.registrations].reverse().map(r => `
-                <tr class="border-b border-stone-100 hover:bg-stone-50 transition">
-                    <td class="py-3.5 text-stone-400 text-[11px]">${r.dataReg}</td>
-                    <td class="py-3.5 font-extrabold text-stone-800">${r.evento}</td>
-                    <td class="py-3.5 text-stone-600 font-medium">${r.cognome} ${r.nome}</td>
+                <tr class="border-b border-slate-100 hover:bg-slate-50 transition">
+                    <td class="py-3.5 text-slate-400 text-[11px]">${r.dataReg}</td>
+                    <td class="py-3.5 font-extrabold text-slate-800">${r.evento}</td>
+                    <td class="py-3.5 text-slate-600 font-medium">${r.cognome} ${r.nome}</td>
                     <td class="py-3.5 text-xs text-ch-primary font-semibold">${r.dettagli}</td>
-                </tr>`).join('') || '<tr><td colspan="4" class="py-6 text-center text-stone-400 italic text-xs">Nessuna iscrizione registrata nel database.</td></tr>';
+                </tr>`).join('') || '<tr><td colspan="4" class="py-6 text-center text-slate-400 italic text-xs">Nessuna iscrizione registrata nel database.</td></tr>';
         }
 
         async function createTrip(e) {
@@ -438,7 +494,7 @@
             const t = { id: 't_'+Date.now(), dest: document.getElementById('at-dest').value, da: document.getElementById('at-da').value, al: document.getElementById('at-al').value, note: document.getElementById('at-costo').value };
             const success = await sendToCloud("add_trip", { trip: t });
             if(success) { 
-                Swal.fire({ title: 'Pubblicato!', text: 'Il viaggio è ora online.', icon: 'success', confirmButtonColor: '#4A1525' }); 
+                Swal.fire({ title: 'Pubblicato!', text: 'Il viaggio è ora online.', icon: 'success', confirmButtonColor: '#1b3b5c' }); 
                 document.getElementById('form-create-trip').reset(); 
             }
         }
@@ -448,7 +504,7 @@
             const ev = { id: 'e_'+Date.now(), nome: document.getElementById('ae-nome').value, data: document.getElementById('ae-data').value, costo: document.getElementById('ae-costo').value };
             const success = await sendToCloud("add_event", { event: ev });
             if(success) { 
-                Swal.fire({ title: 'Pubblicato!', text: 'L\'evento è ora online.', icon: 'success', confirmButtonColor: '#4A1525' }); 
+                Swal.fire({ title: 'Pubblicato!', text: 'L\'evento è ora online.', icon: 'success', confirmButtonColor: '#1b3b5c' }); 
                 document.getElementById('form-create-event').reset(); 
             }
         }
