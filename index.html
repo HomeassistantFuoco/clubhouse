@@ -150,7 +150,7 @@
         </div>
 
         <!-- ACCESSO -->
-        <div id="auth" class="view max-w-md mx-auto py-16 px-6">
+        <div id="auth" class="view max-w-lg mx-auto py-16 px-6">
             <div class="glass-card rounded-3xl overflow-hidden shadow-xl border border-slate-200">
                 <div class="flex bg-slate-100 p-1.5 m-2 rounded-2xl">
                     <button id="tab-login" onclick="switchAuthTab('login')" class="w-1/2 py-2.5 text-center tab-btn active text-xs rounded-xl transition font-semibold">Accedi</button>
@@ -172,15 +172,38 @@
                     </form>
                     <form id="form-user-register" onsubmit="userRegister(event)" class="hidden space-y-3.5">
                         <h2 class="text-xl font-extrabold text-slate-900 mb-1">Nuovo Socio</h2>
-                        <p class="text-xs text-slate-400 mb-4">Compila i dati per la registrazione associativa.</p>
+                        <p class="text-xs text-slate-400 mb-4">Compila tutti i dati e carica i documenti richiesti.</p>
+                        <p class="text-[11px] font-extrabold text-ch-primary uppercase tracking-wider">Dati anagrafici</p>
                         <div class="grid grid-cols-2 gap-3">
-                            <input type="text" id="ru-nome" placeholder="Nome" required class="px-3.5 py-2.5 rounded-xl bg-white border border-slate-200 text-xs focus:outline-none focus:border-ch-primary">
-                            <input type="text" id="ru-cognome" placeholder="Cognome" required class="px-3.5 py-2.5 rounded-xl bg-white border border-slate-200 text-xs focus:outline-none focus:border-ch-primary">
+                            <input type="text" id="ru-nome" placeholder="Nome" required class="w-full px-3.5 py-2.5 rounded-xl bg-white border border-slate-200 text-xs focus:outline-none focus:border-ch-primary">
+                            <input type="text" id="ru-cognome" placeholder="Cognome" required class="w-full px-3.5 py-2.5 rounded-xl bg-white border border-slate-200 text-xs focus:outline-none focus:border-ch-primary">
                         </div>
-                        <input type="email" id="ru-email" placeholder="Indirizzo Email" required class="w-full px-3.5 py-2.5 rounded-xl bg-white border border-slate-200 text-xs focus:outline-none focus:border-ch-primary">
-                        <input type="password" id="ru-pass" placeholder="Crea Password" required class="w-full px-3.5 py-2.5 rounded-xl bg-white border border-slate-200 text-xs focus:outline-none focus:border-ch-primary">
-                        <input type="text" id="ru-cf" placeholder="Codice Fiscale" required class="w-full px-3.5 py-2.5 rounded-xl bg-white border border-slate-200 text-xs uppercase focus:outline-none focus:border-ch-primary">
-                        <input type="tel" id="ru-tel" placeholder="Telefono" required class="w-full px-3.5 py-2.5 rounded-xl bg-white border border-slate-200 text-xs focus:outline-none focus:border-ch-primary">
+                        <div class="grid grid-cols-2 gap-3">
+                            <div><label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Data di nascita</label><input type="date" id="ru-datanascita" required class="w-full px-3.5 py-2.5 rounded-xl bg-white border border-slate-200 text-xs focus:outline-none focus:border-ch-primary"></div>
+                            <div><label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Luogo di nascita</label><input type="text" id="ru-luogonascita" placeholder="Città (prov.)" required class="w-full px-3.5 py-2.5 rounded-xl bg-white border border-slate-200 text-xs focus:outline-none focus:border-ch-primary"></div>
+                        </div>
+                        <input type="text" id="ru-cf" placeholder="Codice Fiscale" maxlength="16" required class="w-full px-3.5 py-2.5 rounded-xl bg-white border border-slate-200 text-xs uppercase focus:outline-none focus:border-ch-primary">
+                        <input type="text" id="ru-ind" placeholder="Indirizzo di residenza (via, n., CAP, città)" required class="w-full px-3.5 py-2.5 rounded-xl bg-white border border-slate-200 text-xs focus:outline-none focus:border-ch-primary">
+                        <div class="grid grid-cols-2 gap-3">
+                            <input type="tel" id="ru-tel" placeholder="Telefono" required class="w-full px-3.5 py-2.5 rounded-xl bg-white border border-slate-200 text-xs focus:outline-none focus:border-ch-primary">
+                            <input type="email" id="ru-email" placeholder="Email" required class="w-full px-3.5 py-2.5 rounded-xl bg-white border border-slate-200 text-xs focus:outline-none focus:border-ch-primary">
+                        </div>
+                        <input type="password" id="ru-pass" placeholder="Crea Password (min. 6 caratteri)" minlength="6" required class="w-full px-3.5 py-2.5 rounded-xl bg-white border border-slate-200 text-xs focus:outline-none focus:border-ch-primary">
+                        <p class="text-[11px] font-extrabold text-ch-primary uppercase tracking-wider pt-2">Documento di identità</p>
+                        <div class="grid grid-cols-2 gap-3">
+                            <select id="ru-tipodoc" required class="w-full px-3.5 py-2.5 rounded-xl bg-white border border-slate-200 text-xs focus:outline-none focus:border-ch-primary">
+                                <option value="">Tipo documento</option>
+                                <option>Carta d'identità</option>
+                                <option>Patente</option>
+                                <option>Passaporto</option>
+                            </select>
+                            <input type="text" id="ru-numdoc" placeholder="Numero documento" required class="w-full px-3.5 py-2.5 rounded-xl bg-white border border-slate-200 text-xs focus:outline-none focus:border-ch-primary">
+                        </div>
+                        <div><label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Scadenza documento</label><input type="date" id="ru-scaddoc" required class="w-full px-3.5 py-2.5 rounded-xl bg-white border border-slate-200 text-xs focus:outline-none focus:border-ch-primary"></div>
+                        <div><label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Foto documento - fronte</label><input type="file" id="ru-doc1" accept="image/*" required class="w-full text-xs text-slate-500 file:mr-3 file:py-2 file:px-3 file:rounded-lg file:border-0 file:bg-ch-primary file:text-white file:text-xs file:font-bold"></div>
+                        <div><label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Foto documento - retro</label><input type="file" id="ru-doc2" accept="image/*" required class="w-full text-xs text-slate-500 file:mr-3 file:py-2 file:px-3 file:rounded-lg file:border-0 file:bg-ch-primary file:text-white file:text-xs file:font-bold"></div>
+                        <div><label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Tessera sanitaria (facoltativa)</label><input type="file" id="ru-doc3" accept="image/*" class="w-full text-xs text-slate-500 file:mr-3 file:py-2 file:px-3 file:rounded-lg file:border-0 file:bg-slate-200 file:text-slate-700 file:text-xs file:font-bold"></div>
+                        <label class="flex items-start gap-2 text-[11px] text-slate-600 pt-1"><input type="checkbox" id="ru-privacy" required class="mt-0.5"> <span>Ho letto l'informativa privacy e acconsento al trattamento dei miei dati e dei documenti caricati.</span></label>
                         <button type="submit" class="w-full bg-ch-accent text-ch-dark font-extrabold py-3.5 rounded-xl text-xs shadow-md hover:bg-amber-400 transition mt-2">Conferma Registrazione</button>
                     </form>
                 </div>
@@ -247,6 +270,21 @@
                             </tr>
                         </thead>
                         <tbody id="admin-table-body" class="text-xs divide-y divide-slate-50"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="bg-white p-6 md:p-8 rounded-3xl shadow-sm border border-slate-200 mt-8">
+                <div class="flex justify-between items-center mb-6">
+                    <h3 class="font-extrabold text-base text-slate-900 flex items-center"><i class="fas fa-users mr-2 text-slate-400"></i> Soci registrati <span id="soci-count" class="ml-2 text-[11px] text-slate-400 font-bold"></span></h3>
+                    <button onclick="exportSociCSV()" class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-4 py-2 rounded-xl text-xs font-bold transition"><i class="fas fa-file-csv mr-1.5"></i> Esporta CSV</button>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
+                        <thead><tr class="border-b border-slate-100 text-slate-400 text-[11px] uppercase tracking-wider">
+                            <th class="pb-3 font-bold">Socio</th><th class="pb-3 font-bold">Contatti</th><th class="pb-3 font-bold">Nascita / CF</th><th class="pb-3 font-bold">Documento</th><th class="pb-3 font-bold"></th>
+                        </tr></thead>
+                        <tbody id="admin-soci-body" class="text-xs divide-y divide-slate-50"></tbody>
                     </table>
                 </div>
             </div>
@@ -413,7 +451,7 @@
         else { switchAuthTab('login'); showView('auth'); }
     }
 
-    function switchAuthTab(tab) {
+    function applyAuthTab(tab) {
         const isLogin = tab === 'login';
         document.getElementById('form-user-login').classList.toggle('hidden', !isLogin);
         document.getElementById('form-user-register').classList.toggle('hidden', isLogin);
@@ -421,32 +459,130 @@
         document.getElementById('tab-register').classList.toggle('active', !isLogin);
     }
 
-    async function userRegister(e) {
-        e.preventDefault();
-        const email = document.getElementById('ru-email').value.toLowerCase().trim();
-        Swal.fire({ title: 'Registrazione in corso...', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
 
-        if (db.users.some(u => u.email === email)) {
-            Swal.fire({ title: 'Email già registrata', text: 'Prova ad accedere.', icon: 'warning', confirmButtonColor: '#1b3b5c' });
+    let privacyAccepted = false;
+
+    function switchAuthTab(tab) {
+        if (tab === 'register' && !privacyAccepted) {
+            Swal.fire({
+                title: 'Informativa Privacy',
+                html: '<div style="text-align:left;font-size:12px;line-height:1.5">' +
+                    '<p>I dati anagrafici e i documenti che inserisci sono raccolti dall\'Associazione Lucana e altre Regioni Italiane "Giuseppe Novello" per gestire iscrizioni, viaggi ed eventi, assicurazioni e obblighi di legge.</p>' +
+                    '<p style="margin-top:8px">I dati sono accessibili solo alla segreteria, che può consultarli, modificarli, esportarli e cancellarli. Puoi chiedere in ogni momento accesso, rettifica o cancellazione scrivendo a info@associazionenovello.it.</p>' +
+                    '<p style="margin-top:8px">Per continuare devi accettare il trattamento dei dati.</p></div>',
+                showCancelButton: true, confirmButtonText: 'Accetto e continuo', cancelButtonText: 'Non accetto',
+                confirmButtonColor: '#1b3b5c'
+            }).then(r => {
+                if (r.isConfirmed) { privacyAccepted = true; applyAuthTab('register'); }
+                else applyAuthTab('login');
+            });
             return;
         }
+        applyAuthTab(tab);
+    }
+
+    function saveSession(u) {
+        const light = { ...u }; delete light.docs; delete light.password;
+        currentUser = { ...light, password: u.password };
+        try { sessionStorage.setItem('ch_currentUser', JSON.stringify(light)); } catch (e) {}
+    }
+
+    function compressImage(file, maxSide = 1200, quality = 0.65) {
+        return new Promise((resolve, reject) => {
+            if (!file || !file.type.startsWith('image/')) return reject(new Error('Carica solo immagini (JPG o PNG).'));
+            const reader = new FileReader();
+            reader.onerror = () => reject(new Error('Lettura del file non riuscita.'));
+            reader.onload = () => {
+                const img = new Image();
+                img.onerror = () => reject(new Error('Immagine non valida o formato non supportato (HEIC non ammesso).'));
+                img.onload = () => {
+                    const k = Math.min(1, maxSide / Math.max(img.width, img.height));
+                    const c = document.createElement('canvas');
+                    c.width = Math.round(img.width * k); c.height = Math.round(img.height * k);
+                    c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
+                    resolve(c.toDataURL('image/jpeg', quality));
+                };
+                img.src = reader.result;
+            };
+            reader.readAsDataURL(file);
+        });
+    }
+
+    async function userRegister(e) {
+        e.preventDefault();
+        const v = id => document.getElementById(id).value.trim();
+        const email = v('ru-email').toLowerCase();
+        const cf = v('ru-cf').toUpperCase();
+
+        if (cf.length !== 16) return Swal.fire({ title: 'Codice fiscale non valido', text: 'Deve avere 16 caratteri.', icon: 'warning', confirmButtonColor: '#1b3b5c' });
+        if (new Date(v('ru-scaddoc')) < new Date(new Date().toDateString())) return Swal.fire({ title: 'Documento scaduto', text: 'Inserisci un documento in corso di validità.', icon: 'warning', confirmButtonColor: '#1b3b5c' });
+        if (!document.getElementById('ru-privacy').checked) return Swal.fire({ title: 'Consenso necessario', text: 'Accetta l\'informativa privacy per continuare.', icon: 'warning', confirmButtonColor: '#1b3b5c' });
+
+        Swal.fire({ title: 'Registrazione in corso...', text: 'Elaboro i documenti, attendi qualche secondo.', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
+
+        await loadDbFromCloud();
+        if (db.users.some(u => u.email === email || (u.cf && u.cf.toUpperCase() === cf))) {
+            return Swal.fire({ title: 'Registrazione già effettuata', text: 'Risulti già registrato: accedi con le tue credenziali.', icon: 'info', confirmButtonColor: '#1b3b5c' }).then(() => applyAuthTab('login'));
+        }
+
+        let docs = [];
+        try {
+            const files = [['Fronte documento', 'ru-doc1'], ['Retro documento', 'ru-doc2'], ['Tessera sanitaria', 'ru-doc3']];
+            for (const [nome, id] of files) {
+                const f = document.getElementById(id).files[0];
+                if (f) docs.push({ nome, tipo: 'image/jpeg', data: await compressImage(f) });
+            }
+        } catch (err) {
+            return Swal.fire({ title: 'Documento non valido', text: err.message, icon: 'error', confirmButtonColor: '#1b3b5c' });
+        }
+        const size = docs.reduce((a, d) => a + d.data.length, 0);
+        if (size > 1500000) return Swal.fire({ title: 'File troppo grandi', text: 'Prova con foto meno pesanti.', icon: 'error', confirmButtonColor: '#1b3b5c' });
 
         const newUser = {
-            email,
-            password: document.getElementById('ru-pass').value,
-            nome: document.getElementById('ru-nome').value.trim(),
-            cognome: document.getElementById('ru-cognome').value.trim(),
-            cf: document.getElementById('ru-cf').value.toUpperCase().trim(),
-            tel: document.getElementById('ru-tel').value.trim(),
-            docs: []
+            email, password: document.getElementById('ru-pass').value,
+            nome: v('ru-nome'), cognome: v('ru-cognome'), tel: v('ru-tel'), cf,
+            dataNascita: v('ru-datanascita'), luogoNascita: v('ru-luogonascita'), ind: v('ru-ind'),
+            tipoDoc: v('ru-tipodoc'), numDoc: v('ru-numdoc'), scadDoc: v('ru-scaddoc'), docs
         };
         const success = await sendToCloud("register_user", { user: newUser });
         if (success) {
-            currentUser = newUser;
-            sessionStorage.setItem('ch_currentUser', JSON.stringify(currentUser));
+            saveSession(newUser);
+            document.getElementById('form-user-register').reset();
             await Swal.fire({ title: 'Benvenuto!', text: 'Registrazione completata con successo.', icon: 'success', confirmButtonColor: '#1b3b5c' });
             if (pendingBooking) finalizeBooking(); else showView('user-dashboard');
         }
+    }
+
+    function parseDocs(u) {
+        if (Array.isArray(u.docs)) return u.docs;
+        try { return JSON.parse(u.docs || '[]'); } catch (e) { return []; }
+    }
+
+    function renderSoci() {
+        document.getElementById('soci-count').innerText = `(${db.users.length})`;
+        document.getElementById('admin-soci-body').innerHTML = db.users.map((u, i) => `
+            <tr>
+                <td class="py-3 pr-3 font-bold text-slate-900">${esc(u.nome)} ${esc(u.cognome)}<br><span class="text-[11px] text-slate-400 font-normal">${esc(u.ind)}</span></td>
+                <td class="py-3 pr-3 text-slate-600">${esc(u.email)}<br>${esc(u.tel)}</td>
+                <td class="py-3 pr-3 text-slate-600">${esc(u.dataNascita)} - ${esc(u.luogoNascita)}<br><span class="text-[11px]">${esc(u.cf)}</span></td>
+                <td class="py-3 pr-3 text-slate-600">${esc(u.tipoDoc)} ${esc(u.numDoc)}<br><span class="text-[11px]">scad. ${esc(u.scadDoc)}</span></td>
+                <td class="py-3"><button onclick="viewDocs(${i})" class="bg-ch-primary text-white px-3 py-1.5 rounded-lg text-[11px] font-bold">Documenti (${parseDocs(u).length})</button></td>
+            </tr>`).join('') || '<tr><td colspan="5" class="py-6 text-center text-slate-400 italic">Nessun socio registrato.</td></tr>';
+    }
+
+    function viewDocs(i) {
+        const u = db.users[i]; const docs = parseDocs(u);
+        const html = docs.length ? docs.map(d => `<p style="font-size:12px;font-weight:700;margin:10px 0 4px">${esc(d.nome)}</p><img src="${esc(d.data)}" style="max-width:100%;border-radius:8px;border:1px solid #e2e8f0">`).join('') : '<p>Nessun documento caricato.</p>';
+        Swal.fire({ title: `${esc(u.nome)} ${esc(u.cognome)}`, html, width: 700, confirmButtonColor: '#1b3b5c' });
+    }
+
+    function exportSociCSV() {
+        const cols = ['nome', 'cognome', 'email', 'tel', 'cf', 'dataNascita', 'luogoNascita', 'ind', 'tipoDoc', 'numDoc', 'scadDoc'];
+        const q = x => '"' + String(x ?? '').replace(/"/g, '""') + '"';
+        const csv = [cols.join(';'), ...db.users.map(u => cols.map(c => q(u[c])).join(';'))].join('\n');
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(new Blob(['\ufeff' + csv], { type: 'text/csv;charset=utf-8' }));
+        a.download = 'soci.csv'; a.click();
     }
 
     async function userLogin(e) {
@@ -464,8 +600,7 @@
         const user = db.users.find(u => u.email === email && u.password === pass);
 
         if (user) {
-            currentUser = user;
-            sessionStorage.setItem('ch_currentUser', JSON.stringify(currentUser));
+            saveSession(user);
             Swal.close();
             if (pendingBooking) finalizeBooking(); else showView('user-dashboard');
         } else {
@@ -490,6 +625,7 @@
     }
 
     function renderAdmin() {
+        renderSoci();
         const body = document.getElementById('admin-table-body');
         const regs = [...db.registrations].reverse();
         body.innerHTML = regs.map(r => `
