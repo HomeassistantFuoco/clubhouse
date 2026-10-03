@@ -272,7 +272,6 @@
                 
                 <div class="bg-white p-6 md:p-8 rounded-3xl shadow-sm border border-slate-200">
                     <h3 class="font-extrabold text-base text-amber-600 mb-4 flex items-center"><i class="fas fa-glass-cheers mr-2"></i> Crea Nuovo Evento</h3>
-                    <!-- LA MODIFICA È QUI: onsubmit="salvaEvento(event)" invece di createEvent -->
                     <form id="form-create-event" onsubmit="salvaEvento(event)" class="space-y-3.5">
                         <input type="text" id="ae-nome" placeholder="Nome Evento (es. Cena Sociale)" required class="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 text-xs focus:outline-none focus:border-amber-500">
                         <input type="date" id="ae-data" required class="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 text-xs">
@@ -321,12 +320,21 @@
         async function loadDbFromCloud() {
             try {
                 const res = await fetch(`${WORKER_URL}/api/get-data`);
-                if(res.ok) {
-                    db = await res.json();
-                    renderHome();
-                    if(currentUser) renderUserDashboard();
-                }
-            } catch(e) { console.error(e); }
+                if(!res.ok) throw new Error("Server error");
+                db = await res.json();
+                
+                db.users = db.users || [];
+                db.trips = db.trips || [];
+                db.events = db.events || [];
+                db.registrations = db.registrations || [];
+                
+                renderHome();
+                if(currentUser) renderUserDashboard();
+                return true;
+            } catch(e) { 
+                console.error(e);
+                return false; 
+            }
         }
 
         async function sendToCloud(action, payload) {
@@ -424,7 +432,7 @@
             Swal.fire({ title: 'Registrazione in corso...', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
             
             const newUser = {
-                email: document.getElementById('ru-email').value.toLowerCase(), password: document.getElementById('ru-pass').value,
+                email: document.getElementById('ru-email').value.toLowerCase().trim(), password: document.getElementById('ru-pass').value,
                 nome: document.getElementById('ru-nome').value, cognome: document.getElementById('ru-cognome').value,
                 cf: document.getElementById('ru-cf').value, tel: document.getElementById('ru-tel').value, docs: []
             };
@@ -437,15 +445,27 @@
 
         async function userLogin(e) {
             e.preventDefault();
-            await loadDbFromCloud();
-            const email = document.getElementById('lu-email').value.toLowerCase();
+            
+            // Nuova gestione errori per il LOGIN: Nessun blocco silenzioso
+            Swal.fire({ title: 'Accesso in corso...', text: 'Verifica delle credenziali...', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
+            
+            const success = await loadDbFromCloud();
+            
+            if (!success) {
+                Swal.fire({ title: 'Errore Database', text: 'Impossibile connettersi a Cloudflare. Assicurati di aver creato tutte le tabelle nel database.', icon: 'error', confirmButtonColor: '#1b3b5c' });
+                return;
+            }
+            
+            const email = document.getElementById('lu-email').value.toLowerCase().trim();
             const pass = document.getElementById('lu-pass').value;
             const user = db.users.find(u => u.email === email && u.password === pass);
+            
             if(user) {
                 currentUser = user; sessionStorage.setItem('ch_currentUser', JSON.stringify(currentUser));
+                Swal.close();
                 if(pendingBooking) finalizeBooking(); else showView('user-dashboard');
             } else { 
-                Swal.fire({ title: 'Accesso Negato', text: 'Email o password errati.', icon: 'error', confirmButtonColor: '#1b3b5c' }); 
+                Swal.fire({ title: 'Accesso Negato', text: 'Email o password errati. Assicurati di esserti prima registrato.', icon: 'error', confirmButtonColor: '#1b3b5c' }); 
             }
         }
 
@@ -490,7 +510,6 @@
             }
         }
 
-        // LA MODIFICA È QUI: la funzione ora si chiama salvaEvento
         async function salvaEvento(e) {
             e.preventDefault();
             const ev = { id: 'e_'+Date.now(), nome: document.getElementById('ae-nome').value, data: document.getElementById('ae-data').value, costo: document.getElementById('ae-costo').value };
