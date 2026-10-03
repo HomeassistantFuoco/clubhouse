@@ -7,19 +7,12 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
-                        ch: { 
-                            primary: '#1b3b5c',
-                            secondary: '#2d68c4',
-                            accent: '#d4af37',
-                            light: '#f8f9fa',
-                            dark: '#0f172a'
-                        }
+                        ch: { primary: '#1b3b5c', secondary: '#2d68c4', accent: '#d4af37', light: '#f8f9fa', dark: '#0f172a' }
                     }
                 }
             }
@@ -37,7 +30,6 @@
 </head>
 <body class="flex flex-col min-h-screen selection:bg-ch-primary selection:text-white">
 
-    <!-- HEADER -->
     <header class="bg-white/95 backdrop-blur-md sticky top-0 z-50 border-b border-slate-200 shadow-sm">
         <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
             <div class="flex items-center space-x-3.5 cursor-pointer group" onclick="goHome()">
@@ -62,9 +54,8 @@
         </div>
     </header>
 
-    <!-- MAIN CONTENT -->
     <main class="flex-grow w-full">
-        
+
         <!-- HOME -->
         <div id="home" class="view active">
             <div class="hero-gradient text-white py-20 px-6 text-center relative overflow-hidden shadow-xl">
@@ -79,22 +70,17 @@
                     </div>
                 </div>
             </div>
-
             <div class="max-w-7xl mx-auto px-6 py-12">
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-10">
                     <div>
                         <div class="flex items-center justify-between mb-6">
-                            <h3 class="text-xl font-extrabold text-slate-900 flex items-center">
-                                <span class="w-2.5 h-6 bg-ch-primary rounded-full mr-2.5"></span> Viaggi Programmati
-                            </h3>
+                            <h3 class="text-xl font-extrabold text-slate-900 flex items-center"><span class="w-2.5 h-6 bg-ch-primary rounded-full mr-2.5"></span> Viaggi Programmati</h3>
                         </div>
                         <div id="dynamic-trips-list" class="space-y-4"></div>
                     </div>
                     <div>
                         <div class="flex items-center justify-between mb-6">
-                            <h3 class="text-xl font-extrabold text-slate-900 flex items-center">
-                                <span class="w-2.5 h-6 bg-amber-600 rounded-full mr-2.5"></span> Eventi & Incontri
-                            </h3>
+                            <h3 class="text-xl font-extrabold text-slate-900 flex items-center"><span class="w-2.5 h-6 bg-amber-600 rounded-full mr-2.5"></span> Eventi & Incontri</h3>
                         </div>
                         <div id="dynamic-events-list" class="space-y-4"></div>
                     </div>
@@ -102,7 +88,7 @@
             </div>
         </div>
 
-        <!-- BROCHURE / ATTIVITA' -->
+        <!-- BROCHURE -->
         <div id="brochure" class="view max-w-5xl mx-auto py-16 px-6">
             <div class="glass-card rounded-3xl p-8 md:p-12 shadow-sm border border-slate-200">
                 <div class="flex justify-between items-center mb-8 pb-4 border-b border-slate-200">
@@ -112,7 +98,6 @@
                     </div>
                     <button onclick="goHome()" class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-4 py-2 rounded-xl text-xs font-bold transition">Indietro</button>
                 </div>
-                
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
                     <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200/60">
                         <h3 class="font-extrabold text-ch-primary text-base mb-3 flex items-center"><i class="fas fa-heart text-red-500 mr-2"></i> La Nostra Filosofia</h3>
@@ -127,41 +112,15 @@
                         <p class="text-slate-600 text-xs"><strong>Web:</strong> www.associazionenovello.it</p>
                     </div>
                 </div>
-
                 <h3 class="font-extrabold text-lg text-slate-900 mb-6 flex items-center"><i class="fas fa-star text-ch-accent mr-2"></i> I Nostri Punti di Forza</h3>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-12">
-                    <div class="p-5 bg-white rounded-2xl border border-slate-200 shadow-sm">
-                        <div class="text-ch-primary text-lg mb-2"><i class="fas fa-book-open"></i></div>
-                        <h4 class="font-bold text-xs text-slate-900 mb-1">Attività Culturali</h4>
-                        <p class="text-[11px] text-slate-500">Presentazioni di libri, incontri con autori, conferenze e dibattiti.</p>
-                    </div>
-                    <div class="p-5 bg-white rounded-2xl border border-slate-200 shadow-sm">
-                        <div class="text-ch-primary text-lg mb-2"><i class="fas fa-film"></i></div>
-                        <h4 class="font-bold text-xs text-slate-900 mb-1">Proiezioni e Cinema</h4>
-                        <p class="text-[11px] text-slate-500">Film, documentari e momenti di confronto e condivisione.</p>
-                    </div>
-                    <div class="p-5 bg-white rounded-2xl border border-slate-200 shadow-sm">
-                        <div class="text-ch-primary text-lg mb-2"><i class="fas fa-heartbeat"></i></div>
-                        <h4 class="font-bold text-xs text-slate-900 mb-1">Salute e Benessere</h4>
-                        <p class="text-[11px] text-slate-500">Incontri con medici ed esperti su prevenzione e stili di vita.</p>
-                    </div>
-                    <div class="p-5 bg-white rounded-2xl border border-slate-200 shadow-sm">
-                        <div class="text-ch-primary text-lg mb-2"><i class="fas fa-plane"></i></div>
-                        <h4 class="font-bold text-xs text-slate-900 mb-1">Viaggi ed Escursioni</h4>
-                        <p class="text-[11px] text-slate-500">Itinerari culturali, naturalistici e turistici alla scoperta di nuovi territori.</p>
-                    </div>
-                    <div class="p-5 bg-white rounded-2xl border border-slate-200 shadow-sm">
-                        <div class="text-ch-primary text-lg mb-2"><i class="fas fa-music"></i></div>
-                        <h4 class="font-bold text-xs text-slate-900 mb-1">Musica e Serate</h4>
-                        <p class="text-[11px] text-slate-500">Eventi musicali, apericena e momenti di convivialità.</p>
-                    </div>
-                    <div class="p-5 bg-white rounded-2xl border border-slate-200 shadow-sm">
-                        <div class="text-ch-primary text-lg mb-2"><i class="fas fa-users"></i></div>
-                        <h4 class="font-bold text-xs text-slate-900 mb-1">Socialità e Amicizia</h4>
-                        <p class="text-[11px] text-slate-500">Un ambiente accogliente dove condividere esperienze e creare nuove relazioni.</p>
-                    </div>
+                    <div class="p-5 bg-white rounded-2xl border border-slate-200 shadow-sm"><div class="text-ch-primary text-lg mb-2"><i class="fas fa-book-open"></i></div><h4 class="font-bold text-xs text-slate-900 mb-1">Attività Culturali</h4><p class="text-[11px] text-slate-500">Presentazioni di libri, incontri con autori, conferenze e dibattiti.</p></div>
+                    <div class="p-5 bg-white rounded-2xl border border-slate-200 shadow-sm"><div class="text-ch-primary text-lg mb-2"><i class="fas fa-film"></i></div><h4 class="font-bold text-xs text-slate-900 mb-1">Proiezioni e Cinema</h4><p class="text-[11px] text-slate-500">Film, documentari e momenti di confronto e condivisione.</p></div>
+                    <div class="p-5 bg-white rounded-2xl border border-slate-200 shadow-sm"><div class="text-ch-primary text-lg mb-2"><i class="fas fa-heartbeat"></i></div><h4 class="font-bold text-xs text-slate-900 mb-1">Salute e Benessere</h4><p class="text-[11px] text-slate-500">Incontri con medici ed esperti su prevenzione e stili di vita.</p></div>
+                    <div class="p-5 bg-white rounded-2xl border border-slate-200 shadow-sm"><div class="text-ch-primary text-lg mb-2"><i class="fas fa-plane"></i></div><h4 class="font-bold text-xs text-slate-900 mb-1">Viaggi ed Escursioni</h4><p class="text-[11px] text-slate-500">Itinerari culturali, naturalistici e turistici alla scoperta di nuovi territori.</p></div>
+                    <div class="p-5 bg-white rounded-2xl border border-slate-200 shadow-sm"><div class="text-ch-primary text-lg mb-2"><i class="fas fa-music"></i></div><h4 class="font-bold text-xs text-slate-900 mb-1">Musica e Serate</h4><p class="text-[11px] text-slate-500">Eventi musicali, apericena e momenti di convivialità.</p></div>
+                    <div class="p-5 bg-white rounded-2xl border border-slate-200 shadow-sm"><div class="text-ch-primary text-lg mb-2"><i class="fas fa-users"></i></div><h4 class="font-bold text-xs text-slate-900 mb-1">Socialità e Amicizia</h4><p class="text-[11px] text-slate-500">Un ambiente accogliente dove condividere esperienze e creare nuove relazioni.</p></div>
                 </div>
-
                 <div class="bg-ch-primary text-white p-6 rounded-2xl flex flex-col md:flex-row justify-between items-center">
                     <div>
                         <h4 class="font-extrabold text-sm mb-1">Condizioni di Partecipazione</h4>
@@ -172,7 +131,7 @@
             </div>
         </div>
 
-        <!-- CONDIZIONI DI PARTECIPAZIONE -->
+        <!-- CONDIZIONI -->
         <div id="conditions" class="view max-w-4xl mx-auto py-16 px-6">
             <div class="glass-card rounded-3xl p-8 md:p-12 shadow-sm border border-slate-200">
                 <div class="flex justify-between items-center mb-6 pb-4 border-b border-slate-200">
@@ -190,7 +149,7 @@
             </div>
         </div>
 
-        <!-- ACCESSO & REGISTRAZIONE -->
+        <!-- ACCESSO -->
         <div id="auth" class="view max-w-md mx-auto py-16 px-6">
             <div class="glass-card rounded-3xl overflow-hidden shadow-xl border border-slate-200">
                 <div class="flex bg-slate-100 p-1.5 m-2 rounded-2xl">
@@ -211,7 +170,6 @@
                         </div>
                         <button type="submit" class="w-full hero-gradient text-white font-bold py-3.5 rounded-xl text-sm shadow-md hover:opacity-95 transition mt-2">Accedi</button>
                     </form>
-
                     <form id="form-user-register" onsubmit="userRegister(event)" class="hidden space-y-3.5">
                         <h2 class="text-xl font-extrabold text-slate-900 mb-1">Nuovo Socio</h2>
                         <p class="text-xs text-slate-400 mb-4">Compila i dati per la registrazione associativa.</p>
@@ -237,16 +195,14 @@
                         <span class="text-[11px] font-bold text-ch-primary uppercase tracking-wider block mb-1">Area Riservata</span>
                         <h2 class="text-2xl font-extrabold text-slate-900" id="ud-welcome">Benvenuto</h2>
                     </div>
-                    <button onclick="userLogout()" class="bg-red-50 hover:bg-red-100 text-red-600 px-4 py-2 rounded-xl text-xs font-bold transition flex items-center">
-                        <i class="fas fa-sign-out-alt mr-1.5"></i> Esci
-                    </button>
+                    <button onclick="userLogout()" class="bg-red-50 hover:bg-red-100 text-red-600 px-4 py-2 rounded-xl text-xs font-bold transition flex items-center"><i class="fas fa-sign-out-alt mr-1.5"></i> Esci</button>
                 </div>
                 <h3 class="font-extrabold text-sm text-slate-700 uppercase tracking-wide mb-4">Le tue prenotazioni</h3>
                 <div id="ud-bookings" class="space-y-3"></div>
             </div>
         </div>
 
-        <!-- PANNELLO ADMIN -->
+        <!-- ADMIN -->
         <div id="admin" class="view max-w-6xl mx-auto py-16 px-6">
             <div class="flex justify-between items-center mb-8 hero-gradient text-white p-6 md:p-8 rounded-3xl shadow-lg border border-ch-accent/30">
                 <div>
@@ -255,7 +211,6 @@
                 </div>
                 <button onclick="adminLogout()" class="bg-white/10 hover:bg-white/20 text-white px-4 py-2.5 rounded-xl text-xs font-bold transition border border-white/20">Chiudi Admin</button>
             </div>
-            
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
                 <div class="bg-white p-6 md:p-8 rounded-3xl shadow-sm border border-slate-200">
                     <h3 class="font-extrabold text-base text-ch-primary mb-4 flex items-center"><i class="fas fa-plane-departure mr-2 text-ch-accent"></i> Crea Nuovo Viaggio</h3>
@@ -265,11 +220,10 @@
                             <input type="date" id="at-da" required class="px-3.5 py-3 rounded-xl bg-slate-50 border border-slate-200 text-xs">
                             <input type="date" id="at-al" required class="px-3.5 py-3 rounded-xl bg-slate-50 border border-slate-200 text-xs">
                         </div>
-                        <input type="text" id="at-costo" placeholder="Note / Costo (es. € 150 a persona)" required class="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 text-xs">
+                        <input type="text" id="at-costo" placeholder="Note / Costo (es. € 150 a persona)" required class="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 text-xs focus:outline-none focus:border-ch-primary">
                         <button type="submit" class="w-full hero-gradient text-white py-3 rounded-xl text-xs font-bold shadow-sm hover:opacity-95 transition">Pubblica Viaggio</button>
                     </form>
                 </div>
-                
                 <div class="bg-white p-6 md:p-8 rounded-3xl shadow-sm border border-slate-200">
                     <h3 class="font-extrabold text-base text-amber-600 mb-4 flex items-center"><i class="fas fa-glass-cheers mr-2"></i> Crea Nuovo Evento</h3>
                     <form id="form-create-event" onsubmit="salvaEvento(event)" class="space-y-3.5">
@@ -280,7 +234,6 @@
                     </form>
                 </div>
             </div>
-
             <div class="bg-white p-6 md:p-8 rounded-3xl shadow-sm border border-slate-200">
                 <h3 class="font-extrabold text-base text-slate-900 mb-6 flex items-center"><i class="fas fa-clipboard-list mr-2 text-slate-400"></i> Registro Iscrizioni e Prenotazioni</h3>
                 <div class="overflow-x-auto">
@@ -300,7 +253,6 @@
         </div>
     </main>
 
-    <!-- FOOTER -->
     <footer class="bg-ch-dark text-slate-400 py-10 mt-auto text-center border-t border-slate-800">
         <div class="max-w-7xl mx-auto px-6 flex flex-col items-center justify-center space-y-4">
             <p class="text-xs text-slate-500">Associazione Giuseppe Novello • Esperienze, persone, luoghi. Sempre con te.</p>
@@ -310,217 +262,304 @@
         </div>
     </footer>
 
-    <!-- JAVASCRIPT -->
-    <script>
-        const WORKER_URL = "https://clubhouse-api.francesco-fuoco.workers.dev";
-        let db = { users: [], trips: [], events: [], registrations: [] };
-        let currentUser = JSON.parse(sessionStorage.getItem('ch_currentUser')) || null;
-        let pendingBooking = null;
+<script>
+    const WORKER_URL = "https://clubhouse-api.francesco-fuoco.workers.dev";
+    let db = { users: [], trips: [], events: [], registrations: [] };
+    let currentUser = null;
+    try { currentUser = JSON.parse(sessionStorage.getItem('ch_currentUser')); } catch (e) { currentUser = null; }
+    let pendingBooking = null;
+    let booking = false;
 
-        async function loadDbFromCloud() {
-            try {
-                const res = await fetch(`${WORKER_URL}/api/get-data`);
-                if(!res.ok) throw new Error("Server error");
-                db = await res.json();
-                
-                db.users = db.users || [];
-                db.trips = db.trips || [];
-                db.events = db.events || [];
-                db.registrations = db.registrations || [];
-                
-                renderHome();
-                if(currentUser) renderUserDashboard();
-                return true;
-            } catch(e) { 
-                console.error(e);
-                return false; 
-            }
+    function esc(s) {
+        return String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+    }
+
+    async function fetchWithTimeout(url, options = {}, ms = 10000) {
+        const ctrl = new AbortController();
+        const t = setTimeout(() => ctrl.abort(), ms);
+        try {
+            return await fetch(url, { ...options, signal: ctrl.signal });
+        } finally {
+            clearTimeout(t);
         }
+    }
 
-        async function sendToCloud(action, payload) {
-            try {
-                const response = await fetch(`${WORKER_URL}/api/save-data`, {
-                    method: "POST", headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ action, ...payload })
-                });
-                const result = await response.json();
-                if (!response.ok || !result.success) throw new Error(result.error);
-                await loadDbFromCloud();
-                return true;
-            } catch(e) {
-                Swal.fire('Errore', 'Impossibile salvare sul database cloud.', 'error');
-                return false;
-            }
-        }
-
-        function showView(viewId) {
-            document.querySelectorAll('.view').forEach(el => el.classList.remove('active'));
-            document.getElementById(viewId).classList.add('active');
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-            updateHeader();
-            if(viewId === 'home') renderHome();
-            if(viewId === 'user-dashboard') renderUserDashboard();
-            if(viewId === 'admin') renderAdmin();
-        }
-
-        function goHome() { pendingBooking = null; showView('home'); }
-
-        function updateHeader() {
-            const actions = document.getElementById('header-user-actions');
-            if(currentUser) {
-                actions.innerHTML = `<button onclick="showView('user-dashboard')" class="text-xs font-bold bg-ch-accent text-ch-dark px-4 py-2.5 rounded-xl shadow-sm hover:bg-amber-400 transition flex items-center"><i class="fas fa-user-circle mr-1.5"></i> ${currentUser.nome}</button>`;
-            } else {
-                actions.innerHTML = `<button onclick="showAuth()" class="text-xs font-bold bg-ch-primary text-white px-5 py-2.5 rounded-xl shadow-sm hover:bg-ch-secondary transition flex items-center"><i class="fas fa-user mr-2 text-ch-accent"></i> Area Soci</button>`;
-            }
-        }
-
-        function renderHome() {
-            document.getElementById('dynamic-trips-list').innerHTML = db.trips.map(t => `
-                <div class="glass-card p-5 rounded-2xl flex justify-between items-center border-l-4 border-l-ch-primary hover:shadow-md transition">
-                    <div>
-                        <h4 class="font-extrabold text-sm text-slate-900">${t.dest}</h4>
-                        <p class="text-xs text-slate-500 mt-0.5"><i class="far fa-calendar-alt mr-1"></i> Dal ${t.da} al ${t.al}</p>
-                        <p class="text-xs font-semibold text-ch-primary mt-1">${t.note}</p>
-                    </div>
-                    <button onclick="initBooking('${t.dest}', 'Viaggio')" class="bg-ch-primary hover:bg-ch-secondary text-white px-4 py-2.5 rounded-xl text-xs font-bold transition shadow-sm">Partecipa</button>
-                </div>`).join('') || '<div class="glass-card p-6 rounded-2xl text-center text-slate-400 text-xs italic">Nessun viaggio in programma al momento.</div>';
-
-            document.getElementById('dynamic-events-list').innerHTML = db.events.map(e => `
-                <div class="glass-card p-5 rounded-2xl flex justify-between items-center border-l-4 border-l-amber-600 hover:shadow-md transition">
-                    <div>
-                        <h4 class="font-extrabold text-sm text-slate-900">${e.nome}</h4>
-                        <p class="text-xs text-slate-500 mt-0.5"><i class="far fa-clock mr-1"></i> ${e.data}</p>
-                        <p class="text-xs font-bold text-amber-600 mt-1">Quota: €${e.costo}</p>
-                    </div>
-                    <button onclick="initBooking('${e.nome}', 'Evento')" class="bg-amber-600 hover:bg-amber-700 text-white px-4 py-2.5 rounded-xl text-xs font-bold transition shadow-sm">Prenota</button>
-                </div>`).join('') || '<div class="glass-card p-6 rounded-2xl text-center text-slate-400 text-xs italic">Nessun evento in programma al momento.</div>';
-        }
-
-        function initBooking(eventName, type) {
-            pendingBooking = { eventName, type };
-            if(!currentUser) { 
-                Swal.fire({ title: 'Area Riservata', text: 'Devi effettuare l accesso per prenotare.', icon: 'info', confirmButtonColor: '#1b3b5c' }).then(()=> showAuth()); 
-            } else { 
-                finalizeBooking(); 
-            }
-        }
-
-        async function finalizeBooking() {
-            const newReg = {
-                id: 'r_' + Date.now(), dataReg: new Date().toLocaleDateString('it-IT'),
-                evento: pendingBooking.eventName, tipo: pendingBooking.tipo,
-                userId: currentUser.email, nome: currentUser.nome, cognome: currentUser.cognome, dettagli: "Confermato"
+    async function loadDbFromCloud() {
+        try {
+            const res = await fetchWithTimeout(`${WORKER_URL}/api/get-data`);
+            if (!res.ok) throw new Error("Server error " + res.status);
+            const data = await res.json();
+            db = {
+                users: data.users || [],
+                trips: data.trips || [],
+                events: data.events || [],
+                registrations: data.registrations || []
             };
-            const success = await sendToCloud("add_registration", { registration: newReg });
-            if(success) Swal.fire({ title: 'Prenotazione Effettuata!', text: 'La tua richiesta è stata registrata con successo.', icon: 'success', confirmButtonColor: '#1b3b5c' }).then(()=> showView('user-dashboard'));
+            renderHome();
+            if (currentUser) renderUserDashboard();
+            return true;
+        } catch (e) {
+            console.error("loadDbFromCloud:", e);
+            return false;
         }
+    }
 
-        function showAuth() { if(currentUser) showView('user-dashboard'); else { switchAuthTab('login'); showView('auth'); } }
-        
-        function switchAuthTab(tab) {
-            if(tab==='login') {
-                document.getElementById('form-user-login').classList.remove('hidden'); document.getElementById('form-user-register').classList.add('hidden');
-                document.getElementById('tab-login').classList.add('active'); document.getElementById('tab-register').classList.remove('active');
-            } else {
-                document.getElementById('form-user-login').classList.add('hidden'); document.getElementById('form-user-register').classList.remove('hidden');
-                document.getElementById('tab-login').classList.remove('active'); document.getElementById('tab-register').classList.add('active');
-            }
+    async function sendToCloud(action, payload) {
+        try {
+            const response = await fetchWithTimeout(`${WORKER_URL}/api/save-data`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ action, ...payload })
+            });
+            let result = {};
+            try { result = await response.json(); } catch (e) {}
+            if (!response.ok || !result.success) throw new Error(result.error || ("HTTP " + response.status));
+            await loadDbFromCloud();
+            return true;
+        } catch (e) {
+            console.error("sendToCloud:", e);
+            const msg = e.name === 'AbortError' ? 'Il server non risponde (timeout).' : 'Impossibile salvare sul database cloud. ' + e.message;
+            Swal.fire('Errore', msg, 'error');
+            return false;
         }
+    }
 
-        async function userRegister(e) {
-            e.preventDefault();
-            Swal.fire({ title: 'Registrazione in corso...', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
-            
-            const newUser = {
-                email: document.getElementById('ru-email').value.toLowerCase().trim(), password: document.getElementById('ru-pass').value,
-                nome: document.getElementById('ru-nome').value, cognome: document.getElementById('ru-cognome').value,
-                cf: document.getElementById('ru-cf').value, tel: document.getElementById('ru-tel').value, docs: []
-            };
-            const success = await sendToCloud("register_user", { user: newUser });
-            if(success) {
-                currentUser = newUser; sessionStorage.setItem('ch_currentUser', JSON.stringify(currentUser));
-                Swal.fire({ title: 'Benvenuto!', text: 'Registrazione completata con successo.', icon: 'success', confirmButtonColor: '#1b3b5c' }).then(() => showView('user-dashboard'));
-            }
+    function showView(viewId) {
+        document.querySelectorAll('.view').forEach(el => el.classList.remove('active'));
+        document.getElementById(viewId).classList.add('active');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        updateHeader();
+        if (viewId === 'home') renderHome();
+        if (viewId === 'user-dashboard') renderUserDashboard();
+        if (viewId === 'admin') renderAdmin();
+    }
+
+    function goHome() { pendingBooking = null; showView('home'); }
+
+    function updateHeader() {
+        const actions = document.getElementById('header-user-actions');
+        if (currentUser) {
+            actions.innerHTML = `<button onclick="showView('user-dashboard')" class="text-xs font-bold bg-ch-accent text-ch-dark px-4 py-2.5 rounded-xl shadow-sm hover:bg-amber-400 transition flex items-center"><i class="fas fa-user-circle mr-1.5"></i> ${esc(currentUser.nome)}</button>`;
+        } else {
+            actions.innerHTML = `<button onclick="showAuth()" class="text-xs font-bold bg-ch-primary text-white px-5 py-2.5 rounded-xl shadow-sm hover:bg-ch-secondary transition flex items-center"><i class="fas fa-user mr-2 text-ch-accent"></i> Area Soci</button>`;
         }
+    }
 
-        async function userLogin(e) {
-            e.preventDefault();
-            
-            // Nuova gestione errori per il LOGIN: Nessun blocco silenzioso
-            Swal.fire({ title: 'Accesso in corso...', text: 'Verifica delle credenziali...', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
-            
-            const success = await loadDbFromCloud();
-            
-            if (!success) {
-                Swal.fire({ title: 'Errore Database', text: 'Impossibile connettersi a Cloudflare. Assicurati di aver creato tutte le tabelle nel database.', icon: 'error', confirmButtonColor: '#1b3b5c' });
+    function renderHome() {
+        document.getElementById('dynamic-trips-list').innerHTML = db.trips.map((t, i) => `
+            <div class="glass-card p-5 rounded-2xl flex justify-between items-center border-l-4 border-l-ch-primary hover:shadow-md transition">
+                <div>
+                    <h4 class="font-extrabold text-sm text-slate-900">${esc(t.dest)}</h4>
+                    <p class="text-xs text-slate-500 mt-0.5"><i class="far fa-calendar-alt mr-1"></i> Dal ${esc(t.da)} al ${esc(t.al)}</p>
+                    <p class="text-xs font-semibold text-ch-primary mt-1">${esc(t.note)}</p>
+                </div>
+                <button onclick="initBooking(db.trips[${i}].dest, 'Viaggio')" class="bg-ch-primary hover:bg-ch-secondary text-white px-4 py-2.5 rounded-xl text-xs font-bold transition shadow-sm">Partecipa</button>
+            </div>`).join('') || '<div class="glass-card p-6 rounded-2xl text-center text-slate-400 text-xs italic">Nessun viaggio in programma al momento.</div>';
+
+        document.getElementById('dynamic-events-list').innerHTML = db.events.map((e, i) => `
+            <div class="glass-card p-5 rounded-2xl flex justify-between items-center border-l-4 border-l-amber-600 hover:shadow-md transition">
+                <div>
+                    <h4 class="font-extrabold text-sm text-slate-900">${esc(e.nome)}</h4>
+                    <p class="text-xs text-slate-500 mt-0.5"><i class="far fa-clock mr-1"></i> ${esc(e.data)}</p>
+                    <p class="text-xs font-bold text-amber-600 mt-1">Quota: ${esc(e.costo)}</p>
+                </div>
+                <button onclick="initBooking(db.events[${i}].nome, 'Evento')" class="bg-amber-600 hover:bg-amber-700 text-white px-4 py-2.5 rounded-xl text-xs font-bold transition shadow-sm">Prenota</button>
+            </div>`).join('') || '<div class="glass-card p-6 rounded-2xl text-center text-slate-400 text-xs italic">Nessun evento in programma al momento.</div>';
+    }
+
+    function initBooking(eventName, type) {
+        pendingBooking = { eventName, type };
+        if (!currentUser) {
+            Swal.fire({ title: 'Area Riservata', text: 'Devi effettuare l\'accesso per prenotare.', icon: 'info', confirmButtonColor: '#1b3b5c' }).then(() => showAuth());
+        } else {
+            finalizeBooking();
+        }
+    }
+
+    async function finalizeBooking() {
+        if (booking || !pendingBooking) return;
+        booking = true;
+        try {
+            const already = db.registrations.some(r => r.userId === currentUser.email && r.evento === pendingBooking.eventName && r.tipo === pendingBooking.type);
+            if (already) {
+                pendingBooking = null;
+                await Swal.fire({ title: 'Già prenotato', text: 'Risulti già iscritto a questa attività.', icon: 'info', confirmButtonColor: '#1b3b5c' });
+                showView('user-dashboard');
                 return;
             }
-            
-            const email = document.getElementById('lu-email').value.toLowerCase().trim();
-            const pass = document.getElementById('lu-pass').value;
-            const user = db.users.find(u => u.email === email && u.password === pass);
-            
-            if(user) {
-                currentUser = user; sessionStorage.setItem('ch_currentUser', JSON.stringify(currentUser));
-                Swal.close();
-                if(pendingBooking) finalizeBooking(); else showView('user-dashboard');
-            } else { 
-                Swal.fire({ title: 'Accesso Negato', text: 'Email o password errati. Assicurati di esserti prima registrato.', icon: 'error', confirmButtonColor: '#1b3b5c' }); 
+            const newReg = {
+                id: 'r_' + Date.now(),
+                dataReg: new Date().toLocaleDateString('it-IT'),
+                evento: pendingBooking.eventName,
+                tipo: pendingBooking.type,
+                userId: currentUser.email,
+                nome: currentUser.nome,
+                cognome: currentUser.cognome,
+                dettagli: "Confermato"
+            };
+            const success = await sendToCloud("add_registration", { registration: newReg });
+            pendingBooking = null;
+            if (success) {
+                await Swal.fire({ title: 'Prenotazione Effettuata!', text: 'La tua richiesta è stata registrata con successo.', icon: 'success', confirmButtonColor: '#1b3b5c' });
+                showView('user-dashboard');
             }
+        } finally {
+            booking = false;
+        }
+    }
+
+    function showAuth() {
+        if (currentUser) showView('user-dashboard');
+        else { switchAuthTab('login'); showView('auth'); }
+    }
+
+    function switchAuthTab(tab) {
+        const isLogin = tab === 'login';
+        document.getElementById('form-user-login').classList.toggle('hidden', !isLogin);
+        document.getElementById('form-user-register').classList.toggle('hidden', isLogin);
+        document.getElementById('tab-login').classList.toggle('active', isLogin);
+        document.getElementById('tab-register').classList.toggle('active', !isLogin);
+    }
+
+    async function userRegister(e) {
+        e.preventDefault();
+        const email = document.getElementById('ru-email').value.toLowerCase().trim();
+        Swal.fire({ title: 'Registrazione in corso...', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
+
+        if (db.users.some(u => u.email === email)) {
+            Swal.fire({ title: 'Email già registrata', text: 'Prova ad accedere.', icon: 'warning', confirmButtonColor: '#1b3b5c' });
+            return;
         }
 
-        function userLogout() { currentUser = null; sessionStorage.removeItem('ch_currentUser'); goHome(); }
+        const newUser = {
+            email,
+            password: document.getElementById('ru-pass').value,
+            nome: document.getElementById('ru-nome').value.trim(),
+            cognome: document.getElementById('ru-cognome').value.trim(),
+            cf: document.getElementById('ru-cf').value.toUpperCase().trim(),
+            tel: document.getElementById('ru-tel').value.trim(),
+            docs: []
+        };
+        const success = await sendToCloud("register_user", { user: newUser });
+        if (success) {
+            currentUser = newUser;
+            sessionStorage.setItem('ch_currentUser', JSON.stringify(currentUser));
+            await Swal.fire({ title: 'Benvenuto!', text: 'Registrazione completata con successo.', icon: 'success', confirmButtonColor: '#1b3b5c' });
+            if (pendingBooking) finalizeBooking(); else showView('user-dashboard');
+        }
+    }
 
-        function renderUserDashboard() {
-            document.getElementById('ud-welcome').innerText = `Ciao, ${currentUser.nome}!`;
-            const myRegs = db.registrations.filter(r => r.userId === currentUser.email).reverse();
-            document.getElementById('ud-bookings').innerHTML = myRegs.map(r => `
-                <div class="p-4 bg-slate-50 border border-slate-200 rounded-2xl flex justify-between items-center">
-                    <div>
-                        <span class="font-extrabold text-xs text-slate-900 block">${r.evento}</span>
-                        <span class="text-[11px] text-slate-400">Tipologia: ${r.tipo}</span>
-                    </div>
-                    <span class="text-[11px] font-bold text-ch-primary bg-ch-accent/20 px-3 py-1 rounded-full">${r.dataReg}</span>
-                </div>`).join('') || '<p class="text-slate-400 text-xs italic">Nessuna prenotazione attiva al momento.</p>';
+    async function userLogin(e) {
+        e.preventDefault();
+        Swal.fire({ title: 'Accesso in corso...', text: 'Verifica delle credenziali...', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
+
+        const success = await loadDbFromCloud();
+        if (!success) {
+            Swal.fire({ title: 'Errore Database', text: 'Impossibile connettersi al server (Cloudflare Worker). Controlla la Console del browser (F12) e i log del Worker.', icon: 'error', confirmButtonColor: '#1b3b5c' });
+            return;
         }
 
-        function adminLoginPrompt() {
-            Swal.fire({ 
-                title: 'Accesso Segreteria', 
-                html: '<input id="swal-user" class="swal2-input !text-xs" placeholder="Utente"><input id="swal-pass" type="password" class="swal2-input !text-xs" placeholder="Password">',
-                confirmButtonText: 'Accedi', confirmButtonColor: '#1b3b5c',
-                preConfirm: () => {
-                    if(document.getElementById('swal-user').value === 'admin' && document.getElementById('swal-pass').value === 'Giuliano59') { 
-                        showView('admin'); 
-                    } else { 
-                        Swal.showValidationMessage('Credenziali segreteria errate'); 
-                    }
+        const email = document.getElementById('lu-email').value.toLowerCase().trim();
+        const pass = document.getElementById('lu-pass').value;
+        const user = db.users.find(u => u.email === email && u.password === pass);
+
+        if (user) {
+            currentUser = user;
+            sessionStorage.setItem('ch_currentUser', JSON.stringify(currentUser));
+            Swal.close();
+            if (pendingBooking) finalizeBooking(); else showView('user-dashboard');
+        } else {
+            Swal.fire({ title: 'Accesso Negato', text: 'Email o password errati. Assicurati di esserti prima registrato.', icon: 'error', confirmButtonColor: '#1b3b5c' });
+        }
+    }
+
+    function userLogout() { currentUser = null; sessionStorage.removeItem('ch_currentUser'); goHome(); }
+
+    function renderUserDashboard() {
+        if (!currentUser) return;
+        document.getElementById('ud-welcome').innerText = `Ciao, ${currentUser.nome}!`;
+        const myRegs = db.registrations.filter(r => r.userId === currentUser.email).reverse();
+        document.getElementById('ud-bookings').innerHTML = myRegs.map(r => `
+            <div class="p-4 bg-slate-50 border border-slate-200 rounded-2xl flex justify-between items-center">
+                <div>
+                    <span class="font-extrabold text-xs text-slate-900 block">${esc(r.evento)}</span>
+                    <span class="text-[11px] text-slate-400">Tipologia: ${esc(r.tipo)}</span>
+                </div>
+                <span class="text-[11px] font-bold text-ch-primary bg-ch-accent/20 px-3 py-1 rounded-full">${esc(r.dataReg)}</span>
+            </div>`).join('') || '<p class="text-slate-400 text-xs italic">Nessuna prenotazione attiva al momento.</p>';
+    }
+
+    function renderAdmin() {
+        const body = document.getElementById('admin-table-body');
+        const regs = [...db.registrations].reverse();
+        body.innerHTML = regs.map(r => `
+            <tr>
+                <td class="py-3 pr-3 text-slate-500">${esc(r.dataReg)}</td>
+                <td class="py-3 pr-3 font-bold text-slate-900">${esc(r.evento)} <span class="text-[10px] text-slate-400 font-normal">(${esc(r.tipo)})</span></td>
+                <td class="py-3 pr-3">${esc(r.nome)} ${esc(r.cognome)}<br><span class="text-[11px] text-slate-400">${esc(r.userId)}</span></td>
+                <td class="py-3 text-slate-500">${esc(r.dettagli)}</td>
+            </tr>`).join('') || '<tr><td colspan="4" class="py-6 text-center text-slate-400 italic">Nessuna iscrizione registrata.</td></tr>';
+    }
+
+    function adminLoginPrompt() {
+        Swal.fire({
+            title: 'Accesso Segreteria',
+            html: '<input id="swal-user" class="swal2-input !text-xs" placeholder="Utente"><input id="swal-pass" type="password" class="swal2-input !text-xs" placeholder="Password">',
+            confirmButtonText: 'Accedi', confirmButtonColor: '#1b3b5c',
+            preConfirm: () => {
+                if (document.getElementById('swal-user').value === 'admin' && document.getElementById('swal-pass').value === 'Giuliano59') {
+                    return true;
                 }
-            });
-        }
-        function adminLogout() { goHome(); }
-
-        async function createTrip(e) {
-            e.preventDefault();
-            const t = { id: 't_'+Date.now(), dest: document.getElementById('at-dest').value, da: document.getElementById('at-da').value, al: document.getElementById('at-al').value, note: document.getElementById('at-costo').value };
-            const success = await sendToCloud("add_trip", { trip: t });
-            if(success) { 
-                Swal.fire({ title: 'Pubblicato!', text: 'Il viaggio è ora online.', icon: 'success', confirmButtonColor: '#1b3b5c' }); 
-                document.getElementById('form-create-trip').reset(); 
+                Swal.showValidationMessage('Credenziali segreteria errate');
+                return false;
             }
-        }
-
-        async function salvaEvento(e) {
-            e.preventDefault();
-            const ev = { id: 'e_'+Date.now(), nome: document.getElementById('ae-nome').value, data: document.getElementById('ae-data').value, costo: document.getElementById('ae-costo').value };
-            const success = await sendToCloud("add_event", { event: ev });
-            if(success) { 
-                Swal.fire({ title: 'Pubblicato!', text: 'L\'evento è ora online.', icon: 'success', confirmButtonColor: '#1b3b5c' }); 
-                document.getElementById('form-create-event').reset(); 
+        }).then(async (r) => {
+            if (r.isConfirmed) {
+                await loadDbFromCloud();
+                showView('admin');
             }
-        }
+        });
+    }
+    function adminLogout() { goHome(); }
 
-        loadDbFromCloud();
-    </script>
+    async function createTrip(e) {
+        e.preventDefault();
+        const t = {
+            id: 't_' + Date.now(),
+            dest: document.getElementById('at-dest').value.trim(),
+            da: document.getElementById('at-da').value,
+            al: document.getElementById('at-al').value,
+            note: document.getElementById('at-costo').value.trim()
+        };
+        const success = await sendToCloud("add_trip", { trip: t });
+        if (success) {
+            Swal.fire({ title: 'Pubblicato!', text: 'Il viaggio è ora online.', icon: 'success', confirmButtonColor: '#1b3b5c' });
+            document.getElementById('form-create-trip').reset();
+        }
+    }
+
+    async function salvaEvento(e) {
+        e.preventDefault();
+        const ev = {
+            id: 'e_' + Date.now(),
+            nome: document.getElementById('ae-nome').value.trim(),
+            data: document.getElementById('ae-data').value,
+            costo: document.getElementById('ae-costo').value.trim()
+        };
+        const success = await sendToCloud("add_event", { event: ev });
+        if (success) {
+            Swal.fire({ title: 'Pubblicato!', text: 'L\'evento è ora online.', icon: 'success', confirmButtonColor: '#1b3b5c' });
+            document.getElementById('form-create-event').reset();
+        }
+    }
+
+    // Avvio: se il server non risponde lo segnalo invece di restare muto
+    loadDbFromCloud().then(ok => {
+        if (!ok) {
+            document.getElementById('dynamic-trips-list').innerHTML =
+                '<div class="glass-card p-6 rounded-2xl text-center text-red-500 text-xs">Impossibile contattare il server. Riprova tra poco.</div>';
+        }
+    });
+</script>
 </body>
 </html>
