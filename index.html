@@ -188,7 +188,7 @@
                             <input type="tel" id="ru-tel" placeholder="Telefono" required class="w-full px-3.5 py-2.5 rounded-xl bg-white border border-slate-200 text-xs focus:outline-none focus:border-ch-primary">
                             <input type="email" id="ru-email" placeholder="Email" required class="w-full px-3.5 py-2.5 rounded-xl bg-white border border-slate-200 text-xs focus:outline-none focus:border-ch-primary">
                         </div>
-                        <input type="password" id="ru-pass" placeholder="Crea Password (min. 6 caratteri)" minlength="6" required class="w-full px-3.5 py-2.5 rounded-xl bg-white border border-slate-200 text-xs focus:outline-none focus:border-ch-primary">
+                        <input type="password" id="ru-pass" placeholder="Crea Password (min. 10 caratteri)" minlength="10" required class="w-full px-3.5 py-2.5 rounded-xl bg-white border border-slate-200 text-xs focus:outline-none focus:border-ch-primary">
                         <p class="text-[11px] font-extrabold text-ch-primary uppercase tracking-wider pt-2">Documento di identità</p>
                         <div class="grid grid-cols-2 gap-3">
                             <select id="ru-tipodoc" required class="w-full px-3.5 py-2.5 rounded-xl bg-white border border-slate-200 text-xs focus:outline-none focus:border-ch-primary">
@@ -220,7 +220,10 @@
                     </div>
                     <button onclick="userLogout()" class="bg-red-50 hover:bg-red-100 text-red-600 px-4 py-2 rounded-xl text-xs font-bold transition flex items-center"><i class="fas fa-sign-out-alt mr-1.5"></i> Esci</button>
                 </div>
-                <h3 class="font-extrabold text-sm text-slate-700 uppercase tracking-wide mb-4">Le tue prenotazioni</h3>
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="font-extrabold text-sm text-slate-700 uppercase tracking-wide">Le tue prenotazioni</h3>
+                    <button onclick="changePasswordPrompt('user')" class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-4 py-2 rounded-xl text-xs font-bold transition"><i class="fas fa-key mr-1.5"></i> Cambia password</button>
+                </div>
                 <div id="ud-bookings" class="space-y-3"></div>
             </div>
         </div>
@@ -232,7 +235,7 @@
                     <span class="text-[11px] font-bold text-ch-accent uppercase tracking-wider block mb-1">Pannello di Controllo</span>
                     <h2 class="text-xl md:text-2xl font-extrabold"><i class="fas fa-shield-alt text-ch-accent mr-2"></i> Segreteria Club House</h2>
                 </div>
-                <button onclick="adminLogout()" class="bg-white/10 hover:bg-white/20 text-white px-4 py-2.5 rounded-xl text-xs font-bold transition border border-white/20">Chiudi Admin</button>
+                <div class="flex flex-wrap gap-2"><button onclick="changeUsernamePrompt()" class="bg-white/10 hover:bg-white/20 text-white px-4 py-2.5 rounded-xl text-xs font-bold transition border border-white/20"><i class="fas fa-user-edit mr-1.5"></i> Cambia utente</button><button onclick="changePasswordPrompt('admin')" class="bg-white/10 hover:bg-white/20 text-white px-4 py-2.5 rounded-xl text-xs font-bold transition border border-white/20"><i class="fas fa-key mr-1.5"></i> Cambia password</button><button onclick="adminLogout()" class="bg-white/10 hover:bg-white/20 text-white px-4 py-2.5 rounded-xl text-xs font-bold transition border border-white/20">Chiudi Admin</button></div>
             </div>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
                 <div class="bg-white p-6 md:p-8 rounded-3xl shadow-sm border border-slate-200">
@@ -301,68 +304,64 @@
     </footer>
 
 <script>
-    const WORKER_URL = "https://clubhouse-api.francesco-fuoco.workers.dev";
-    let db = { users: [], trips: [], events: [], registrations: [] };
-    let currentUser = null;
-    try { currentUser = JSON.parse(sessionStorage.getItem('ch_currentUser')); } catch (e) { currentUser = null; }
-    let pendingBooking = null;
-    let booking = false;
+    const API = "https://clubhouse-api.francesco-fuoco.workers.dev";
+    let db = { trips: [], events: [] };
+    let adminData = { users: [], registrations: [] };
+    let session = null;
+    try { session = JSON.parse(sessionStorage.getItem('ch_session')); } catch (e) { session = null; }
+    let currentUser = session && session.role === 'user' ? session.user : null;
+    let isAdmin = !!(session && session.role === 'admin');
+    let pendingBooking = null, booking = false, privacyAccepted = false;
 
     function esc(s) {
         return String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
     }
+    const swalOk = { confirmButtonColor: '#1b3b5c' };
 
-    async function fetchWithTimeout(url, options = {}, ms = 10000) {
+    function setSession(s) {
+        session = s;
+        currentUser = s && s.role === 'user' ? s.user : null;
+        isAdmin = !!(s && s.role === 'admin');
+        try { s ? sessionStorage.setItem('ch_session', JSON.stringify(s)) : sessionStorage.removeItem('ch_session'); } catch (e) {}
+    }
+
+    async function api(path, { method = 'GET', body, auth = true, ms = 20000 } = {}) {
         const ctrl = new AbortController();
         const t = setTimeout(() => ctrl.abort(), ms);
         try {
-            return await fetch(url, { ...options, signal: ctrl.signal });
-        } finally {
-            clearTimeout(t);
-        }
+            const headers = { 'Content-Type': 'application/json' };
+            if (auth && session) headers.Authorization = 'Bearer ' + session.token;
+            const res = await fetch(API + path, { method, headers, body: body ? JSON.stringify(body) : undefined, signal: ctrl.signal });
+            let data = {};
+            try { data = await res.json(); } catch (e) {}
+            if (!res.ok) {
+                if (res.status === 401 && auth) { setSession(null); updateHeader(); }
+                throw Object.assign(new Error(data.error || ('Errore ' + res.status)), { status: res.status });
+            }
+            return data;
+        } catch (e) {
+            if (e.name === 'AbortError') throw new Error('Il server non risponde (timeout).');
+            if (e instanceof TypeError) throw new Error('Impossibile contattare il server.');
+            throw e;
+        } finally { clearTimeout(t); }
     }
 
-    async function loadDbFromCloud() {
+    function fail(e, title = 'Errore') {
+        Swal.fire({ title, text: e.message, icon: 'error', ...swalOk }).then(() => { if (e.status === 401) goHome(); });
+    }
+
+    async function loadPublic() {
         try {
-            const res = await fetchWithTimeout(`${WORKER_URL}/api/get-data`);
-            if (!res.ok) throw new Error("Server error " + res.status);
-            const data = await res.json();
-            db = {
-                users: data.users || [],
-                trips: data.trips || [],
-                events: data.events || [],
-                registrations: data.registrations || []
-            };
+            const d = await api('/api/public-data', { auth: false });
+            db = { trips: d.trips || [], events: d.events || [] };
             renderHome();
-            if (currentUser) renderUserDashboard();
             return true;
-        } catch (e) {
-            console.error("loadDbFromCloud:", e);
-            return false;
-        }
-    }
-
-    async function sendToCloud(action, payload) {
-        try {
-            const response = await fetchWithTimeout(`${WORKER_URL}/api/save-data`, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ action, ...payload })
-            });
-            let result = {};
-            try { result = await response.json(); } catch (e) {}
-            if (!response.ok || !result.success) throw new Error(result.error || ("HTTP " + response.status));
-            await loadDbFromCloud();
-            return true;
-        } catch (e) {
-            console.error("sendToCloud:", e);
-            const msg = e.name === 'AbortError' ? 'Il server non risponde (timeout).' : 'Impossibile salvare sul database cloud. ' + e.message;
-            Swal.fire('Errore', msg, 'error');
-            return false;
-        }
+        } catch (e) { console.error(e); return false; }
     }
 
     function showView(viewId) {
+        if (viewId === 'admin' && !isAdmin) return adminLoginPrompt();
+        if (viewId === 'user-dashboard' && !currentUser) viewId = 'auth';
         document.querySelectorAll('.view').forEach(el => el.classList.remove('active'));
         document.getElementById(viewId).classList.add('active');
         window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -371,16 +370,13 @@
         if (viewId === 'user-dashboard') renderUserDashboard();
         if (viewId === 'admin') renderAdmin();
     }
-
     function goHome() { pendingBooking = null; showView('home'); }
 
     function updateHeader() {
-        const actions = document.getElementById('header-user-actions');
-        if (currentUser) {
-            actions.innerHTML = `<button onclick="showView('user-dashboard')" class="text-xs font-bold bg-ch-accent text-ch-dark px-4 py-2.5 rounded-xl shadow-sm hover:bg-amber-400 transition flex items-center"><i class="fas fa-user-circle mr-1.5"></i> ${esc(currentUser.nome)}</button>`;
-        } else {
-            actions.innerHTML = `<button onclick="showAuth()" class="text-xs font-bold bg-ch-primary text-white px-5 py-2.5 rounded-xl shadow-sm hover:bg-ch-secondary transition flex items-center"><i class="fas fa-user mr-2 text-ch-accent"></i> Area Soci</button>`;
-        }
+        const a = document.getElementById('header-user-actions');
+        a.innerHTML = currentUser
+            ? `<button onclick="showView('user-dashboard')" class="text-xs font-bold bg-ch-accent text-ch-dark px-4 py-2.5 rounded-xl shadow-sm hover:bg-amber-400 transition flex items-center"><i class="fas fa-user-circle mr-1.5"></i> ${esc(currentUser.nome)}</button>`
+            : `<button onclick="showAuth()" class="text-xs font-bold bg-ch-primary text-white px-5 py-2.5 rounded-xl shadow-sm hover:bg-ch-secondary transition flex items-center"><i class="fas fa-user mr-2 text-ch-accent"></i> Area Soci</button>`;
     }
 
     function renderHome() {
@@ -393,7 +389,6 @@
                 </div>
                 <button onclick="initBooking(db.trips[${i}].dest, 'Viaggio')" class="bg-ch-primary hover:bg-ch-secondary text-white px-4 py-2.5 rounded-xl text-xs font-bold transition shadow-sm">Partecipa</button>
             </div>`).join('') || '<div class="glass-card p-6 rounded-2xl text-center text-slate-400 text-xs italic">Nessun viaggio in programma al momento.</div>';
-
         document.getElementById('dynamic-events-list').innerHTML = db.events.map((e, i) => `
             <div class="glass-card p-5 rounded-2xl flex justify-between items-center border-l-4 border-l-amber-600 hover:shadow-md transition">
                 <div>
@@ -405,62 +400,35 @@
             </div>`).join('') || '<div class="glass-card p-6 rounded-2xl text-center text-slate-400 text-xs italic">Nessun evento in programma al momento.</div>';
     }
 
-    function initBooking(eventName, type) {
-        pendingBooking = { eventName, type };
-        if (!currentUser) {
-            Swal.fire({ title: 'Area Riservata', text: 'Devi effettuare l\'accesso per prenotare.', icon: 'info', confirmButtonColor: '#1b3b5c' }).then(() => showAuth());
-        } else {
-            finalizeBooking();
-        }
+    function initBooking(evento, tipo) {
+        pendingBooking = { evento, tipo };
+        if (!currentUser) Swal.fire({ title: 'Area Riservata', text: 'Devi effettuare l\'accesso per prenotare.', icon: 'info', ...swalOk }).then(() => showAuth());
+        else finalizeBooking();
     }
 
     async function finalizeBooking() {
         if (booking || !pendingBooking) return;
         booking = true;
+        const p = pendingBooking; pendingBooking = null;
         try {
-            const already = db.registrations.some(r => r.userId === currentUser.email && r.evento === pendingBooking.eventName && r.tipo === pendingBooking.type);
-            if (already) {
-                pendingBooking = null;
-                await Swal.fire({ title: 'Già prenotato', text: 'Risulti già iscritto a questa attività.', icon: 'info', confirmButtonColor: '#1b3b5c' });
-                showView('user-dashboard');
-                return;
-            }
-            const newReg = {
-                id: 'r_' + Date.now(),
-                dataReg: new Date().toLocaleDateString('it-IT'),
-                evento: pendingBooking.eventName,
-                tipo: pendingBooking.type,
-                userId: currentUser.email,
-                nome: currentUser.nome,
-                cognome: currentUser.cognome,
-                dettagli: "Confermato"
-            };
-            const success = await sendToCloud("add_registration", { registration: newReg });
-            pendingBooking = null;
-            if (success) {
-                await Swal.fire({ title: 'Prenotazione Effettuata!', text: 'La tua richiesta è stata registrata con successo.', icon: 'success', confirmButtonColor: '#1b3b5c' });
-                showView('user-dashboard');
-            }
-        } finally {
-            booking = false;
-        }
+            await api('/api/book', { method: 'POST', body: p });
+            await Swal.fire({ title: 'Prenotazione Effettuata!', text: 'La tua richiesta è stata registrata con successo.', icon: 'success', ...swalOk });
+            showView('user-dashboard');
+        } catch (e) {
+            if (e.status === 409) { await Swal.fire({ title: 'Già prenotato', text: e.message, icon: 'info', ...swalOk }); showView('user-dashboard'); }
+            else fail(e);
+        } finally { booking = false; }
     }
 
-    function showAuth() {
-        if (currentUser) showView('user-dashboard');
-        else { switchAuthTab('login'); showView('auth'); }
-    }
+    function showAuth() { if (currentUser) showView('user-dashboard'); else { applyAuthTab('login'); showView('auth'); } }
 
     function applyAuthTab(tab) {
-        const isLogin = tab === 'login';
-        document.getElementById('form-user-login').classList.toggle('hidden', !isLogin);
-        document.getElementById('form-user-register').classList.toggle('hidden', isLogin);
-        document.getElementById('tab-login').classList.toggle('active', isLogin);
-        document.getElementById('tab-register').classList.toggle('active', !isLogin);
+        const l = tab === 'login';
+        document.getElementById('form-user-login').classList.toggle('hidden', !l);
+        document.getElementById('form-user-register').classList.toggle('hidden', l);
+        document.getElementById('tab-login').classList.toggle('active', l);
+        document.getElementById('tab-register').classList.toggle('active', !l);
     }
-
-
-    let privacyAccepted = false;
 
     function switchAuthTab(tab) {
         if (tab === 'register' && !privacyAccepted) {
@@ -470,21 +438,11 @@
                     '<p>I dati anagrafici e i documenti che inserisci sono raccolti dall\'Associazione Lucana e altre Regioni Italiane "Giuseppe Novello" per gestire iscrizioni, viaggi ed eventi, assicurazioni e obblighi di legge.</p>' +
                     '<p style="margin-top:8px">I dati sono accessibili solo alla segreteria, che può consultarli, modificarli, esportarli e cancellarli. Puoi chiedere in ogni momento accesso, rettifica o cancellazione scrivendo a info@associazionenovello.it.</p>' +
                     '<p style="margin-top:8px">Per continuare devi accettare il trattamento dei dati.</p></div>',
-                showCancelButton: true, confirmButtonText: 'Accetto e continuo', cancelButtonText: 'Non accetto',
-                confirmButtonColor: '#1b3b5c'
-            }).then(r => {
-                if (r.isConfirmed) { privacyAccepted = true; applyAuthTab('register'); }
-                else applyAuthTab('login');
-            });
+                showCancelButton: true, confirmButtonText: 'Accetto e continuo', cancelButtonText: 'Non accetto', ...swalOk
+            }).then(r => { if (r.isConfirmed) { privacyAccepted = true; applyAuthTab('register'); } else applyAuthTab('login'); });
             return;
         }
         applyAuthTab(tab);
-    }
-
-    function saveSession(u) {
-        const light = { ...u }; delete light.docs; delete light.password;
-        currentUser = { ...light, password: u.password };
-        try { sessionStorage.setItem('ch_currentUser', JSON.stringify(light)); } catch (e) {}
     }
 
     function compressImage(file, maxSide = 1200, quality = 0.65) {
@@ -511,191 +469,203 @@
     async function userRegister(e) {
         e.preventDefault();
         const v = id => document.getElementById(id).value.trim();
-        const email = v('ru-email').toLowerCase();
         const cf = v('ru-cf').toUpperCase();
-
-        if (cf.length !== 16) return Swal.fire({ title: 'Codice fiscale non valido', text: 'Deve avere 16 caratteri.', icon: 'warning', confirmButtonColor: '#1b3b5c' });
-        if (new Date(v('ru-scaddoc')) < new Date(new Date().toDateString())) return Swal.fire({ title: 'Documento scaduto', text: 'Inserisci un documento in corso di validità.', icon: 'warning', confirmButtonColor: '#1b3b5c' });
-        if (!document.getElementById('ru-privacy').checked) return Swal.fire({ title: 'Consenso necessario', text: 'Accetta l\'informativa privacy per continuare.', icon: 'warning', confirmButtonColor: '#1b3b5c' });
+        if (v('ru-pass').length < 10) return Swal.fire({ title: 'Password troppo corta', text: 'Usa almeno 10 caratteri.', icon: 'warning', ...swalOk });
+        if (cf.length !== 16) return Swal.fire({ title: 'Codice fiscale non valido', text: 'Deve avere 16 caratteri.', icon: 'warning', ...swalOk });
+        if (new Date(v('ru-scaddoc')) < new Date(new Date().toDateString())) return Swal.fire({ title: 'Documento scaduto', text: 'Inserisci un documento in corso di validità.', icon: 'warning', ...swalOk });
+        if (!document.getElementById('ru-privacy').checked) return Swal.fire({ title: 'Consenso necessario', text: 'Accetta l\'informativa privacy per continuare.', icon: 'warning', ...swalOk });
 
         Swal.fire({ title: 'Registrazione in corso...', text: 'Elaboro i documenti, attendi qualche secondo.', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
-
-        await loadDbFromCloud();
-        if (db.users.some(u => u.email === email || (u.cf && u.cf.toUpperCase() === cf))) {
-            return Swal.fire({ title: 'Registrazione già effettuata', text: 'Risulti già registrato: accedi con le tue credenziali.', icon: 'info', confirmButtonColor: '#1b3b5c' }).then(() => applyAuthTab('login'));
-        }
-
-        let docs = [];
+        const docs = [];
         try {
-            const files = [['Fronte documento', 'ru-doc1'], ['Retro documento', 'ru-doc2'], ['Tessera sanitaria', 'ru-doc3']];
-            for (const [nome, id] of files) {
+            for (const [nome, id] of [['Fronte documento', 'ru-doc1'], ['Retro documento', 'ru-doc2'], ['Tessera sanitaria', 'ru-doc3']]) {
                 const f = document.getElementById(id).files[0];
                 if (f) docs.push({ nome, tipo: 'image/jpeg', data: await compressImage(f) });
             }
-        } catch (err) {
-            return Swal.fire({ title: 'Documento non valido', text: err.message, icon: 'error', confirmButtonColor: '#1b3b5c' });
-        }
-        const size = docs.reduce((a, d) => a + d.data.length, 0);
-        if (size > 1500000) return Swal.fire({ title: 'File troppo grandi', text: 'Prova con foto meno pesanti.', icon: 'error', confirmButtonColor: '#1b3b5c' });
+        } catch (err) { return fail(err, 'Documento non valido'); }
 
-        const newUser = {
-            email, password: document.getElementById('ru-pass').value,
+        const user = {
+            email: v('ru-email').toLowerCase(), password: document.getElementById('ru-pass').value,
             nome: v('ru-nome'), cognome: v('ru-cognome'), tel: v('ru-tel'), cf,
             dataNascita: v('ru-datanascita'), luogoNascita: v('ru-luogonascita'), ind: v('ru-ind'),
             tipoDoc: v('ru-tipodoc'), numDoc: v('ru-numdoc'), scadDoc: v('ru-scaddoc'), docs
         };
-        const success = await sendToCloud("register_user", { user: newUser });
-        if (success) {
-            saveSession(newUser);
+        try {
+            const r = await api('/api/register', { method: 'POST', body: { user }, auth: false, ms: 60000 });
+            setSession({ token: r.token, role: 'user', user: r.user });
             document.getElementById('form-user-register').reset();
-            await Swal.fire({ title: 'Benvenuto!', text: 'Registrazione completata con successo.', icon: 'success', confirmButtonColor: '#1b3b5c' });
+            await Swal.fire({ title: 'Benvenuto!', text: 'Registrazione completata con successo.', icon: 'success', ...swalOk });
             if (pendingBooking) finalizeBooking(); else showView('user-dashboard');
+        } catch (err) {
+            if (err.status === 409) Swal.fire({ title: 'Registrazione già effettuata', text: 'Risulti già registrato: accedi con le tue credenziali.', icon: 'info', ...swalOk }).then(() => applyAuthTab('login'));
+            else fail(err);
         }
     }
 
-    function parseDocs(u) {
-        if (Array.isArray(u.docs)) return u.docs;
-        try { return JSON.parse(u.docs || '[]'); } catch (e) { return []; }
+    async function userLogin(e) {
+        e.preventDefault();
+        Swal.fire({ title: 'Accesso in corso...', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
+        try {
+            const r = await api('/api/login', { method: 'POST', auth: false, body: { email: document.getElementById('lu-email').value.trim(), password: document.getElementById('lu-pass').value } });
+            document.getElementById('lu-pass').value = '';
+            setSession({ token: r.token, role: 'user', user: r.user });
+            Swal.close();
+            if (pendingBooking) finalizeBooking(); else showView('user-dashboard');
+        } catch (err) { fail(err, 'Accesso Negato'); }
     }
 
-    function renderSoci() {
-        document.getElementById('soci-count').innerText = `(${db.users.length})`;
-        document.getElementById('admin-soci-body').innerHTML = db.users.map((u, i) => `
-            <tr>
-                <td class="py-3 pr-3 font-bold text-slate-900">${esc(u.nome)} ${esc(u.cognome)}<br><span class="text-[11px] text-slate-400 font-normal">${esc(u.ind)}</span></td>
-                <td class="py-3 pr-3 text-slate-600">${esc(u.email)}<br>${esc(u.tel)}</td>
-                <td class="py-3 pr-3 text-slate-600">${esc(u.dataNascita)} - ${esc(u.luogoNascita)}<br><span class="text-[11px]">${esc(u.cf)}</span></td>
-                <td class="py-3 pr-3 text-slate-600">${esc(u.tipoDoc)} ${esc(u.numDoc)}<br><span class="text-[11px]">scad. ${esc(u.scadDoc)}</span></td>
-                <td class="py-3"><button onclick="viewDocs(${i})" class="bg-ch-primary text-white px-3 py-1.5 rounded-lg text-[11px] font-bold">Documenti (${parseDocs(u).length})</button></td>
-            </tr>`).join('') || '<tr><td colspan="5" class="py-6 text-center text-slate-400 italic">Nessun socio registrato.</td></tr>';
+    async function logout() {
+        try { if (session) await api('/api/logout', { method: 'POST' }); } catch (e) {}
+        setSession(null); updateHeader(); goHome();
+    }
+    const userLogout = logout, adminLogout = logout;
+
+    async function renderUserDashboard() {
+        if (!currentUser) return;
+        document.getElementById('ud-welcome').innerText = `Ciao, ${currentUser.nome}!`;
+        const box = document.getElementById('ud-bookings');
+        try {
+            const r = (await api('/api/my-bookings')).registrations || [];
+            box.innerHTML = r.map(x => `
+                <div class="p-4 bg-slate-50 border border-slate-200 rounded-2xl flex justify-between items-center">
+                    <div><span class="font-extrabold text-xs text-slate-900 block">${esc(x.evento)}</span><span class="text-[11px] text-slate-400">Tipologia: ${esc(x.tipo)}</span></div>
+                    <span class="text-[11px] font-bold text-ch-primary bg-ch-accent/20 px-3 py-1 rounded-full">${esc(x.dataReg)}</span>
+                </div>`).join('') || '<p class="text-slate-400 text-xs italic">Nessuna prenotazione attiva al momento.</p>';
+        } catch (e) { box.innerHTML = '<p class="text-red-500 text-xs">Impossibile caricare le prenotazioni.</p>'; }
     }
 
-    function viewDocs(i) {
-        const u = db.users[i]; const docs = parseDocs(u);
-        const html = docs.length ? docs.map(d => `<p style="font-size:12px;font-weight:700;margin:10px 0 4px">${esc(d.nome)}</p><img src="${esc(d.data)}" style="max-width:100%;border-radius:8px;border:1px solid #e2e8f0">`).join('') : '<p>Nessun documento caricato.</p>';
-        Swal.fire({ title: `${esc(u.nome)} ${esc(u.cognome)}`, html, width: 700, confirmButtonColor: '#1b3b5c' });
+    async function changeUsernamePrompt() {
+        const inp = 'class="swal2-input !text-xs"';
+        const r = await Swal.fire({
+            title: 'Cambia utente segreteria',
+            html: `<p style="font-size:12px;color:#64748b">Utente attuale: <b>${esc(adminData.adminUser || '')}</b></p><input id="cu-new" ${inp} placeholder="Nuovo utente (4-40 caratteri)" autocomplete="off"><input id="cu-pass" ${inp} type="password" placeholder="Password attuale (conferma)" autocomplete="current-password">`,
+            showCancelButton: true, confirmButtonText: 'Salva', cancelButtonText: 'Annulla', ...swalOk, showLoaderOnConfirm: true,
+            preConfirm: async () => {
+                const nu = document.getElementById('cu-new').value.trim(), cur = document.getElementById('cu-pass').value;
+                if (!/^[A-Za-z0-9._-]{4,40}$/.test(nu)) { Swal.showValidationMessage('Usa 4-40 caratteri: lettere, numeri, punto, trattino, underscore.'); return false; }
+                if (!cur) { Swal.showValidationMessage('Inserisci la password attuale.'); return false; }
+                try { return await api('/api/admin/change-username', { method: 'POST', body: { current: cur, newUser: nu } }); }
+                catch (e) { Swal.showValidationMessage(e.message); return false; }
+            }
+        });
+        if (r.isConfirmed && r.value) { await renderAdmin(); Swal.fire({ title: 'Utente aggiornato', text: 'Dal prossimo accesso usa il nuovo utente. Le altre sessioni sono state chiuse.', icon: 'success', ...swalOk }); }
+    }
+
+    async function changePasswordPrompt(kind) {
+        const min = kind === 'admin' ? 12 : 10;
+        const inp = 'class="swal2-input !text-xs" type="password"';
+        const r = await Swal.fire({
+            title: kind === 'admin' ? 'Cambia password segreteria' : 'Cambia password',
+            html: `<input id="cp-cur" ${inp} placeholder="Password attuale" autocomplete="current-password"><input id="cp-new" ${inp} placeholder="Nuova password (min. ${min} caratteri)" autocomplete="new-password"><input id="cp-new2" ${inp} placeholder="Ripeti nuova password" autocomplete="new-password">`,
+            showCancelButton: true, confirmButtonText: 'Salva', cancelButtonText: 'Annulla', ...swalOk, showLoaderOnConfirm: true,
+            preConfirm: async () => {
+                const cur = document.getElementById('cp-cur').value, nw = document.getElementById('cp-new').value, nw2 = document.getElementById('cp-new2').value;
+                if (!cur) { Swal.showValidationMessage('Inserisci la password attuale.'); return false; }
+                if (nw.length < min) { Swal.showValidationMessage(`La nuova password deve avere almeno ${min} caratteri.`); return false; }
+                if (nw !== nw2) { Swal.showValidationMessage('Le due password non coincidono.'); return false; }
+                try {
+                    return await api(kind === 'admin' ? '/api/admin/change-password' : '/api/change-password', { method: 'POST', body: { current: cur, newPassword: nw } });
+                } catch (e) { Swal.showValidationMessage(e.message); return false; }
+            }
+        });
+        if (r.isConfirmed && r.value) Swal.fire({ title: 'Password aggiornata', text: 'Le altre sessioni aperte sono state chiuse.', icon: 'success', ...swalOk });
+    }
+
+    // ---------- ADMIN ----------
+    function adminLoginPrompt() {
+        Swal.fire({
+            title: 'Accesso Segreteria',
+            html: '<input id="swal-user" class="swal2-input !text-xs" placeholder="Utente" autocomplete="off"><input id="swal-pass" type="password" class="swal2-input !text-xs" placeholder="Password" autocomplete="off">',
+            confirmButtonText: 'Accedi', showCancelButton: true, cancelButtonText: 'Annulla', ...swalOk,
+            showLoaderOnConfirm: true,
+            preConfirm: async () => {
+                try {
+                    return await api('/api/admin-login', { method: 'POST', auth: false, body: { user: document.getElementById('swal-user').value, password: document.getElementById('swal-pass').value } });
+                } catch (e) { Swal.showValidationMessage(e.message); return false; }
+            }
+        }).then(r => { if (r.isConfirmed && r.value) { setSession({ token: r.value.token, role: 'admin' }); showView('admin'); } });
+    }
+
+    async function renderAdmin() {
+        try {
+            adminData = await api('/api/admin/data');
+            document.getElementById('admin-table-body').innerHTML = adminData.registrations.map(r => `
+                <tr>
+                    <td class="py-3 pr-3 text-slate-500">${esc(r.dataReg)}</td>
+                    <td class="py-3 pr-3 font-bold text-slate-900">${esc(r.evento)} <span class="text-[10px] text-slate-400 font-normal">(${esc(r.tipo)})</span></td>
+                    <td class="py-3 pr-3">${esc(r.nome)} ${esc(r.cognome)}<br><span class="text-[11px] text-slate-400">${esc(r.userId)}</span></td>
+                    <td class="py-3 text-slate-500">${esc(r.dettagli)} <button onclick="deleteReg('${esc(r.id)}')" class="ml-2 text-red-500 hover:text-red-700" title="Elimina"><i class="fas fa-trash"></i></button></td>
+                </tr>`).join('') || '<tr><td colspan="4" class="py-6 text-center text-slate-400 italic">Nessuna iscrizione registrata.</td></tr>';
+            document.getElementById('soci-count').innerText = `(${adminData.users.length})`;
+            document.getElementById('admin-soci-body').innerHTML = adminData.users.map((u, i) => `
+                <tr>
+                    <td class="py-3 pr-3 font-bold text-slate-900">${esc(u.nome)} ${esc(u.cognome)}<br><span class="text-[11px] text-slate-400 font-normal">${esc(u.ind)}</span></td>
+                    <td class="py-3 pr-3 text-slate-600">${esc(u.email)}<br>${esc(u.tel)}</td>
+                    <td class="py-3 pr-3 text-slate-600">${esc(u.dataNascita)} - ${esc(u.luogoNascita)}<br><span class="text-[11px]">${esc(u.cf)}</span></td>
+                    <td class="py-3 pr-3 text-slate-600">${esc(u.tipoDoc)} ${esc(u.numDoc)}<br><span class="text-[11px]">scad. ${esc(u.scadDoc)}</span></td>
+                    <td class="py-3 whitespace-nowrap"><button onclick="viewDocs(${i})" class="bg-ch-primary text-white px-3 py-1.5 rounded-lg text-[11px] font-bold">Documenti (${u.nDocs || 0})</button> <button onclick="deleteUser(${i})" class="ml-1 text-red-500 hover:text-red-700" title="Elimina socio"><i class="fas fa-trash"></i></button></td>
+                </tr>`).join('') || '<tr><td colspan="5" class="py-6 text-center text-slate-400 italic">Nessun socio registrato.</td></tr>';
+        } catch (e) { fail(e); }
+    }
+
+    async function viewDocs(i) {
+        const u = adminData.users[i];
+        try {
+            const { docs } = await api('/api/admin/docs?email=' + encodeURIComponent(u.email));
+            const html = (docs || []).length
+                ? docs.map(d => `<p style="font-size:12px;font-weight:700;margin:10px 0 4px">${esc(d.nome)}</p><img src="${esc(d.data)}" style="max-width:100%;border-radius:8px;border:1px solid #e2e8f0">`).join('')
+                : '<p>Nessun documento caricato.</p>';
+            Swal.fire({ title: `${esc(u.nome)} ${esc(u.cognome)}`, html, width: 700, ...swalOk });
+        } catch (e) { fail(e); }
+    }
+
+    async function deleteReg(id) {
+        const c = await Swal.fire({ title: 'Eliminare l\'iscrizione?', icon: 'warning', showCancelButton: true, confirmButtonText: 'Elimina', cancelButtonText: 'Annulla', confirmButtonColor: '#dc2626' });
+        if (!c.isConfirmed) return;
+        try { await api('/api/admin/delete-registration', { method: 'POST', body: { id } }); renderAdmin(); } catch (e) { fail(e); }
+    }
+    async function deleteUser(i) {
+        const u = adminData.users[i];
+        const c = await Swal.fire({ title: `Eliminare ${esc(u.nome)} ${esc(u.cognome)}?`, text: 'Verranno cancellati dati e documenti.', icon: 'warning', showCancelButton: true, confirmButtonText: 'Elimina', cancelButtonText: 'Annulla', confirmButtonColor: '#dc2626' });
+        if (!c.isConfirmed) return;
+        try { await api('/api/admin/delete-user', { method: 'POST', body: { email: u.email } }); renderAdmin(); } catch (e) { fail(e); }
     }
 
     function exportSociCSV() {
         const cols = ['nome', 'cognome', 'email', 'tel', 'cf', 'dataNascita', 'luogoNascita', 'ind', 'tipoDoc', 'numDoc', 'scadDoc'];
-        const q = x => '"' + String(x ?? '').replace(/"/g, '""') + '"';
-        const csv = [cols.join(';'), ...db.users.map(u => cols.map(c => q(u[c])).join(';'))].join('\n');
+        const q = x => '"' + String(x ?? '').replace(/"/g, '""').replace(/^([=+\-@])/, "'$1") + '"';
+        const csv = [cols.join(';'), ...adminData.users.map(u => cols.map(c => q(u[c])).join(';'))].join('\n');
         const a = document.createElement('a');
         a.href = URL.createObjectURL(new Blob(['\ufeff' + csv], { type: 'text/csv;charset=utf-8' }));
         a.download = 'soci.csv'; a.click();
     }
 
-    async function userLogin(e) {
-        e.preventDefault();
-        Swal.fire({ title: 'Accesso in corso...', text: 'Verifica delle credenziali...', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
-
-        const success = await loadDbFromCloud();
-        if (!success) {
-            Swal.fire({ title: 'Errore Database', text: 'Impossibile connettersi al server (Cloudflare Worker). Controlla la Console del browser (F12) e i log del Worker.', icon: 'error', confirmButtonColor: '#1b3b5c' });
-            return;
-        }
-
-        const email = document.getElementById('lu-email').value.toLowerCase().trim();
-        const pass = document.getElementById('lu-pass').value;
-        const user = db.users.find(u => u.email === email && u.password === pass);
-
-        if (user) {
-            saveSession(user);
-            Swal.close();
-            if (pendingBooking) finalizeBooking(); else showView('user-dashboard');
-        } else {
-            Swal.fire({ title: 'Accesso Negato', text: 'Email o password errati. Assicurati di esserti prima registrato.', icon: 'error', confirmButtonColor: '#1b3b5c' });
-        }
-    }
-
-    function userLogout() { currentUser = null; sessionStorage.removeItem('ch_currentUser'); goHome(); }
-
-    function renderUserDashboard() {
-        if (!currentUser) return;
-        document.getElementById('ud-welcome').innerText = `Ciao, ${currentUser.nome}!`;
-        const myRegs = db.registrations.filter(r => r.userId === currentUser.email).reverse();
-        document.getElementById('ud-bookings').innerHTML = myRegs.map(r => `
-            <div class="p-4 bg-slate-50 border border-slate-200 rounded-2xl flex justify-between items-center">
-                <div>
-                    <span class="font-extrabold text-xs text-slate-900 block">${esc(r.evento)}</span>
-                    <span class="text-[11px] text-slate-400">Tipologia: ${esc(r.tipo)}</span>
-                </div>
-                <span class="text-[11px] font-bold text-ch-primary bg-ch-accent/20 px-3 py-1 rounded-full">${esc(r.dataReg)}</span>
-            </div>`).join('') || '<p class="text-slate-400 text-xs italic">Nessuna prenotazione attiva al momento.</p>';
-    }
-
-    function renderAdmin() {
-        renderSoci();
-        const body = document.getElementById('admin-table-body');
-        const regs = [...db.registrations].reverse();
-        body.innerHTML = regs.map(r => `
-            <tr>
-                <td class="py-3 pr-3 text-slate-500">${esc(r.dataReg)}</td>
-                <td class="py-3 pr-3 font-bold text-slate-900">${esc(r.evento)} <span class="text-[10px] text-slate-400 font-normal">(${esc(r.tipo)})</span></td>
-                <td class="py-3 pr-3">${esc(r.nome)} ${esc(r.cognome)}<br><span class="text-[11px] text-slate-400">${esc(r.userId)}</span></td>
-                <td class="py-3 text-slate-500">${esc(r.dettagli)}</td>
-            </tr>`).join('') || '<tr><td colspan="4" class="py-6 text-center text-slate-400 italic">Nessuna iscrizione registrata.</td></tr>';
-    }
-
-    function adminLoginPrompt() {
-        Swal.fire({
-            title: 'Accesso Segreteria',
-            html: '<input id="swal-user" class="swal2-input !text-xs" placeholder="Utente"><input id="swal-pass" type="password" class="swal2-input !text-xs" placeholder="Password">',
-            confirmButtonText: 'Accedi', confirmButtonColor: '#1b3b5c',
-            preConfirm: () => {
-                if (document.getElementById('swal-user').value === 'admin' && document.getElementById('swal-pass').value === 'Giuliano59') {
-                    return true;
-                }
-                Swal.showValidationMessage('Credenziali segreteria errate');
-                return false;
-            }
-        }).then(async (r) => {
-            if (r.isConfirmed) {
-                await loadDbFromCloud();
-                showView('admin');
-            }
-        });
-    }
-    function adminLogout() { goHome(); }
-
     async function createTrip(e) {
         e.preventDefault();
-        const t = {
-            id: 't_' + Date.now(),
-            dest: document.getElementById('at-dest').value.trim(),
-            da: document.getElementById('at-da').value,
-            al: document.getElementById('at-al').value,
-            note: document.getElementById('at-costo').value.trim()
-        };
-        const success = await sendToCloud("add_trip", { trip: t });
-        if (success) {
-            Swal.fire({ title: 'Pubblicato!', text: 'Il viaggio è ora online.', icon: 'success', confirmButtonColor: '#1b3b5c' });
+        const trip = { dest: document.getElementById('at-dest').value, da: document.getElementById('at-da').value, al: document.getElementById('at-al').value, note: document.getElementById('at-costo').value };
+        try {
+            await api('/api/admin/trip', { method: 'POST', body: { trip } });
+            await loadPublic();
+            Swal.fire({ title: 'Pubblicato!', text: 'Il viaggio è ora online.', icon: 'success', ...swalOk });
             document.getElementById('form-create-trip').reset();
-        }
+        } catch (err) { fail(err); }
     }
-
     async function salvaEvento(e) {
         e.preventDefault();
-        const ev = {
-            id: 'e_' + Date.now(),
-            nome: document.getElementById('ae-nome').value.trim(),
-            data: document.getElementById('ae-data').value,
-            costo: document.getElementById('ae-costo').value.trim()
-        };
-        const success = await sendToCloud("add_event", { event: ev });
-        if (success) {
-            Swal.fire({ title: 'Pubblicato!', text: 'L\'evento è ora online.', icon: 'success', confirmButtonColor: '#1b3b5c' });
+        const event = { nome: document.getElementById('ae-nome').value, data: document.getElementById('ae-data').value, costo: document.getElementById('ae-costo').value };
+        try {
+            await api('/api/admin/event', { method: 'POST', body: { event } });
+            await loadPublic();
+            Swal.fire({ title: 'Pubblicato!', text: 'L\'evento è ora online.', icon: 'success', ...swalOk });
             document.getElementById('form-create-event').reset();
-        }
+        } catch (err) { fail(err); }
     }
 
-    // Avvio: se il server non risponde lo segnalo invece di restare muto
-    loadDbFromCloud().then(ok => {
-        if (!ok) {
-            document.getElementById('dynamic-trips-list').innerHTML =
-                '<div class="glass-card p-6 rounded-2xl text-center text-red-500 text-xs">Impossibile contattare il server. Riprova tra poco.</div>';
-        }
+    loadPublic().then(ok => {
+        if (!ok) document.getElementById('dynamic-trips-list').innerHTML = '<div class="glass-card p-6 rounded-2xl text-center text-red-500 text-xs">Impossibile contattare il server. Riprova tra poco.</div>';
     });
+    updateHeader();
+    if (isAdmin) showView('admin');
 </script>
 </body>
 </html>
