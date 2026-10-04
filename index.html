@@ -262,6 +262,26 @@
                     </form>
                 </div>
             </div>
+            <div class="bg-white p-6 md:p-8 rounded-3xl shadow-sm border border-slate-200 mb-8">
+                <div class="flex flex-wrap items-center justify-between gap-3 mb-6">
+                    <h3 class="font-extrabold text-base text-slate-900 flex items-center"><i class="fas fa-euro-sign mr-2 text-slate-400"></i> Ricavi previsti per attività</h3>
+                    <div class="flex gap-2">
+                        <button onclick="exportRicavi('xlsx')" class="bg-ch-primary hover:bg-ch-secondary text-white px-4 py-2 rounded-xl text-xs font-bold transition"><i class="fas fa-file-excel mr-1.5"></i> Esporta Excel</button>
+                        <button onclick="exportRicavi('csv')" class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-4 py-2 rounded-xl text-xs font-bold transition"><i class="fas fa-file-csv mr-1.5"></i> CSV</button>
+                    </div>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
+                        <thead><tr class="border-b border-slate-100 text-slate-400 text-[11px] uppercase tracking-wider">
+                            <th class="pb-3 font-bold">Attività</th><th class="pb-3 font-bold">Quota</th><th class="pb-3 font-bold">Iscritti</th><th class="pb-3 font-bold text-right">Ricavo previsto</th>
+                        </tr></thead>
+                        <tbody id="admin-ricavi-body" class="text-xs divide-y divide-slate-50"></tbody>
+                        <tfoot id="admin-ricavi-foot"></tfoot>
+                    </table>
+                </div>
+                <p class="text-[11px] text-slate-400 mt-3">Ricavo previsto = quota × numero di iscritti. La quota è l'importo scritto nel campo costo/note dell'attività; se non è un importo leggibile compare "n.d.".</p>
+            </div>
+
             <div class="bg-white p-6 md:p-8 rounded-3xl shadow-sm border border-slate-200">
                 <div class="flex flex-wrap items-end justify-between gap-3 mb-6">
                     <h3 class="font-extrabold text-base text-slate-900 flex items-center"><i class="fas fa-clipboard-list mr-2 text-slate-400"></i> Registro Iscrizioni e Prenotazioni <span id="reg-count" class="ml-2 text-[11px] text-slate-400 font-bold"></span></h3>
@@ -352,6 +372,7 @@
         return String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
     }
     const swalOk = { confirmButtonColor: '#1b3b5c' };
+    const CANCEL_WINDOW_MS = 48 * 3600 * 1000;
 
     function setSession(s) {
         session = s;
@@ -478,7 +499,7 @@
             h('Finalità e base giuridica') +
             `<p>Gestione dell'iscrizione e della partecipazione a viaggi, escursioni ed eventi, coperture assicurative, adempimenti amministrativi e di legge. Base giuridica: esecuzione del rapporto associativo, obblighi di legge e, per i documenti caricati, il tuo consenso.</p>` +
             h('Chi può vedere i dati') +
-            `<p>Solo la segreteria dell'associazione. Non vengono diffusi. Possono accedervi, per le sole attività tecniche necessarie, i fornitori dell'infrastruttura informatica (hosting e database Cloudflare) e, per i viaggi, i fornitori dei servizi strettamente necessari (agenzie, compagnie di trasporto, strutture, assicurazioni).</p>` +
+            `<p>Solo la segreteria dell'associazione. Non vengono diffusi. Possono accedervi, per le sole attività tecniche necessarie, i fornitori dell'infrastruttura informatica (hosting e database Cloudflare, servizio di invio email) e, per i viaggi, i fornitori dei servizi strettamente necessari (agenzie, compagnie di trasporto, strutture, assicurazioni).</p>` +
             h('Conservazione') +
             `<p>I dati sono conservati per il tempo in cui sei socio e per i periodi previsti dalla legge; puoi chiedere la cancellazione in qualsiasi momento, salvo obblighi di conservazione.</p>` +
             h('I tuoi diritti') +
@@ -598,11 +619,16 @@
         const box = document.getElementById('ud-bookings');
         try {
             const r = (await api('/api/my-bookings')).registrations || [];
-            box.innerHTML = r.map(x => `
-                <div class="p-4 bg-slate-50 border border-slate-200 rounded-2xl flex justify-between items-center">
-                    <div><span class="font-extrabold text-xs text-slate-900 block">${esc(x.evento)}</span><span class="text-[11px] text-slate-400">Tipologia: ${esc(x.tipo)}</span></div>
-                    <span class="text-[11px] font-bold text-ch-primary bg-ch-accent/20 px-3 py-1 rounded-full">${esc(x.dataReg)}</span>
-                </div>`).join('') || '<p class="text-slate-400 text-xs italic">Nessuna prenotazione attiva al momento.</p>';
+            box.innerHTML = r.map(x => {
+                const left = x.createdAt ? CANCEL_WINDOW_MS - (Date.now() - x.createdAt) : 0;
+                const action = left > 0
+                    ? `<button onclick="cancelBooking('${esc(x.id)}')" class="mt-2 bg-red-50 hover:bg-red-100 text-red-600 px-3 py-1.5 rounded-lg text-[11px] font-bold transition">Annulla prenotazione</button><span class="block text-[10px] text-slate-400 mt-1">Annullabile ancora per circa ${Math.max(1, Math.ceil(left / 3600000))} ore</span>`
+                    : `<span class="block text-[10px] text-slate-400 italic mt-2">Oltre le 48 ore: contatta la segreteria per annullare</span>`;
+                return `<div class="p-4 bg-slate-50 border border-slate-200 rounded-2xl flex justify-between items-start gap-3">
+                    <div><span class="font-extrabold text-xs text-slate-900 block">${esc(x.evento)}</span><span class="text-[11px] text-slate-400">Tipologia: ${esc(x.tipo)}</span>${action}</div>
+                    <span class="text-[11px] font-bold text-ch-primary bg-ch-accent/20 px-3 py-1 rounded-full whitespace-nowrap">${esc(x.dataReg)}</span>
+                </div>`;
+            }).join('') || '<p class="text-slate-400 text-xs italic">Nessuna prenotazione attiva al momento.</p>';
         } catch (e) { box.innerHTML = '<p class="text-red-500 text-xs">Impossibile caricare le prenotazioni.</p>'; }
     }
 
@@ -689,6 +715,16 @@
         } catch (e) { box.innerHTML = '<p class="text-red-500 text-xs">Impossibile caricare i tuoi dati.</p>'; }
     }
 
+    async function cancelBooking(id) {
+        const c = await Swal.fire({ title: 'Annullare la prenotazione?', text: 'L\'operazione non si può annullare.', icon: 'warning', showCancelButton: true, confirmButtonText: 'Sì, annulla', cancelButtonText: 'Mantieni', confirmButtonColor: '#dc2626' });
+        if (!c.isConfirmed) return;
+        try {
+            await api('/api/cancel-booking', { method: 'POST', body: { id } });
+            await Swal.fire({ title: 'Prenotazione annullata', icon: 'success', ...swalOk });
+            renderUserDashboard();
+        } catch (e) { if (e.status === 403 || e.status === 404) { await Swal.fire({ title: 'Non è possibile annullare', text: e.message, icon: 'info', ...swalOk }); renderUserDashboard(); } else fail(e); }
+    }
+
     async function saveProfile() {
         const g = id => document.getElementById('pf-' + id).value.trim();
         const profile = {};
@@ -739,7 +775,8 @@
     async function renderAdmin() {
         try {
             adminData = await api('/api/admin/data');
-            fillActivityFilter(); renderRegistrations();
+            await loadPublic();
+            fillActivityFilter(); renderRegistrations(); renderRicavi();
             document.getElementById('soci-count').innerText = `(${adminData.users.length})`;
             document.getElementById('admin-soci-body').innerHTML = adminData.users.map((u, i) => `
                 <tr>
@@ -750,6 +787,64 @@
                     <td class="py-3 whitespace-nowrap"><button onclick="viewDocs(${i})" class="bg-ch-primary text-white px-3 py-1.5 rounded-lg text-[11px] font-bold">Documenti (${u.nDocs || 0})</button> <button onclick="resetUserPassword(${i})" class="ml-1 text-amber-600 hover:text-amber-800" title="Reimposta password"><i class="fas fa-key"></i></button> <button onclick="deleteUser(${i})" class="ml-1 text-red-500 hover:text-red-700" title="Elimina socio"><i class="fas fa-trash"></i></button></td>
                 </tr>`).join('') || '<tr><td colspan="5" class="py-6 text-center text-slate-400 italic">Nessun socio registrato.</td></tr>';
         } catch (e) { fail(e); }
+    }
+
+    const eur = new Intl.NumberFormat('it-IT', { style: 'currency', currency: 'EUR' });
+
+    function parseEuro(s) {
+        const m = String(s ?? '').match(/\d[\d.,]*/);
+        if (!m) return NaN;
+        let t = m[0].replace(/[.,]+$/, '');
+        if (t.includes(',') && t.includes('.')) t = t.replace(/\./g, '').replace(',', '.');
+        else if (t.includes(',')) t = t.replace(',', '.');
+        else if (/^\d{1,3}(\.\d{3})+$/.test(t)) t = t.replace(/\./g, '');
+        const n = parseFloat(t);
+        return Number.isFinite(n) ? n : NaN;
+    }
+
+    function revenueRows() {
+        const count = {};
+        adminData.registrations.forEach(r => { const k = r.tipo + '|' + r.evento; count[k] = (count[k] || 0) + 1; });
+        const rows = [], seen = new Set();
+        (db.trips || []).forEach(t => { const k = 'Viaggio|' + t.dest; seen.add(k); rows.push({ nome: t.dest, tipo: 'Viaggio', data: `dal ${t.da} al ${t.al}`, quota: parseEuro(t.note), n: count[k] || 0 }); });
+        (db.events || []).forEach(e => { const k = 'Evento|' + e.nome; seen.add(k); rows.push({ nome: e.nome, tipo: 'Evento', data: e.data, quota: parseEuro(e.costo), n: count[k] || 0 }); });
+        Object.keys(count).filter(k => !seen.has(k)).forEach(k => { const i = k.indexOf('|'); rows.push({ nome: k.slice(i + 1), tipo: k.slice(0, i), data: '', quota: NaN, n: count[k] }); });
+        rows.forEach(r => { r.ricavo = Number.isNaN(r.quota) ? null : r.quota * r.n; });
+        return rows;
+    }
+
+    function renderRicavi() {
+        const rows = revenueRows();
+        document.getElementById('admin-ricavi-body').innerHTML = rows.map(r => `
+            <tr>
+                <td class="py-3 pr-3 font-bold text-slate-900">${esc(r.nome)} <span class="text-[10px] text-slate-400 font-normal">(${esc(r.tipo)})</span><br><span class="text-[11px] text-slate-400 font-normal">${esc(r.data)}</span></td>
+                <td class="py-3 pr-3 text-slate-600">${r.ricavo === null ? 'n.d.' : eur.format(r.quota)}</td>
+                <td class="py-3 pr-3 text-slate-600">${r.n}</td>
+                <td class="py-3 text-right font-extrabold text-slate-900">${r.ricavo === null ? 'n.d.' : eur.format(r.ricavo)}${r.ricavo !== null ? `<br><span class="text-[10px] text-slate-400 font-normal">${eur.format(r.quota)} × ${r.n}</span>` : ''}</td>
+            </tr>`).join('') || '<tr><td colspan="4" class="py-6 text-center text-slate-400 italic">Nessuna attività in programma.</td></tr>';
+        const tot = rows.reduce((a, r) => a + (r.ricavo || 0), 0), totN = rows.reduce((a, r) => a + r.n, 0);
+        document.getElementById('admin-ricavi-foot').innerHTML = rows.length
+            ? `<tr class="border-t-2 border-slate-200"><td class="pt-3 font-extrabold text-slate-900">TOTALE</td><td></td><td class="pt-3 font-extrabold text-slate-900">${totN}</td><td class="pt-3 text-right font-extrabold text-ch-primary text-sm">${eur.format(tot)}</td></tr>` : '';
+    }
+
+    function exportRicavi(fmt = 'xlsx') {
+        const rows = revenueRows();
+        if (!rows.length) return Swal.fire({ title: 'Nessun dato', text: 'Non ci sono attività da esportare.', icon: 'info', ...swalOk });
+        const header = ['Attività', 'Tipo', 'Data', 'Quota unitaria (€)', 'Iscritti', 'Ricavo previsto (€)'];
+        const data = rows.map(r => [r.nome, r.tipo, r.data, Number.isNaN(r.quota) ? '' : r.quota, r.n, r.ricavo === null ? '' : r.ricavo]);
+        data.push(['TOTALE', '', '', '', rows.reduce((a, r) => a + r.n, 0), rows.reduce((a, r) => a + (r.ricavo || 0), 0)]);
+        const name = `ricavi_${new Date().toISOString().slice(0, 10)}`;
+        if (fmt === 'xlsx') {
+            if (typeof XLSX === 'undefined') return Swal.fire({ title: 'Libreria Excel non caricata', text: 'Ricarica la pagina oppure usa il CSV.', icon: 'warning', ...swalOk });
+            const ws = XLSX.utils.aoa_to_sheet([header, ...data]);
+            ws['!cols'] = header.map((hd, i) => ({ wch: Math.min(40, Math.max(hd.length, ...data.map(r => String(r[i] ?? '').length)) + 2) }));
+            const wb = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(wb, ws, 'Ricavi');
+            XLSX.writeFile(wb, name + '.xlsx');
+        } else {
+            const fmtN = c => typeof c === 'number' ? c.toLocaleString('it-IT', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : c;
+            downloadCSV(name + '.csv', header, data.map(r => r.map((c, i) => (i === 3 || i === 5) ? fmtN(c) : c)));
+        }
     }
 
     function filteredRegs() {
