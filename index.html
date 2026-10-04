@@ -27,6 +27,7 @@
         .tab-btn.active { border-bottom: 3px solid #1b3b5c; color: #1b3b5c; font-weight: 700; background: rgba(27, 59, 92, 0.05); }
         .hero-gradient { background: linear-gradient(135deg, #1b3b5c 0%, #0f172a 100%); }
     </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 </head>
 <body class="flex flex-col min-h-screen selection:bg-ch-primary selection:text-white">
 
@@ -225,6 +226,7 @@
                     <button onclick="changePasswordPrompt('user')" class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-4 py-2 rounded-xl text-xs font-bold transition"><i class="fas fa-key mr-1.5"></i> Cambia password</button>
                 </div>
                 <div id="ud-bookings" class="space-y-3"></div>
+                <div id="ud-profile" class="mt-10 pt-8 border-t border-slate-200"></div>
             </div>
         </div>
 
@@ -261,7 +263,15 @@
                 </div>
             </div>
             <div class="bg-white p-6 md:p-8 rounded-3xl shadow-sm border border-slate-200">
-                <h3 class="font-extrabold text-base text-slate-900 mb-6 flex items-center"><i class="fas fa-clipboard-list mr-2 text-slate-400"></i> Registro Iscrizioni e Prenotazioni</h3>
+                <div class="flex flex-wrap items-end justify-between gap-3 mb-6">
+                    <h3 class="font-extrabold text-base text-slate-900 flex items-center"><i class="fas fa-clipboard-list mr-2 text-slate-400"></i> Registro Iscrizioni e Prenotazioni <span id="reg-count" class="ml-2 text-[11px] text-slate-400 font-bold"></span></h3>
+                    <div class="flex flex-wrap gap-2 items-center">
+                        <select id="flt-attivita" onchange="renderRegistrations()" class="px-3 py-2 rounded-xl bg-slate-50 border border-slate-200 text-xs focus:outline-none focus:border-ch-primary"><option value="">Tutte le attività</option></select>
+                        <select id="flt-tipo" onchange="renderRegistrations()" class="px-3 py-2 rounded-xl bg-slate-50 border border-slate-200 text-xs focus:outline-none focus:border-ch-primary"><option value="">Viaggi ed eventi</option><option value="Viaggio">Solo viaggi</option><option value="Evento">Solo eventi</option></select>
+                        <input id="flt-cerca" oninput="renderRegistrations()" placeholder="Cerca socio..." class="px-3 py-2 rounded-xl bg-slate-50 border border-slate-200 text-xs focus:outline-none focus:border-ch-primary">
+                        <button onclick="exportPresenze('xlsx')" class="bg-ch-primary hover:bg-ch-secondary text-white px-4 py-2 rounded-xl text-xs font-bold transition"><i class="fas fa-file-excel mr-1.5"></i> Esporta Excel</button><button onclick="exportPresenze('csv')" class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-4 py-2 rounded-xl text-xs font-bold transition"><i class="fas fa-file-csv mr-1.5"></i> CSV</button>
+                    </div>
+                </div>
                 <div class="overflow-x-auto">
                     <table class="w-full text-left border-collapse">
                         <thead>
@@ -510,6 +520,7 @@
             document.getElementById('lu-pass').value = '';
             setSession({ token: r.token, role: 'user', user: r.user });
             Swal.close();
+            if (r.mustChange) await forcePasswordChange();
             if (pendingBooking) finalizeBooking(); else showView('user-dashboard');
         } catch (err) { fail(err, 'Accesso Negato'); }
     }
@@ -522,6 +533,7 @@
 
     async function renderUserDashboard() {
         if (!currentUser) return;
+        renderProfile();
         document.getElementById('ud-welcome').innerText = `Ciao, ${currentUser.nome}!`;
         const box = document.getElementById('ud-bookings');
         try {
@@ -571,6 +583,84 @@
         if (r.isConfirmed && r.value) Swal.fire({ title: 'Password aggiornata', text: 'Le altre sessioni aperte sono state chiuse.', icon: 'success', ...swalOk });
     }
 
+    // ---------- DATI E DOCUMENTI DEL SOCIO ----------
+    const DOC_SLOTS = ['Fronte documento', 'Retro documento', 'Tessera sanitaria'];
+    let myDocs = [];
+
+    async function renderProfile() {
+        const box = document.getElementById('ud-profile');
+        if (!box) return;
+        try {
+            const { profile: p, docs } = await api('/api/me');
+            myDocs = docs || [];
+            const inp = 'class="w-full px-3.5 py-2.5 rounded-xl bg-white border border-slate-200 text-xs focus:outline-none focus:border-ch-primary"';
+            const lab = t => `<label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">${t}</label>`;
+            const f = (id, label, val, type = 'text') => `<div>${lab(label)}<input id="pf-${id}" type="${type}" value="${esc(val)}" ${inp}></div>`;
+            const expired = p.scadDoc && p.scadDoc < new Date().toISOString().slice(0, 10);
+            const tipi = ["Carta d'identità", 'Patente', 'Passaporto'];
+            box.innerHTML = `
+                <h3 class="font-extrabold text-sm text-slate-700 uppercase tracking-wide mb-1">I miei dati e documenti</h3>
+                <p class="text-[11px] text-slate-400 mb-4">Email (${esc(p.email)}) e codice fiscale (${esc(p.cf)}) non sono modificabili: per cambiarli contatta la segreteria.</p>
+                ${expired ? '<div class="mb-4 p-3 rounded-xl bg-red-50 text-red-600 text-xs font-bold">Il tuo documento risulta scaduto: aggiorna scadenza e foto.</div>' : ''}
+                <div class="space-y-3">
+                    <div class="grid grid-cols-2 gap-3">${f('nome', 'Nome', p.nome)}${f('cognome', 'Cognome', p.cognome)}</div>
+                    <div class="grid grid-cols-2 gap-3">${f('dataNascita', 'Data di nascita', p.dataNascita, 'date')}${f('luogoNascita', 'Luogo di nascita', p.luogoNascita)}</div>
+                    ${f('ind', 'Indirizzo di residenza', p.ind)}
+                    ${f('tel', 'Telefono', p.tel, 'tel')}
+                    <div class="grid grid-cols-2 gap-3">
+                        <div>${lab('Tipo documento')}<select id="pf-tipoDoc" ${inp}>${tipi.map(t => `<option ${t === p.tipoDoc ? 'selected' : ''}>${esc(t)}</option>`).join('')}</select></div>
+                        ${f('numDoc', 'Numero documento', p.numDoc)}
+                    </div>
+                    ${f('scadDoc', 'Scadenza documento', p.scadDoc, 'date')}
+                    <button onclick="saveProfile()" class="w-full hero-gradient text-white font-bold py-3 rounded-xl text-xs shadow-sm hover:opacity-95 transition">Salva i miei dati</button>
+                </div>
+                <h4 class="font-extrabold text-xs text-slate-700 uppercase tracking-wide mt-8 mb-3">Documenti caricati</h4>
+                <div class="space-y-3">${DOC_SLOTS.map((n, i) => {
+                    const d = myDocs.find(x => x.nome === n);
+                    return `<div class="p-3 bg-slate-50 border border-slate-200 rounded-2xl">
+                        <div class="flex justify-between items-center mb-2"><span class="text-xs font-bold text-slate-800">${n}${i < 2 ? ' *' : ' (facoltativa)'}</span><span class="text-[11px] ${d ? 'text-green-600' : 'text-slate-400'}">${d ? 'Caricato' : 'Non caricato'}</span></div>
+                        ${d ? `<img src="${esc(d.data)}" class="max-h-32 rounded-lg border border-slate-200 mb-2">` : ''}
+                        <div class="flex flex-wrap gap-2 items-center">
+                            <input type="file" id="pd-${i}" accept="image/*" class="text-[11px] text-slate-500 max-w-[60%]">
+                            <button onclick="uploadDoc(${i})" class="bg-ch-primary text-white px-3 py-1.5 rounded-lg text-[11px] font-bold">${d ? 'Sostituisci' : 'Carica'}</button>
+                            ${d && i === 2 ? `<button onclick="deleteDoc(${i})" class="text-red-500 hover:text-red-700 text-[11px] font-bold">Elimina</button>` : ''}
+                        </div></div>`;
+                }).join('')}</div>`;
+        } catch (e) { box.innerHTML = '<p class="text-red-500 text-xs">Impossibile caricare i tuoi dati.</p>'; }
+    }
+
+    async function saveProfile() {
+        const g = id => document.getElementById('pf-' + id).value.trim();
+        const profile = {};
+        for (const k of ['nome', 'cognome', 'dataNascita', 'luogoNascita', 'ind', 'tel', 'tipoDoc', 'numDoc', 'scadDoc']) profile[k] = g(k);
+        if (Object.values(profile).some(v => !v)) return Swal.fire({ title: 'Dati incompleti', text: 'Compila tutti i campi.', icon: 'warning', ...swalOk });
+        Swal.fire({ title: 'Salvataggio...', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
+        try {
+            const r = await api('/api/me/update', { method: 'POST', body: { profile } });
+            setSession({ ...session, user: r.user }); updateHeader();
+            await Swal.fire({ title: 'Dati aggiornati', icon: 'success', ...swalOk });
+            renderUserDashboard();
+        } catch (e) { fail(e); }
+    }
+
+    async function uploadDoc(i) {
+        const f = document.getElementById('pd-' + i).files[0];
+        if (!f) return Swal.fire({ title: 'Scegli un file', text: 'Seleziona prima una foto del documento.', icon: 'info', ...swalOk });
+        Swal.fire({ title: 'Caricamento...', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
+        try {
+            const data = await compressImage(f);
+            await api('/api/me/doc', { method: 'POST', body: { nome: DOC_SLOTS[i], data }, ms: 60000 });
+            await Swal.fire({ title: 'Documento aggiornato', icon: 'success', ...swalOk });
+            renderProfile();
+        } catch (e) { fail(e); }
+    }
+
+    async function deleteDoc(i) {
+        const c = await Swal.fire({ title: 'Eliminare il documento?', icon: 'warning', showCancelButton: true, confirmButtonText: 'Elimina', cancelButtonText: 'Annulla', confirmButtonColor: '#dc2626' });
+        if (!c.isConfirmed) return;
+        try { await api('/api/me/doc-delete', { method: 'POST', body: { nome: DOC_SLOTS[i] } }); renderProfile(); } catch (e) { fail(e); }
+    }
+
     // ---------- ADMIN ----------
     function adminLoginPrompt() {
         Swal.fire({
@@ -589,13 +679,7 @@
     async function renderAdmin() {
         try {
             adminData = await api('/api/admin/data');
-            document.getElementById('admin-table-body').innerHTML = adminData.registrations.map(r => `
-                <tr>
-                    <td class="py-3 pr-3 text-slate-500">${esc(r.dataReg)}</td>
-                    <td class="py-3 pr-3 font-bold text-slate-900">${esc(r.evento)} <span class="text-[10px] text-slate-400 font-normal">(${esc(r.tipo)})</span></td>
-                    <td class="py-3 pr-3">${esc(r.nome)} ${esc(r.cognome)}<br><span class="text-[11px] text-slate-400">${esc(r.userId)}</span></td>
-                    <td class="py-3 text-slate-500">${esc(r.dettagli)} <button onclick="deleteReg('${esc(r.id)}')" class="ml-2 text-red-500 hover:text-red-700" title="Elimina"><i class="fas fa-trash"></i></button></td>
-                </tr>`).join('') || '<tr><td colspan="4" class="py-6 text-center text-slate-400 italic">Nessuna iscrizione registrata.</td></tr>';
+            fillActivityFilter(); renderRegistrations();
             document.getElementById('soci-count').innerText = `(${adminData.users.length})`;
             document.getElementById('admin-soci-body').innerHTML = adminData.users.map((u, i) => `
                 <tr>
@@ -603,9 +687,73 @@
                     <td class="py-3 pr-3 text-slate-600">${esc(u.email)}<br>${esc(u.tel)}</td>
                     <td class="py-3 pr-3 text-slate-600">${esc(u.dataNascita)} - ${esc(u.luogoNascita)}<br><span class="text-[11px]">${esc(u.cf)}</span></td>
                     <td class="py-3 pr-3 text-slate-600">${esc(u.tipoDoc)} ${esc(u.numDoc)}<br><span class="text-[11px]">scad. ${esc(u.scadDoc)}</span></td>
-                    <td class="py-3 whitespace-nowrap"><button onclick="viewDocs(${i})" class="bg-ch-primary text-white px-3 py-1.5 rounded-lg text-[11px] font-bold">Documenti (${u.nDocs || 0})</button> <button onclick="deleteUser(${i})" class="ml-1 text-red-500 hover:text-red-700" title="Elimina socio"><i class="fas fa-trash"></i></button></td>
+                    <td class="py-3 whitespace-nowrap"><button onclick="viewDocs(${i})" class="bg-ch-primary text-white px-3 py-1.5 rounded-lg text-[11px] font-bold">Documenti (${u.nDocs || 0})</button> <button onclick="resetUserPassword(${i})" class="ml-1 text-amber-600 hover:text-amber-800" title="Reimposta password"><i class="fas fa-key"></i></button> <button onclick="deleteUser(${i})" class="ml-1 text-red-500 hover:text-red-700" title="Elimina socio"><i class="fas fa-trash"></i></button></td>
                 </tr>`).join('') || '<tr><td colspan="5" class="py-6 text-center text-slate-400 italic">Nessun socio registrato.</td></tr>';
         } catch (e) { fail(e); }
+    }
+
+    function filteredRegs() {
+        const a = document.getElementById('flt-attivita').value, t = document.getElementById('flt-tipo').value;
+        const q = document.getElementById('flt-cerca').value.trim().toLowerCase();
+        return adminData.registrations.filter(r => {
+            if (a) { const k = a.indexOf('|'); if (r.tipo !== a.slice(0, k) || r.evento !== a.slice(k + 1)) return false; }
+            if (t && r.tipo !== t) return false;
+            if (q && !`${r.nome} ${r.cognome} ${r.userId}`.toLowerCase().includes(q)) return false;
+            return true;
+        });
+    }
+
+    function fillActivityFilter() {
+        const sel = document.getElementById('flt-attivita'), keep = sel.value;
+        const set = [...new Set(adminData.registrations.map(r => r.tipo + '|' + r.evento))].sort((x, y) => x.localeCompare(y, 'it'));
+        sel.innerHTML = '<option value="">Tutte le attività</option>' + set.map(k => {
+            const i = k.indexOf('|');
+            return `<option value="${esc(k)}">${esc(k.slice(i + 1))} (${esc(k.slice(0, i))})</option>`;
+        }).join('');
+        sel.value = set.includes(keep) ? keep : '';
+    }
+
+    function renderRegistrations() {
+        const regs = filteredRegs();
+        document.getElementById('reg-count').innerText = `(${regs.length})`;
+        document.getElementById('admin-table-body').innerHTML = regs.map(r => `
+            <tr>
+                <td class="py-3 pr-3 text-slate-500">${esc(r.dataReg)}</td>
+                <td class="py-3 pr-3 font-bold text-slate-900">${esc(r.evento)} <span class="text-[10px] text-slate-400 font-normal">(${esc(r.tipo)})</span></td>
+                <td class="py-3 pr-3">${esc(r.nome)} ${esc(r.cognome)}<br><span class="text-[11px] text-slate-400">${esc(r.userId)}</span></td>
+                <td class="py-3 text-slate-500">${esc(r.dettagli)} <button onclick="deleteReg('${esc(r.id)}')" class="ml-2 text-red-500 hover:text-red-700" title="Elimina"><i class="fas fa-trash"></i></button></td>
+            </tr>`).join('') || '<tr><td colspan="4" class="py-6 text-center text-slate-400 italic">Nessuna iscrizione trovata.</td></tr>';
+    }
+
+    function downloadCSV(name, header, rows) {
+        const q = x => '"' + String(x ?? '').replace(/"/g, '""').replace(/^([=+\-@])/, "'$1") + '"';
+        const csv = [header.map(q).join(';'), ...rows.map(r => r.map(q).join(';'))].join('\n');
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(new Blob(['\ufeff' + csv], { type: 'text/csv;charset=utf-8' }));
+        a.download = name; a.click();
+    }
+
+    function exportPresenze(fmt = 'csv') {
+        const regs = filteredRegs();
+        if (!regs.length) return Swal.fire({ title: 'Nessun dato', text: 'Nessuna prenotazione corrisponde ai filtri.', icon: 'info', ...swalOk });
+        const by = Object.fromEntries(adminData.users.map(u => [u.email, u]));
+        const rows = regs.map(r => {
+            const u = by[r.userId] || {};
+            return [r.evento, r.tipo, r.dataReg, r.cognome, r.nome, r.userId, u.tel, u.cf, u.dataNascita, u.luogoNascita, u.ind, u.tipoDoc, u.numDoc, u.scadDoc, ''];
+        }).sort((a, b) => (a[0] + a[3]).localeCompare(b[0] + b[3], 'it'));
+        const sel = document.getElementById('flt-attivita');
+        const label = sel.value ? sel.options[sel.selectedIndex].text : 'tutte';
+        const slug = label.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 40) || 'tutte';
+        const name = `presenze_${slug}_${new Date().toISOString().slice(0, 10)}`;
+        const header = ['Attività', 'Tipo', 'Data prenotazione', 'Cognome', 'Nome', 'Email', 'Telefono', 'Codice fiscale', 'Data di nascita', 'Luogo di nascita', 'Indirizzo', 'Tipo documento', 'Numero documento', 'Scadenza documento', 'Presente'];
+        if (fmt === 'xlsx') {
+            if (typeof XLSX === 'undefined') return Swal.fire({ title: 'Libreria Excel non caricata', text: 'Ricarica la pagina oppure usa il CSV.', icon: 'warning', ...swalOk });
+            const ws = XLSX.utils.aoa_to_sheet([header, ...rows]);
+            ws['!cols'] = header.map((hd, i) => ({ wch: Math.min(40, Math.max(hd.length, ...rows.map(r => String(r[i] ?? '').length)) + 2) }));
+            const wb = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(wb, ws, 'Presenze');
+            XLSX.writeFile(wb, name + '.xlsx');
+        } else downloadCSV(name + '.csv', header, rows);
     }
 
     async function viewDocs(i) {
@@ -624,6 +772,40 @@
         if (!c.isConfirmed) return;
         try { await api('/api/admin/delete-registration', { method: 'POST', body: { id } }); renderAdmin(); } catch (e) { fail(e); }
     }
+    async function resetUserPassword(i) {
+        const u = adminData.users[i];
+        const c = await Swal.fire({ title: `Reimpostare la password di ${esc(u.nome)} ${esc(u.cognome)}?`, text: 'Verrà creata una password temporanea e le sue sessioni aperte saranno chiuse.', icon: 'question', showCancelButton: true, confirmButtonText: 'Reimposta', cancelButtonText: 'Annulla', ...swalOk });
+        if (!c.isConfirmed) return;
+        try {
+            const r = await api('/api/admin/reset-user-password', { method: 'POST', body: { email: u.email } });
+            Swal.fire({
+                title: 'Password temporanea',
+                html: `<p style="font-size:12px;color:#64748b">Comunicala al socio in modo riservato. Viene mostrata solo adesso e al primo accesso dovrà scegliere una nuova password.</p><p style="font-size:22px;font-weight:800;letter-spacing:2px;margin-top:12px;user-select:all">${esc(r.tempPassword)}</p>`,
+                ...swalOk
+            });
+        } catch (e) { fail(e); }
+    }
+
+    async function forcePasswordChange() {
+        const inp = 'class="swal2-input !text-xs" type="password"';
+        while (true) {
+            const r = await Swal.fire({
+                title: 'Scegli una nuova password',
+                html: `<p style="font-size:12px;color:#64748b">Hai effettuato l'accesso con una password temporanea: sceglierne una tua è obbligatorio.</p><input id="cp-cur" ${inp} placeholder="Password temporanea" autocomplete="current-password"><input id="cp-new" ${inp} placeholder="Nuova password (min. 10 caratteri)" autocomplete="new-password"><input id="cp-new2" ${inp} placeholder="Ripeti nuova password" autocomplete="new-password">`,
+                allowOutsideClick: false, allowEscapeKey: false, confirmButtonText: 'Salva', ...swalOk, showLoaderOnConfirm: true,
+                preConfirm: async () => {
+                    const cur = document.getElementById('cp-cur').value, nw = document.getElementById('cp-new').value, nw2 = document.getElementById('cp-new2').value;
+                    if (!cur) { Swal.showValidationMessage('Inserisci la password temporanea.'); return false; }
+                    if (nw.length < 10) { Swal.showValidationMessage('La nuova password deve avere almeno 10 caratteri.'); return false; }
+                    if (nw !== nw2) { Swal.showValidationMessage('Le due password non coincidono.'); return false; }
+                    try { return await api('/api/change-password', { method: 'POST', body: { current: cur, newPassword: nw } }); }
+                    catch (e) { Swal.showValidationMessage(e.message); return false; }
+                }
+            });
+            if (r.isConfirmed && r.value) { await Swal.fire({ title: 'Password aggiornata', icon: 'success', ...swalOk }); return; }
+        }
+    }
+
     async function deleteUser(i) {
         const u = adminData.users[i];
         const c = await Swal.fire({ title: `Eliminare ${esc(u.nome)} ${esc(u.cognome)}?`, text: 'Verranno cancellati dati e documenti.', icon: 'warning', showCancelButton: true, confirmButtonText: 'Elimina', cancelButtonText: 'Annulla', confirmButtonColor: '#dc2626' });
