@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Club House Viaggi - Associazione Giuseppe Novello</title>
+    <title>Club House - Associazione Giuseppe Novello</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -38,7 +38,7 @@
                     <i class="fas fa-compass text-xl text-ch-accent"></i>
                 </div>
                 <div>
-                    <h1 class="text-lg font-extrabold tracking-tight text-ch-primary">CLUB HOUSE <span class="text-ch-accent font-bold">Viaggi</span></h1>
+                    <h1 class="text-lg font-extrabold tracking-tight text-ch-primary">CLUB HOUSE</h1>
                     <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Associazione Giuseppe Novello</span>
                 </div>
             </div>
@@ -204,7 +204,7 @@
                         <div><label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Foto documento - fronte</label><input type="file" id="ru-doc1" accept="image/*" required class="w-full text-xs text-slate-500 file:mr-3 file:py-2 file:px-3 file:rounded-lg file:border-0 file:bg-ch-primary file:text-white file:text-xs file:font-bold"></div>
                         <div><label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Foto documento - retro</label><input type="file" id="ru-doc2" accept="image/*" required class="w-full text-xs text-slate-500 file:mr-3 file:py-2 file:px-3 file:rounded-lg file:border-0 file:bg-ch-primary file:text-white file:text-xs file:font-bold"></div>
                         <div><label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Tessera sanitaria (facoltativa)</label><input type="file" id="ru-doc3" accept="image/*" class="w-full text-xs text-slate-500 file:mr-3 file:py-2 file:px-3 file:rounded-lg file:border-0 file:bg-slate-200 file:text-slate-700 file:text-xs file:font-bold"></div>
-                        <label class="flex items-start gap-2 text-[11px] text-slate-600 pt-1"><input type="checkbox" id="ru-privacy" required class="mt-0.5"> <span>Ho letto l'informativa privacy e acconsento al trattamento dei miei dati e dei documenti caricati.</span></label>
+                        <label class="flex items-start gap-2 text-[11px] text-slate-600 pt-1"><input type="checkbox" id="ru-privacy" required class="mt-0.5"> <span>Ho letto l'<a href="#" onclick="showPrivacy(); return false;" class="underline font-bold text-ch-primary">informativa privacy</a> e acconsento al trattamento dei miei dati e dei documenti caricati.</span></label>
                         <button type="submit" class="w-full bg-ch-accent text-ch-dark font-extrabold py-3.5 rounded-xl text-xs shadow-md hover:bg-amber-400 transition mt-2">Conferma Registrazione</button>
                     </form>
                 </div>
@@ -304,12 +304,37 @@
         </div>
     </main>
 
-    <footer class="bg-ch-dark text-slate-400 py-10 mt-auto text-center border-t border-slate-800">
-        <div class="max-w-7xl mx-auto px-6 flex flex-col items-center justify-center space-y-4">
-            <p class="text-xs text-slate-500">Associazione Giuseppe Novello • Esperienze, persone, luoghi. Sempre con te.</p>
-            <button onclick="adminLoginPrompt()" class="text-[11px] text-slate-400 hover:text-white uppercase tracking-widest font-bold bg-slate-900 px-4 py-2 rounded-xl border border-slate-800 transition flex items-center">
-                <i class="fas fa-lock mr-1.5 text-ch-accent"></i> Accesso Segreteria
-            </button>
+    <footer class="bg-ch-dark text-slate-400 pt-12 pb-8 mt-auto border-t border-slate-800">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-left">
+                <div>
+                    <h4 class="text-white text-sm font-extrabold mb-3 tracking-wide">CLUB HOUSE</h4>
+                    <p class="text-xs text-slate-500 leading-relaxed">Associazione Lucana e altre Regioni Italiane "Giuseppe Novello".<br>Esperienze, persone, luoghi. Sempre con te.</p>
+                </div>
+                <div>
+                    <h4 class="text-white text-sm font-extrabold mb-3 tracking-wide">Contatti</h4>
+                    <ul class="space-y-2 text-xs">
+                        <li class="flex items-start"><i class="fas fa-map-marker-alt w-4 mt-0.5 mr-2 text-ch-accent"></i><span>Via Mezzano, 10034 Chivasso (TO)</span></li>
+                        <li class="flex items-start"><i class="fas fa-phone w-4 mt-0.5 mr-2 text-ch-accent"></i><a href="tel:+393201234567" class="hover:text-white transition">+39 320 1234567</a></li>
+                        <li class="flex items-start"><i class="fas fa-envelope w-4 mt-0.5 mr-2 text-ch-accent"></i><a href="mailto:info@associazionenovello.it" class="hover:text-white transition break-all">info@associazionenovello.it</a></li>
+                        <li class="flex items-start"><i class="fas fa-globe w-4 mt-0.5 mr-2 text-ch-accent"></i><a href="https://www.associazionenovello.it" target="_blank" rel="noopener noreferrer" class="hover:text-white transition">www.associazionenovello.it</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-white text-sm font-extrabold mb-3 tracking-wide">Informazioni</h4>
+                    <ul class="space-y-2 text-xs">
+                        <li><button onclick="showPrivacy()" class="hover:text-white transition text-left">Informativa privacy</button></li>
+                        <li><button onclick="showCookie()" class="hover:text-white transition text-left">Cookie policy</button></li>
+                        <li><button onclick="showView('conditions')" class="hover:text-white transition text-left">Condizioni di partecipazione</button></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="mt-8 pt-6 border-t border-slate-800 flex flex-col md:flex-row items-center justify-between gap-4">
+                <p class="text-[11px] text-slate-600">&copy; <span id="anno">2026</span> Associazione Giuseppe Novello &bull; Chivasso (TO)</p>
+                <button onclick="adminLoginPrompt()" class="text-[11px] text-slate-400 hover:text-white uppercase tracking-widest font-bold bg-slate-900 px-4 py-2 rounded-xl border border-slate-800 transition flex items-center">
+                    <i class="fas fa-lock mr-1.5 text-ch-accent"></i> Accesso Segreteria
+                </button>
+            </div>
         </div>
     </footer>
 
@@ -440,14 +465,49 @@
         document.getElementById('tab-register').classList.toggle('active', !l);
     }
 
+    function legalBox(inner) {
+        return `<div style="text-align:left;font-size:12px;line-height:1.55;max-height:60vh;overflow-y:auto;padding-right:6px">${inner}</div>`;
+    }
+    function privacyHtml(accept = false) {
+        const h = t => `<p style="font-weight:800;margin:14px 0 4px;color:#1b3b5c">${t}</p>`;
+        return legalBox(
+            h('Titolare del trattamento') +
+            `<p>Associazione Lucana e altre Regioni Italiane "Giuseppe Novello" - Via Mezzano, 10034 Chivasso (TO) - info@associazionenovello.it</p>` +
+            h('Dati trattati') +
+            `<p>Dati anagrafici e di contatto (nome, cognome, data e luogo di nascita, codice fiscale, indirizzo, telefono, email), estremi del documento di identità e copia fotografica dei documenti caricati, prenotazioni a viaggi ed eventi.</p>` +
+            h('Finalità e base giuridica') +
+            `<p>Gestione dell'iscrizione e della partecipazione a viaggi, escursioni ed eventi, coperture assicurative, adempimenti amministrativi e di legge. Base giuridica: esecuzione del rapporto associativo, obblighi di legge e, per i documenti caricati, il tuo consenso.</p>` +
+            h('Chi può vedere i dati') +
+            `<p>Solo la segreteria dell'associazione. Non vengono diffusi. Possono accedervi, per le sole attività tecniche necessarie, i fornitori dell'infrastruttura informatica (hosting e database Cloudflare) e, per i viaggi, i fornitori dei servizi strettamente necessari (agenzie, compagnie di trasporto, strutture, assicurazioni).</p>` +
+            h('Conservazione') +
+            `<p>I dati sono conservati per il tempo in cui sei socio e per i periodi previsti dalla legge; puoi chiedere la cancellazione in qualsiasi momento, salvo obblighi di conservazione.</p>` +
+            h('I tuoi diritti') +
+            `<p>Puoi chiedere accesso, rettifica, cancellazione, limitazione, portabilità e opporti al trattamento scrivendo a info@associazionenovello.it. Puoi modificare i tuoi dati e documenti direttamente dalla tua area riservata. Hai inoltre diritto di reclamo al Garante per la protezione dei dati personali (www.garanteprivacy.it).</p>` +
+            (accept ? `<p style="margin-top:12px;font-weight:700">Per continuare devi accettare il trattamento dei dati.</p>` : '')
+        );
+    }
+    function cookieHtml() {
+        const h = t => `<p style="font-weight:800;margin:14px 0 4px;color:#1b3b5c">${t}</p>`;
+        return legalBox(
+            `<p>Questo sito <b>non utilizza cookie di profilazione o di marketing</b> e non usa strumenti di analisi o pubblicità.</p>` +
+            h('Archiviazione tecnica') +
+            `<p>Dopo l'accesso, il browser conserva temporaneamente un codice di sessione nella memoria della scheda (sessionStorage) per mantenerti collegato. Serve solo al funzionamento del servizio e viene cancellato quando esci o chiudi la scheda. Non richiede consenso perché strettamente necessario.</p>` +
+            h('Servizi di terze parti') +
+            `<p>Per mostrare correttamente la pagina vengono caricati caratteri e librerie da Google Fonts, Cloudflare (cdnjs), jsDelivr e Tailwind CDN. Questi servizi possono ricevere dati tecnici del tuo browser, come l'indirizzo IP, secondo le proprie informative.</p>` +
+            h('Come gestire o cancellare i dati del browser') +
+            `<p>Puoi eliminare i dati di navigazione dalle impostazioni del tuo browser in qualsiasi momento.</p>` +
+            h('Contatti') +
+            `<p>Per informazioni: info@associazionenovello.it</p>`
+        );
+    }
+    function showPrivacy() { Swal.fire({ title: 'Informativa Privacy', html: privacyHtml(), width: 700, confirmButtonText: 'Chiudi', ...swalOk }); }
+    function showCookie() { Swal.fire({ title: 'Cookie Policy', html: cookieHtml(), width: 700, confirmButtonText: 'Chiudi', ...swalOk }); }
+
     function switchAuthTab(tab) {
         if (tab === 'register' && !privacyAccepted) {
             Swal.fire({
                 title: 'Informativa Privacy',
-                html: '<div style="text-align:left;font-size:12px;line-height:1.5">' +
-                    '<p>I dati anagrafici e i documenti che inserisci sono raccolti dall\'Associazione Lucana e altre Regioni Italiane "Giuseppe Novello" per gestire iscrizioni, viaggi ed eventi, assicurazioni e obblighi di legge.</p>' +
-                    '<p style="margin-top:8px">I dati sono accessibili solo alla segreteria, che può consultarli, modificarli, esportarli e cancellarli. Puoi chiedere in ogni momento accesso, rettifica o cancellazione scrivendo a info@associazionenovello.it.</p>' +
-                    '<p style="margin-top:8px">Per continuare devi accettare il trattamento dei dati.</p></div>',
+                html: privacyHtml(true), width: 700,
                 showCancelButton: true, confirmButtonText: 'Accetto e continuo', cancelButtonText: 'Non accetto', ...swalOk
             }).then(r => { if (r.isConfirmed) { privacyAccepted = true; applyAuthTab('register'); } else applyAuthTab('login'); });
             return;
@@ -847,6 +907,7 @@
         if (!ok) document.getElementById('dynamic-trips-list').innerHTML = '<div class="glass-card p-6 rounded-2xl text-center text-red-500 text-xs">Impossibile contattare il server. Riprova tra poco.</div>';
     });
     updateHeader();
+    document.getElementById('anno').textContent = new Date().getFullYear();
     if (isAdmin) showView('admin');
 </script>
 </body>
