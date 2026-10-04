@@ -174,6 +174,13 @@
                     <form id="form-user-register" onsubmit="userRegister(event)" class="hidden space-y-3.5">
                         <h2 class="text-xl font-extrabold text-slate-900 mb-1">Nuovo Socio</h2>
                         <p class="text-xs text-slate-400 mb-4">Compila tutti i dati e carica i documenti richiesti.</p>
+                        <div class="p-4 rounded-2xl bg-ch-accent/10 border border-ch-accent/40">
+                            <p class="text-xs font-extrabold text-ch-primary mb-1"><i class="fas fa-id-card mr-1.5"></i> Compila in automatico</p>
+                            <p class="text-[11px] text-slate-600 mb-3">Fotografa o scegli la tua carta d'identità (meglio elettronica, fronte e retro): i campi si compilano da soli. La lettura avviene sul tuo telefono o computer e la foto non viene inviata a nessun servizio per questo scopo. Poi controlla i dati. Se preferisci, puoi compilare tutto a mano.</p>
+                            <p class="text-[10px] text-slate-500 mb-3">Consigli: documento intero, ben illuminato, senza riflessi e su sfondo uniforme.</p>
+                            <input type="file" id="scan-files" accept="image/*" multiple class="hidden">
+                            <button type="button" onclick="document.getElementById('scan-files').click()" class="w-full bg-ch-primary hover:bg-ch-secondary text-white font-bold py-2.5 rounded-xl text-xs transition"><i class="fas fa-camera mr-1.5"></i> Scansiona documento</button>
+                        </div>
                         <p class="text-[11px] font-extrabold text-ch-primary uppercase tracking-wider">Dati anagrafici</p>
                         <div class="grid grid-cols-2 gap-3">
                             <input type="text" id="ru-nome" placeholder="Nome" required class="w-full px-3.5 py-2.5 rounded-xl bg-white border border-slate-200 text-xs focus:outline-none focus:border-ch-primary">
@@ -495,7 +502,7 @@
             h('Titolare del trattamento') +
             `<p>Associazione Lucana e altre Regioni Italiane "Giuseppe Novello" - Via Mezzano, 10034 Chivasso (TO) - info@associazionenovello.it</p>` +
             h('Dati trattati') +
-            `<p>Dati anagrafici e di contatto (nome, cognome, data e luogo di nascita, codice fiscale, indirizzo, telefono, email), estremi del documento di identità e copia fotografica dei documenti caricati, prenotazioni a viaggi ed eventi.</p>` +
+            `<p>Dati anagrafici e di contatto (nome, cognome, data e luogo di nascita, codice fiscale, indirizzo, telefono, email), estremi del documento di identità e copia fotografica dei documenti caricati, prenotazioni a viaggi ed eventi. Se usi la compilazione automatica, la lettura del documento avviene sul tuo dispositivo: per questa operazione l'immagine non viene inviata a servizi esterni.</p>` +
             h('Finalità e base giuridica') +
             `<p>Gestione dell'iscrizione e della partecipazione a viaggi, escursioni ed eventi, coperture assicurative, adempimenti amministrativi e di legge. Base giuridica: esecuzione del rapporto associativo, obblighi di legge e, per i documenti caricati, il tuo consenso.</p>` +
             h('Chi può vedere i dati') +
@@ -514,7 +521,7 @@
             h('Archiviazione tecnica') +
             `<p>Dopo l'accesso, il browser conserva temporaneamente un codice di sessione nella memoria della scheda (sessionStorage) per mantenerti collegato. Serve solo al funzionamento del servizio e viene cancellato quando esci o chiudi la scheda. Non richiede consenso perché strettamente necessario.</p>` +
             h('Servizi di terze parti') +
-            `<p>Per mostrare correttamente la pagina vengono caricati caratteri e librerie da Google Fonts, Cloudflare (cdnjs), jsDelivr e Tailwind CDN. Questi servizi possono ricevere dati tecnici del tuo browser, come l'indirizzo IP, secondo le proprie informative.</p>` +
+            `<p>Per mostrare correttamente la pagina vengono caricati caratteri e librerie da Google Fonts, Cloudflare (cdnjs), jsDelivr e Tailwind CDN. Questi servizi possono ricevere dati tecnici del tuo browser, come l'indirizzo IP, secondo le proprie informative. Se usi la compilazione automatica dal documento, da jsDelivr vengono scaricati anche il programma di lettura (Tesseract.js) e i suoi dati linguistici; l'immagine resta sul tuo dispositivo.</p>` +
             h('Come gestire o cancellare i dati del browser') +
             `<p>Puoi eliminare i dati di navigazione dalle impostazioni del tuo browser in qualsiasi momento.</p>` +
             h('Contatti') +
@@ -667,6 +674,258 @@
             }
         });
         if (r.isConfirmed && r.value) Swal.fire({ title: 'Password aggiornata', text: 'Le altre sessioni aperte sono state chiuse.', icon: 'success', ...swalOk });
+    }
+
+    // ---------- COMPILAZIONE AUTOMATICA DA DOCUMENTO ----------
+    // ---- OCR PARSE BEGIN ----
+    // Interpreta il testo letto da un documento. Non invia nulla in rete: lavora solo sul testo.
+    const MRZ_W = [7, 3, 1];
+    const mrzVal = c => (c >= '0' && c <= '9') ? +c : (c >= 'A' && c <= 'Z') ? c.charCodeAt(0) - 55 : 0;
+    const mrzCheck = s => { let t = 0; for (let i = 0; i < s.length; i++) t += mrzVal(s[i]) * MRZ_W[i % 3]; return t % 10; };
+    const TO_DIGIT = { O: '0', Q: '0', D: '0', I: '1', L: '1', Z: '2', S: '5', B: '8', G: '6' };
+    const TO_LETTER = { '0': 'O', '1': 'I', '2': 'Z', '5': 'S', '8': 'B', '6': 'G' };
+    const fixDigits = s => s.replace(/[A-Z]/g, c => TO_DIGIT[c] ?? c);
+    const fixLetters = s => s.replace(/[0-9]/g, c => TO_LETTER[c] ?? c);
+    const toTitle = s => s.toLowerCase().replace(/(^|[\s'’-])([a-z])/g, (m, a, b) => a + b.toUpperCase()).replace(/\(([a-z]{2})\)/g, (m, p) => `(${p.toUpperCase()})`);
+
+    function isoDate(y, m, d) {
+        const dt = new Date(Date.UTC(y, m - 1, d));
+        if (dt.getUTCFullYear() !== y || dt.getUTCMonth() !== m - 1 || dt.getUTCDate() !== d) return null;
+        return `${y}-${String(m).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
+    }
+    function yyToYear(yy, past) {
+        const nowYY = new Date().getFullYear() % 100;
+        return past ? (yy > nowYY ? 1900 + yy : 2000 + yy) : 2000 + yy;
+    }
+    function mrzDate(s, past) {
+        s = fixDigits(s);
+        if (!/^\d{6}$/.test(s)) return null;
+        return isoDate(yyToYear(+s.slice(0, 2), past), +s.slice(2, 4), +s.slice(4, 6));
+    }
+
+    // ----- zona MRZ (retro della carta d'identità elettronica, formato 3 righe x 30 caratteri) -----
+    const cleanMrzLine = l => l.toUpperCase().replace(/[«‹]/g, '<').replace(/\s+/g, '').replace(/[^A-Z0-9<]/g, '');
+
+    function parseTD1(a, b, c) {
+        const pad = l => (l + '<'.repeat(30)).slice(0, 30);
+        const l1 = pad(a), l2 = pad(b);
+        const l3 = pad(c.replace(/[<KCLSX]{4,}$/, m => '<'.repeat(m.length)));
+        const f = {}; let ok = 0;
+        const raw = l1.slice(5, 14), chk = fixDigits(l1[14]);
+        const variants = [raw, fixLetters(raw.slice(0, 2)) + fixDigits(raw.slice(2, 7)) + fixLetters(raw.slice(7))];
+        if (/^\d$/.test(chk)) for (const v of variants) if (mrzCheck(v) === +chk) { f.numDoc = v.replace(/</g, ''); ok++; break; }
+        const dob = fixDigits(l2.slice(0, 6)), dchk = fixDigits(l2[6]);
+        if (/^\d{7}$/.test(dob + dchk) && mrzCheck(dob) === +dchk) { const d = mrzDate(dob, true); if (d) { f.dataNascita = d; ok++; } }
+        const ex = fixDigits(l2.slice(8, 14)), echk = fixDigits(l2[14]);
+        if (/^\d{7}$/.test(ex + echk) && mrzCheck(ex) === +echk) { const d = mrzDate(ex, false); if (d) { f.scadDoc = d; ok++; } }
+        if (ok < 2) return null; // senza almeno due controlli superati non mi fido della lettura
+        const [sur, giv = ''] = l3.replace(/^<+/, '').split('<<');
+        const S = fixLetters(sur.replace(/</g, ' ')).trim(), G = fixLetters(giv.replace(/</g, ' ')).trim();
+        if (/^[A-Z' ]{2,}$/.test(S)) f.cognome = toTitle(S);
+        if (/^[A-Z' ]{2,}$/.test(G)) f.nome = toTitle(G);
+        if (/^[CI]/.test(l1.slice(0, 2))) f.tipoDoc = "Carta d'identità";
+        return { fields: f, score: ok };
+    }
+    function parseMRZ(text) {
+        const lines = String(text || '').split(/\r?\n/).map(cleanMrzLine).filter(l => l.length >= 10);
+        let best = null;
+        for (let i = 0; i + 3 <= lines.length; i++) {
+            const [a, b, c] = [lines[i], lines[i + 1], lines[i + 2]];
+            if (a.length < 24 || a.length > 36 || b.length < 24 || b.length > 36) continue;
+            const r = parseTD1(a, b, c);
+            if (r && (!best || r.score > best.score)) best = r;
+        }
+        return best;
+    }
+
+    // ----- codice fiscale -----
+    const CF_ODD = { 0: 1, 1: 0, 2: 5, 3: 7, 4: 9, 5: 13, 6: 15, 7: 17, 8: 19, 9: 21, A: 1, B: 0, C: 5, D: 7, E: 9, F: 13, G: 15, H: 17, I: 19, J: 21, K: 2, L: 4, M: 18, N: 20, O: 11, P: 3, Q: 6, R: 8, S: 12, T: 14, U: 16, V: 10, W: 22, X: 25, Y: 24, Z: 23 };
+    function cfCheck(c15) {
+        let sum = 0;
+        for (let i = 0; i < 15; i++) { const c = c15[i]; sum += i % 2 === 0 ? CF_ODD[c] : (/\d/.test(c) ? +c : c.charCodeAt(0) - 65); }
+        return String.fromCharCode(65 + sum % 26);
+    }
+    function findCF(text) {
+        const s = String(text || '').toUpperCase().replace(/[^A-Z0-9]/g, '');
+        const L = [0, 1, 2, 3, 4, 5, 8, 11, 15], D = [6, 7, 9, 10, 12, 13, 14];
+        for (let i = 0; i + 16 <= s.length; i++) {
+            const w = s.slice(i, i + 16).split('');
+            for (const p of L) w[p] = TO_LETTER[w[p]] ?? w[p];
+            for (const p of D) w[p] = TO_DIGIT[w[p]] ?? w[p];
+            const c = w.join('');
+            if (/^[A-Z]{6}\d{2}[ABCDEHLMPRST]\d{2}[A-Z]\d{3}[A-Z]$/.test(c) && cfCheck(c.slice(0, 15)) === c[15]) return c;
+        }
+        return null;
+    }
+    function cfDob(cf) {
+        const mm = 'ABCDEHLMPRST'.indexOf(cf[8]) + 1;
+        let dd = +cf.slice(9, 11); if (dd > 40) dd -= 40;
+        return { yy: +cf.slice(6, 8), mm, dd };
+    }
+
+    // ----- testo stampato (fronte e retro) -----
+    const normText = t => String(t || '').toUpperCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^\S\n]+/g, ' ');
+    const DATE_RE = /(\d{2})\s?[.\/-]\s?(\d{2})\s?[.\/-]\s?(\d{4})/;
+    const dmy = s => { const m = s && s.match(DATE_RE); return m ? isoDate(+m[3], +m[2], +m[1]) : null; };
+    const strip = (s, re) => s.replace(re, ' ').replace(/[\/:|]/g, ' ').replace(/\s+/g, ' ').trim();
+    const STOP = /STATURA|HEIGHT|CODICE|FISCAL|ESTREMI|CITTADINANZA|NATIONALITY|SESSO|SEX|SCADENZA|EXPIRY|EMISSIONE|ISSUING|FIRMA|SIGNATURE|NASCITA|BIRTH/;
+
+    function parseFront(textRaw) {
+        const lines = normText(textRaw).split('\n').map(l => l.trim()).filter(Boolean);
+        const out = {};
+        const find = re => lines.findIndex(l => re.test(l));
+        let i = find(/\bCOGNOME\b|\bSURNAME\b/);
+        if (i >= 0) for (const k of [i, i + 1]) { const v = strip(lines[k] || '', /\b(COGNOME|SURNAME)\b/g); if (/^[A-Z][A-Z' ]{1,30}$/.test(v)) { out.cognome = toTitle(v); break; } }
+        i = find(/(^|\s)NOME(\s|$)|\bNAME\b/);
+        if (i >= 0) for (const k of [i, i + 1]) { const v = strip(lines[k] || '', /\b(NOME|NAME)\b/g); if (/^[A-Z][A-Z' ]{1,30}$/.test(v)) { out.nome = toTitle(v); break; } }
+
+        i = find(/NASCITA|BIRTH/);
+        if (i >= 0) {
+            const first = strip(lines[i], /\b(LUOGO|E|DATA|DI|NASCITA|PLACE|AND|DATE|OF|BIRTH)\b/g);
+            const joined = [first, lines[i + 1], lines[i + 2]].filter(Boolean).join(' ');
+            const idx = joined.search(DATE_RE);
+            if (idx >= 0) {
+                const d = dmy(joined.slice(idx)); if (d) out.dataNascita = d;
+                const pm = joined.slice(0, idx).match(/([A-Z][A-Z' ]{1,40}?)\s*(?:\(\s*([A-Z]{2})\s*\))?\s*$/);
+                if (pm && !/SESSO|SEX|STATURA/.test(pm[1])) out.luogoNascita = toTitle(pm[1].trim()) + (pm[2] ? ` (${pm[2]})` : '');
+            }
+        }
+        i = find(/SCADENZA|EXPIRY|EXPIRES/);
+        if (i >= 0) { const d = dmy([lines[i], lines[i + 1], lines[i + 2]].filter(Boolean).join(' ')); if (d) out.scadDoc = d; }
+
+        i = find(/RESIDENZA|INDIRIZZO|ADDRESS/);
+        if (i >= 0) {
+            const parts = [strip(lines[i], /\b(COMUNE|DI|CITY|OF|RESIDENZA|RESIDENCE|INDIRIZZO|ADDRESS|DOMICILIO)\b/g)];
+            for (const k of [i + 1, i + 2]) { if (!lines[k] || STOP.test(lines[k])) break; parts.push(lines[k]); }
+            const a = parts.filter(Boolean).join(', ');
+            if (/\d/.test(a) && a.length >= 8) out.ind = toTitle(a);
+        }
+        const dn = normText(textRaw).match(/\b([A-Z]{2})\s?(\d{5})\s?([A-Z]{2})\b/);
+        if (dn) out.numDoc = dn[1] + dn[2] + dn[3];
+        if (/CARTA D.?IDENTITA|IDENTITY CARD/.test(normText(textRaw))) out.tipoDoc = "Carta d'identità";
+        return out;
+    }
+
+    function parseDocument(full, mrzText) {
+        const m = parseMRZ(mrzText) || parseMRZ(full);
+        const t = parseFront(full);
+        const f = { ...t, ...(m ? m.fields : {}) }; // la MRZ prevale: ha i controlli di validità
+        const cf = findCF((full || '') + '\n' + (mrzText || ''));
+        let cfDropped = false;
+        if (cf) {
+            const d = cfDob(cf);
+            if (f.dataNascita) {
+                const [y, mo, da] = f.dataNascita.split('-').map(Number);
+                if (y % 100 === d.yy && mo === d.mm && da === d.dd) f.cf = cf; else cfDropped = true;
+            } else {
+                f.cf = cf;
+                const dd = isoDate(yyToYear(d.yy, true), d.mm, d.dd);
+                if (dd) f.dataNascita = dd;
+            }
+        }
+        return { fields: f, hasMrz: !!m, hasBack: !!(m || f.ind || f.cf), hasFront: !!(t.cognome || t.nome || t.luogoNascita), cfDropped };
+    }
+    // ---- OCR PARSE END ----
+
+    function loadScript(src) {
+        return new Promise((res, rej) => {
+            const s = document.createElement('script');
+            s.src = src; s.onload = res;
+            s.onerror = () => rej(new Error('Impossibile caricare il lettore di documenti. Compila i campi a mano.'));
+            document.head.appendChild(s);
+        });
+    }
+    let ocrWorkerP = null, ocrStatusCb = null;
+    function getOcrWorker() {
+        if (!ocrWorkerP) ocrWorkerP = (async () => {
+            if (typeof Tesseract === 'undefined') await loadScript('https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js'); // scaricato solo quando serve
+            return Tesseract.createWorker('eng', 1, { logger: m => { if (ocrStatusCb) ocrStatusCb(m); } });
+        })().catch(e => { ocrWorkerP = null; throw e; });
+        return ocrWorkerP;
+    }
+    function loadImage(file) {
+        return new Promise((res, rej) => {
+            const url = URL.createObjectURL(file), img = new Image();
+            img.onload = () => { URL.revokeObjectURL(url); res(img); };
+            img.onerror = () => { URL.revokeObjectURL(url); rej(new Error('Immagine non leggibile (formato non supportato).')); };
+            img.src = url;
+        });
+    }
+    function canvasFrom(img, { maxSide = 1800, minW = 0, cropY = [0, 1] } = {}) {
+        const sy = Math.round(img.naturalHeight * cropY[0]), sh = Math.round(img.naturalHeight * (cropY[1] - cropY[0]));
+        let k = Math.min(1, maxSide / Math.max(img.naturalWidth, sh));
+        if (minW && img.naturalWidth * k < minW) k = Math.min(3, minW / img.naturalWidth);
+        const c = document.createElement('canvas');
+        c.width = Math.round(img.naturalWidth * k); c.height = Math.round(sh * k);
+        const x = c.getContext('2d');
+        x.filter = 'grayscale(1) contrast(1.4)';
+        x.drawImage(img, 0, sy, img.naturalWidth, sh, 0, 0, c.width, c.height);
+        return c;
+    }
+    async function ocrImage(file) {
+        const img = await loadImage(file), w = await getOcrWorker();
+        await w.setParameters({ tessedit_char_whitelist: '', tessedit_pageseg_mode: '3', user_defined_dpi: '300' });
+        const full = (await w.recognize(canvasFrom(img))).data.text;
+        await w.setParameters({ tessedit_char_whitelist: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789<', tessedit_pageseg_mode: '6' });
+        const mrz = (await w.recognize(canvasFrom(img, { maxSide: 3000, minW: 1800, cropY: [0.55, 1] }))).data.text;
+        return parseDocument(full, mrz);
+    }
+
+    const SCAN_FIELDS = { nome: 'ru-nome', cognome: 'ru-cognome', dataNascita: 'ru-datanascita', luogoNascita: 'ru-luogonascita', cf: 'ru-cf', ind: 'ru-ind', tipoDoc: 'ru-tipodoc', numDoc: 'ru-numdoc', scadDoc: 'ru-scaddoc' };
+    const SCAN_LABELS = { nome: 'nome', cognome: 'cognome', dataNascita: 'data di nascita', luogoNascita: 'luogo di nascita', cf: 'codice fiscale', ind: 'indirizzo', tipoDoc: 'tipo documento', numDoc: 'numero documento', scadDoc: 'scadenza' };
+
+    function applyScan(fields) {
+        const filled = [];
+        for (const [k, id] of Object.entries(SCAN_FIELDS)) {
+            const el = document.getElementById(id), v = fields[k];
+            if (!el || !v) continue;
+            if (el.value && el.dataset.auto !== '1') continue; // non sovrascrivo ciò che ha scritto la persona
+            el.value = v;
+            if (el.value !== v) continue; // valore non presente tra le opzioni
+            el.dataset.auto = '1';
+            el.classList.add('ring-2', 'ring-green-300');
+            el.addEventListener('input', () => { el.dataset.auto = '0'; el.classList.remove('ring-2', 'ring-green-300'); }, { once: true });
+            filled.push(k);
+        }
+        return filled;
+    }
+
+    function assignDoc(file, r) {
+        try {
+            const order = (r.hasMrz || r.hasBack) ? ['ru-doc2', 'ru-doc1'] : r.hasFront ? ['ru-doc1', 'ru-doc2'] : ['ru-doc1', 'ru-doc2'];
+            const target = order.map(id => document.getElementById(id)).find(el => el && !el.files.length);
+            if (!target) return;
+            const dt = new DataTransfer(); dt.items.add(file); target.files = dt.files;
+        } catch (e) { /* il browser non permette l'assegnazione: la persona caricherà le foto a mano */ }
+    }
+
+    async function scanDocuments(files) {
+        files = files.filter(f => f.type.startsWith('image/')).slice(0, 2);
+        if (!files.length) return;
+        Swal.fire({ title: 'Lettura del documento', html: '<p id="ocr-status" style="font-size:12px;color:#64748b">Preparazione...</p>', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
+        ocrStatusCb = m => {
+            const el = document.getElementById('ocr-status'); if (!el) return;
+            const s = m.status || '';
+            el.textContent = s.includes('language') ? 'Scarico i dati di lettura (solo la prima volta)...' : s.includes('recognizing') ? `Lettura in corso ${Math.round((m.progress || 0) * 100)}%` : 'Preparazione del lettore...';
+        };
+        const filled = new Set(), notes = [];
+        try {
+            for (const f of files) {
+                const r = await ocrImage(f);
+                applyScan(r.fields).forEach(k => filled.add(k));
+                if (r.cfDropped) notes.push('Il codice fiscale letto non coincide con la data di nascita, quindi non l\'ho inserito.');
+                assignDoc(f, r);
+            }
+        } catch (e) { ocrStatusCb = null; return fail(e, 'Lettura non riuscita'); }
+        ocrStatusCb = null;
+        const list = [...filled].map(k => SCAN_LABELS[k]);
+        const missing = ['nome', 'cognome', 'dataNascita', 'luogoNascita', 'cf', 'ind', 'tipoDoc', 'numDoc', 'scadDoc'].filter(k => !filled.has(k) && !document.getElementById(SCAN_FIELDS[k]).value).map(k => SCAN_LABELS[k]);
+        if (!list.length) return Swal.fire({ title: 'Non sono riuscito a leggere i dati', text: 'Prova con una foto più nitida, ben illuminata e senza riflessi, con il documento intero in primo piano. Oppure compila i campi a mano.', icon: 'info', ...swalOk });
+        Swal.fire({
+            title: 'Dati letti dal documento', icon: 'success',
+            html: `<div style="font-size:12px;text-align:left;line-height:1.5"><p><b>Compilato:</b> ${esc(list.join(', '))}.</p>${missing.length ? `<p style="margin-top:6px"><b>Da completare tu:</b> ${esc(missing.join(', '))}.</p>` : ''}${notes.map(n => `<p style="margin-top:6px;color:#b45309">${esc(n)}</p>`).join('')}<p style="margin-top:8px;color:#64748b">I campi compilati sono evidenziati in verde. La lettura automatica può sbagliare: controlla ogni dato prima di confermare.</p></div>`,
+            ...swalOk
+        });
     }
 
     // ---------- DATI E DOCUMENTI DEL SOCIO ----------
@@ -1003,6 +1262,8 @@
     });
     updateHeader();
     document.getElementById('anno').textContent = new Date().getFullYear();
+    const scanInput = document.getElementById('scan-files');
+    if (scanInput) scanInput.addEventListener('change', e => { const f = [...e.target.files]; e.target.value = ''; scanDocuments(f); });
     if (isAdmin) showView('admin');
 </script>
 </body>
