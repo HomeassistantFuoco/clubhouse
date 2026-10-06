@@ -84,4 +84,1421 @@
                         <div class="flex items-center justify-between mb-6">
                             <h3 class="text-xl font-extrabold text-slate-900 flex items-center"><span class="w-2.5 h-6 bg-amber-600 rounded-full mr-2.5"></span> Eventi & Incontri</h3>
                         </div>
-                        <div id="dynamic-events-list" class
+                        <div id="dynamic-events-list" class="space-y-4"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- BROCHURE -->
+        <div id="brochure" class="view max-w-5xl mx-auto py-16 px-6">
+            <div class="glass-card rounded-3xl p-8 md:p-12 shadow-sm border border-slate-200">
+                <div class="flex justify-between items-center mb-8 pb-4 border-b border-slate-200">
+                    <div>
+                        <span class="text-[11px] font-bold text-ch-primary uppercase tracking-wider">Presentazione Ufficiale</span>
+                        <h2 class="text-2xl font-extrabold text-ch-primary">Chi Siamo & Le Nostre Attività</h2>
+                    </div>
+                    <button onclick="goHome()" class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-4 py-2 rounded-xl text-xs font-bold transition">Indietro</button>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+                    <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200/60 h-full">
+                        <h3 class="font-extrabold text-ch-primary text-base mb-3 flex items-center"><i class="fas fa-heart text-red-500 mr-2"></i> La Nostra Filosofia</h3>
+                        <p class="text-slate-600 text-xs leading-relaxed mb-3">L'Associazione Lucana e altre Regioni Italiane <strong>"Giuseppe Novello"</strong> promuove la cultura, la socialità e la partecipazione attiva delle persone.</p>
+                        <p class="text-slate-600 text-xs leading-relaxed">Crediamo nel valore delle relazioni, nello scambio di esperienze e nella diffusione della conoscenza come strumenti per una società più inclusiva e solidale.</p>
+                    </div>
+                    <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200/60 h-full">
+                        <h3 class="font-extrabold text-ch-primary text-base mb-3 flex items-center"><i class="fas fa-map-marker-alt text-ch-primary mr-2"></i> Contatti & Dove Siamo</h3>
+                        <p class="text-slate-600 text-xs mb-2"><strong>Sede operativa:</strong> Via Mezzano, 10034 Chivasso (TO)</p>
+                        <p class="text-slate-600 text-xs mb-2"><strong>Telefono:</strong> <a href="tel:+393337632452" class="hover:text-ch-primary transition font-bold">+39 333 7632452</a></p>
+                        <p class="text-slate-600 text-xs mb-2"><strong>Email:</strong> <a href="mailto:ass.lucanagiuseppenovello@gmail.com" class="hover:text-ch-primary transition">ass.lucanagiuseppenovello@gmail.com</a></p>
+                        <p class="text-slate-600 text-xs mb-4"><strong>Web:</strong> <a href="https://www.associazionenovello.it" target="_blank" class="hover:text-ch-primary transition">www.associazionenovello.it</a></p>
+                        
+                        <div class="flex space-x-2 mb-4">
+                            <!-- INSERIRE QUI I LINK DI FACEBOOK E INSTAGRAM AL POSTO DEL # -->
+                            <a href="#" target="_blank" class="bg-ch-primary text-white w-8 h-8 rounded-full flex items-center justify-center hover:bg-[#1877f2] transition shadow-sm" title="Seguici su Facebook"><i class="fab fa-facebook-f"></i></a>
+                            <a href="#" target="_blank" class="bg-ch-primary text-white w-8 h-8 rounded-full flex items-center justify-center hover:bg-[#e4405f] transition shadow-sm" title="Seguici su Instagram"><i class="fab fa-instagram"></i></a>
+                        </div>
+                        
+                        <div class="rounded-xl overflow-hidden border border-slate-200/60 shadow-sm h-40 relative">
+                            <iframe width="100%" height="100%" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://maps.google.com/maps?q=Via%20Mezzano,%2010034%20Chivasso%20(TO)&t=&z=15&ie=UTF8&iwloc=&output=embed"></iframe>
+                        </div>
+                    </div>
+                </div>
+                <h3 class="font-extrabold text-lg text-slate-900 mb-6 flex items-center"><i class="fas fa-star text-ch-accent mr-2"></i> I Nostri Punti di Forza</h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-12">
+                    <div class="p-5 bg-white rounded-2xl border border-slate-200 shadow-sm"><div class="text-ch-primary text-lg mb-2"><i class="fas fa-book-open"></i></div><h4 class="font-bold text-xs text-slate-900 mb-1">Attività Culturali</h4><p class="text-[11px] text-slate-500">Presentazioni di libri, incontri con autori, conferenze e dibattiti.</p></div>
+                    <div class="p-5 bg-white rounded-2xl border border-slate-200 shadow-sm"><div class="text-ch-primary text-lg mb-2"><i class="fas fa-film"></i></div><h4 class="font-bold text-xs text-slate-900 mb-1">Proiezioni e Cinema</h4><p class="text-[11px] text-slate-500">Film, documentari e momenti di confronto e condivisione.</p></div>
+                    <div class="p-5 bg-white rounded-2xl border border-slate-200 shadow-sm"><div class="text-ch-primary text-lg mb-2"><i class="fas fa-heartbeat"></i></div><h4 class="font-bold text-xs text-slate-900 mb-1">Salute e Benessere</h4><p class="text-[11px] text-slate-500">Incontri con medici ed esperti su prevenzione e stili di vita.</p></div>
+                    <div class="p-5 bg-white rounded-2xl border border-slate-200 shadow-sm"><div class="text-ch-primary text-lg mb-2"><i class="fas fa-plane"></i></div><h4 class="font-bold text-xs text-slate-900 mb-1">Viaggi ed Escursioni</h4><p class="text-[11px] text-slate-500">Itinerari culturali, naturalistici e turistici alla scoperta di nuovi territori.</p></div>
+                    <div class="p-5 bg-white rounded-2xl border border-slate-200 shadow-sm"><div class="text-ch-primary text-lg mb-2"><i class="fas fa-music"></i></div><h4 class="font-bold text-xs text-slate-900 mb-1">Musica e Serate</h4><p class="text-[11px] text-slate-500">Eventi musicali, apericena e momenti di convivialità.</p></div>
+                    <div class="p-5 bg-white rounded-2xl border border-slate-200 shadow-sm"><div class="text-ch-primary text-lg mb-2"><i class="fas fa-users"></i></div><h4 class="font-bold text-xs text-slate-900 mb-1">Socialità e Amicizia</h4><p class="text-[11px] text-slate-500">Un ambiente accogliente dove condividere esperienze e creare nuove relazioni.</p></div>
+                </div>
+                <div class="bg-ch-primary text-white p-6 rounded-2xl flex flex-col md:flex-row justify-between items-center">
+                    <div>
+                        <h4 class="font-extrabold text-sm mb-1">Condizioni di Partecipazione</h4>
+                        <p class="text-xs text-slate-300">Le iniziative sono riservate ai soci dell'associazione. Scopri regolamenti, assicurazioni e rimborsi.</p>
+                    </div>
+                    <button onclick="showView('conditions')" class="mt-4 md:mt-0 bg-ch-accent text-ch-dark px-5 py-2.5 rounded-xl text-xs font-bold hover:bg-amber-400 transition">Leggi Condizioni</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- CONDIZIONI -->
+        <div id="conditions" class="view max-w-4xl mx-auto py-16 px-6">
+            <div class="glass-card rounded-3xl p-8 md:p-12 shadow-sm border border-slate-200">
+                <div class="flex justify-between items-center mb-6 pb-4 border-b border-slate-200">
+                    <h2 class="text-2xl font-extrabold text-ch-primary">Viaggi ed Escursioni • Condizioni</h2>
+                    <button onclick="showView('brochure')" class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-4 py-2 rounded-xl text-xs font-bold transition">Torna a Chi Siamo</button>
+                </div>
+                <div class="space-y-4 text-xs text-slate-700 leading-relaxed">
+                    <div class="p-4 bg-slate-50 rounded-xl"><strong>Destinatari:</strong> Le iniziative sono riservate ai soci dell'Associazione Lucana e altre Regioni Italiane "Giuseppe Novello".</div>
+                    <div class="p-4 bg-slate-50 rounded-xl"><strong>Iscrizioni:</strong> Si effettuano secondo le modalità indicate per ciascun viaggio. La prenotazione è confermata al versamento dell'acconto.</div>
+                    <div class="p-4 bg-slate-50 rounded-xl"><strong>Quote di Partecipazione:</strong> Comprendono quanto specificato nel programma (viaggio, trasporto, pernottamento, visite, assicurazione, ecc.). Non comprendono spese personali.</div>
+                    <div class="p-4 bg-slate-50 rounded-xl"><strong>Pagamenti:</strong> È richiesto un acconto alla prenotazione e il saldo entro la data indicata nel programma.</div>
+                    <div class="p-4 bg-slate-50 rounded-xl"><strong>Rinunce e Rimborsi:</strong> In caso di rinuncia si applicano le condizioni stabilite dai fornitori (compagnie di trasporto, hotel, ecc.) comunicate al momento dell'iscrizione.</div>
+                    <div class="p-4 bg-slate-50 rounded-xl"><strong>Assicurazione e Salute:</strong> Tutti i viaggi includono assicurazione base (ulteriori coperture su richiesta). È importante segnalare esigenze particolari di salute o mobilità al momento dell'iscrizione.</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ACCESSO -->
+        <div id="auth" class="view max-w-lg mx-auto py-16 px-6">
+            <div class="glass-card rounded-3xl overflow-hidden shadow-xl border border-slate-200">
+                <div class="flex bg-slate-100 p-1.5 m-2 rounded-2xl">
+                    <button id="tab-login" onclick="switchAuthTab('login')" class="w-1/2 py-2.5 text-center tab-btn active text-xs rounded-xl transition font-semibold">Accedi</button>
+                    <button id="tab-register" onclick="switchAuthTab('register')" class="w-1/2 py-2.5 text-center tab-btn text-xs rounded-xl transition font-semibold text-slate-500">Registrati</button>
+                </div>
+                <div class="p-8 pt-4">
+                    <form id="form-user-login" onsubmit="userLogin(event)" class="space-y-4">
+                        <h2 class="text-xl font-extrabold text-slate-900 mb-1">Bentornato</h2>
+                        <p class="text-xs text-slate-400 mb-6">Accedi all'area riservata soci.</p>
+                        <div>
+                            <label class="block text-[11px] font-bold text-slate-500 uppercase mb-1">Email</label>
+                            <input type="email" id="lu-email" placeholder="nome@email.it" required class="w-full px-4 py-3 rounded-xl bg-white border border-slate-200 text-sm focus:outline-none focus:border-ch-primary transition">
+                        </div>
+                        <div>
+                            <label class="block text-[11px] font-bold text-slate-500 uppercase mb-1">Password</label>
+                            <input type="password" id="lu-pass" placeholder="••••••••" required class="w-full px-4 py-3 rounded-xl bg-white border border-slate-200 text-sm focus:outline-none focus:border-ch-primary transition">
+                        </div>
+                        <button type="submit" class="w-full hero-gradient text-white font-bold py-3.5 rounded-xl text-sm shadow-md hover:opacity-95 transition mt-2">Accedi</button>
+                    </form>
+                    <form id="form-user-register" onsubmit="userRegister(event)" class="hidden space-y-3.5">
+                        <h2 class="text-xl font-extrabold text-slate-900 mb-1">Nuovo Socio</h2>
+                        <p class="text-xs text-slate-400 mb-4">Compila tutti i dati e carica i documenti richiesti.</p>
+                        <div class="p-4 rounded-2xl bg-ch-accent/10 border border-ch-accent/40">
+                            <p class="text-xs font-extrabold text-ch-primary mb-1"><i class="fas fa-id-card mr-1.5"></i> Compila in automatico</p>
+                            <p class="text-[11px] text-slate-600 mb-3">Fotografa o scegli la tua carta d'identità (meglio elettronica, fronte e retro): i campi si compilano da soli. La lettura avviene sul tuo telefono o computer e la foto non viene inviata a nessun servizio per questo scopo. Poi controlla i dati. Se preferisci, puoi compilare tutto a mano.</p>
+                            <p class="text-[10px] text-slate-500 mb-3">Consigli: documento intero, ben illuminato, senza riflessi e su sfondo uniforme.</p>
+                            <input type="file" id="scan-files" accept="image/*" multiple class="hidden">
+                            <button type="button" onclick="document.getElementById('scan-files').click()" class="w-full bg-ch-primary hover:bg-ch-secondary text-white font-bold py-2.5 rounded-xl text-xs transition"><i class="fas fa-camera mr-1.5"></i> Scansiona documento</button>
+                        </div>
+                        <p class="text-[11px] font-extrabold text-ch-primary uppercase tracking-wider">Dati anagrafici</p>
+                        <div class="grid grid-cols-2 gap-3">
+                            <input type="text" id="ru-nome" placeholder="Nome" required class="w-full px-3.5 py-2.5 rounded-xl bg-white border border-slate-200 text-xs focus:outline-none focus:border-ch-primary">
+                            <input type="text" id="ru-cognome" placeholder="Cognome" required class="w-full px-3.5 py-2.5 rounded-xl bg-white border border-slate-200 text-xs focus:outline-none focus:border-ch-primary">
+                        </div>
+                        <div class="grid grid-cols-2 gap-3">
+                            <div><label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Data di nascita</label><input type="date" id="ru-datanascita" required class="w-full px-3.5 py-2.5 rounded-xl bg-white border border-slate-200 text-xs focus:outline-none focus:border-ch-primary"></div>
+                            <div><label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Luogo di nascita</label><input type="text" id="ru-luogonascita" placeholder="Città (prov.)" required class="w-full px-3.5 py-2.5 rounded-xl bg-white border border-slate-200 text-xs focus:outline-none focus:border-ch-primary"></div>
+                        </div>
+                        <input type="text" id="ru-cf" placeholder="Codice Fiscale" maxlength="16" required class="w-full px-3.5 py-2.5 rounded-xl bg-white border border-slate-200 text-xs uppercase focus:outline-none focus:border-ch-primary">
+                        <input type="text" id="ru-ind" placeholder="Indirizzo di residenza (via, n., CAP, città)" required class="w-full px-3.5 py-2.5 rounded-xl bg-white border border-slate-200 text-xs focus:outline-none focus:border-ch-primary">
+                        <div class="grid grid-cols-2 gap-3">
+                            <input type="tel" id="ru-tel" placeholder="Telefono" required class="w-full px-3.5 py-2.5 rounded-xl bg-white border border-slate-200 text-xs focus:outline-none focus:border-ch-primary">
+                            <input type="email" id="ru-email" placeholder="Email" required class="w-full px-3.5 py-2.5 rounded-xl bg-white border border-slate-200 text-xs focus:outline-none focus:border-ch-primary">
+                        </div>
+                        <input type="password" id="ru-pass" placeholder="Crea Password (min. 10 caratteri)" minlength="10" required class="w-full px-3.5 py-2.5 rounded-xl bg-white border border-slate-200 text-xs focus:outline-none focus:border-ch-primary">
+                        <p class="text-[11px] font-extrabold text-ch-primary uppercase tracking-wider pt-2">Documento di identità</p>
+                        <div class="grid grid-cols-2 gap-3">
+                            <select id="ru-tipodoc" required class="w-full px-3.5 py-2.5 rounded-xl bg-white border border-slate-200 text-xs focus:outline-none focus:border-ch-primary">
+                                <option value="">Tipo documento</option>
+                                <option>Carta d'identità</option>
+                                <option>Patente</option>
+                                <option>Passaporto</option>
+                            </select>
+                            <input type="text" id="ru-numdoc" placeholder="Numero documento" required class="w-full px-3.5 py-2.5 rounded-xl bg-white border border-slate-200 text-xs focus:outline-none focus:border-ch-primary">
+                        </div>
+                        <div><label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Scadenza documento</label><input type="date" id="ru-scaddoc" required class="w-full px-3.5 py-2.5 rounded-xl bg-white border border-slate-200 text-xs focus:outline-none focus:border-ch-primary"></div>
+                        <div><label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Foto documento - fronte</label><input type="file" id="ru-doc1" accept="image/*" required class="w-full text-xs text-slate-500 file:mr-3 file:py-2 file:px-3 file:rounded-lg file:border-0 file:bg-ch-primary file:text-white file:text-xs file:font-bold"></div>
+                        <div><label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Foto documento - retro</label><input type="file" id="ru-doc2" accept="image/*" required class="w-full text-xs text-slate-500 file:mr-3 file:py-2 file:px-3 file:rounded-lg file:border-0 file:bg-ch-primary file:text-white file:text-xs file:font-bold"></div>
+                        <div><label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Tessera sanitaria (facoltativa)</label><input type="file" id="ru-doc3" accept="image/*" class="w-full text-xs text-slate-500 file:mr-3 file:py-2 file:px-3 file:rounded-lg file:border-0 file:bg-slate-200 file:text-slate-700 file:text-xs file:font-bold"></div>
+                        <label class="flex items-start gap-2 text-[11px] text-slate-600 pt-1"><input type="checkbox" id="ru-privacy" required class="mt-0.5"> <span>Ho letto l'<a href="#" onclick="showPrivacy(); return false;" class="underline font-bold text-ch-primary">informativa privacy</a> e acconsento al trattamento dei miei dati e dei documenti caricati.</span></label>
+                        <button type="submit" class="w-full bg-ch-accent text-ch-dark font-extrabold py-3.5 rounded-xl text-xs shadow-md hover:bg-amber-400 transition mt-2">Conferma Registrazione</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- AREA PERSONALE -->
+        <div id="user-dashboard" class="view max-w-4xl mx-auto py-16 px-6">
+            <div class="glass-card rounded-3xl p-8 md:p-10 shadow-sm border border-slate-200">
+                <div class="flex justify-between items-center border-b border-slate-200 pb-6 mb-8">
+                    <div>
+                        <span class="text-[11px] font-bold text-ch-primary uppercase tracking-wider block mb-1">Area Riservata</span>
+                        <h2 class="text-2xl font-extrabold text-slate-900" id="ud-welcome">Benvenuto</h2>
+                    </div>
+                    <button onclick="userLogout()" class="bg-red-50 hover:bg-red-100 text-red-600 px-4 py-2 rounded-xl text-xs font-bold transition flex items-center"><i class="fas fa-sign-out-alt mr-1.5"></i> Esci</button>
+                </div>
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="font-extrabold text-sm text-slate-700 uppercase tracking-wide">Le tue prenotazioni</h3>
+                    <button onclick="changePasswordPrompt('user')" class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-4 py-2 rounded-xl text-xs font-bold transition"><i class="fas fa-key mr-1.5"></i> Cambia password</button>
+                </div>
+                <div id="ud-bookings" class="space-y-3"></div>
+                <div id="ud-profile" class="mt-10 pt-8 border-t border-slate-200"></div>
+            </div>
+        </div>
+
+        <!-- ADMIN -->
+        <div id="admin" class="view max-w-6xl mx-auto py-16 px-6">
+            <div class="flex justify-between items-center mb-8 hero-gradient text-white p-6 md:p-8 rounded-3xl shadow-lg border border-ch-accent/30">
+                <div>
+                    <span class="text-[11px] font-bold text-ch-accent uppercase tracking-wider block mb-1">Pannello di Controllo</span>
+                    <h2 class="text-xl md:text-2xl font-extrabold"><i class="fas fa-shield-alt text-ch-accent mr-2"></i> Segreteria Club House</h2>
+                </div>
+                <div class="flex flex-wrap gap-2"><button onclick="changeUsernamePrompt()" class="bg-white/10 hover:bg-white/20 text-white px-4 py-2.5 rounded-xl text-xs font-bold transition border border-white/20"><i class="fas fa-user-edit mr-1.5"></i> Cambia utente</button><button onclick="changePasswordPrompt('admin')" class="bg-white/10 hover:bg-white/20 text-white px-4 py-2.5 rounded-xl text-xs font-bold transition border border-white/20"><i class="fas fa-key mr-1.5"></i> Cambia password</button><button onclick="adminLogout()" class="bg-white/10 hover:bg-white/20 text-white px-4 py-2.5 rounded-xl text-xs font-bold transition border border-white/20">Chiudi Admin</button></div>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+                <div class="bg-white p-6 md:p-8 rounded-3xl shadow-sm border border-slate-200">
+                    <h3 class="font-extrabold text-base text-ch-primary mb-4 flex items-center"><i class="fas fa-plane-departure mr-2 text-ch-accent"></i> Crea Nuovo Viaggio</h3>
+                    <form id="form-create-trip" onsubmit="createTrip(event)" class="space-y-3.5">
+                        <input type="text" id="at-dest" placeholder="Destinazione (es. Roma - Gita Culturale)" required class="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 text-xs focus:outline-none focus:border-ch-primary">
+                        <div class="grid grid-cols-2 gap-3">
+                            <input type="date" id="at-da" required class="px-3.5 py-3 rounded-xl bg-slate-50 border border-slate-200 text-xs">
+                            <input type="date" id="at-al" required class="px-3.5 py-3 rounded-xl bg-slate-50 border border-slate-200 text-xs">
+                        </div>
+                        <input type="text" id="at-costo" placeholder="Note / Costo (es. € 150 a persona)" required class="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 text-xs focus:outline-none focus:border-ch-primary">
+                        <button type="submit" class="w-full hero-gradient text-white py-3 rounded-xl text-xs font-bold shadow-sm hover:opacity-95 transition">Pubblica Viaggio</button>
+                    </form>
+                </div>
+                <div class="bg-white p-6 md:p-8 rounded-3xl shadow-sm border border-slate-200">
+                    <h3 class="font-extrabold text-base text-amber-600 mb-4 flex items-center"><i class="fas fa-glass-cheers mr-2"></i> Crea Nuovo Evento</h3>
+                    <form id="form-create-event" onsubmit="salvaEvento(event)" class="space-y-3.5">
+                        <input type="text" id="ae-nome" placeholder="Nome Evento (es. Cena Sociale)" required class="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 text-xs focus:outline-none focus:border-amber-500">
+                        <input type="date" id="ae-data" required class="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 text-xs">
+                        <input type="text" id="ae-costo" placeholder="Costo (es. € 25)" required class="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 text-xs">
+                        <button type="submit" class="w-full bg-amber-600 text-white py-3 rounded-xl text-xs font-bold shadow-sm hover:bg-amber-700 transition">Pubblica Evento</button>
+                    </form>
+                </div>
+            </div>
+            <div class="bg-white p-6 md:p-8 rounded-3xl shadow-sm border border-slate-200 mb-8">
+                <div class="flex flex-wrap items-center justify-between gap-3 mb-5">
+                    <div>
+                        <h3 class="font-extrabold text-base text-slate-900 flex items-center"><i class="fas fa-tasks mr-2 text-ch-primary"></i> Gestione attività</h3>
+                        <p class="text-[11px] text-slate-400 mt-1">Da qui la segreteria può rimuovere un viaggio o un evento pubblicato.</p>
+                    </div>
+                    <button onclick="renderAdminActivities()" class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 py-2 rounded-xl text-xs font-bold"><i class="fas fa-sync-alt mr-1"></i>Aggiorna</button>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <h4 class="text-xs font-extrabold uppercase tracking-wide text-ch-primary mb-3">Viaggi</h4>
+                        <div id="admin-trips-list" class="space-y-2"></div>
+                    </div>
+                    <div>
+                        <h4 class="text-xs font-extrabold uppercase tracking-wide text-amber-600 mb-3">Eventi</h4>
+                        <div id="admin-events-list" class="space-y-2"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white p-6 md:p-8 rounded-3xl shadow-sm border border-slate-200 mb-8">
+                <div class="flex flex-wrap items-center justify-between gap-3 mb-6">
+                    <h3 class="font-extrabold text-base text-slate-900 flex items-center"><i class="fas fa-euro-sign mr-2 text-slate-400"></i> Ricavi previsti per attività</h3>
+                    <div class="flex gap-2">
+                        <button onclick="exportRicavi('xlsx')" class="bg-ch-primary hover:bg-ch-secondary text-white px-4 py-2 rounded-xl text-xs font-bold transition"><i class="fas fa-file-excel mr-1.5"></i> Esporta Excel</button>
+                        <button onclick="exportRicavi('csv')" class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-4 py-2 rounded-xl text-xs font-bold transition"><i class="fas fa-file-csv mr-1.5"></i> CSV</button>
+                    </div>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
+                        <thead><tr class="border-b border-slate-100 text-slate-400 text-[11px] uppercase tracking-wider">
+                            <th class="pb-3 font-bold">Attività</th><th class="pb-3 font-bold">Quota</th><th class="pb-3 font-bold">Persone iscritte</th><th class="pb-3 font-bold text-right">Ricavo previsto</th>
+                        </tr></thead>
+                        <tbody id="admin-ricavi-body" class="text-xs divide-y divide-slate-50"></tbody>
+                        <tfoot id="admin-ricavi-foot"></tfoot>
+                    </table>
+                </div>
+                <p class="text-[11px] text-slate-400 mt-3">Ricavo previsto = quota × numero di persone iscritte (una prenotazione per 3 persone conta 3). La quota è l'importo scritto nel campo costo/note dell'attività; se non è un importo leggibile compare "n.d.".</p>
+            </div>
+
+            <div class="bg-white p-6 md:p-8 rounded-3xl shadow-sm border border-slate-200">
+                <div class="flex flex-wrap items-end justify-between gap-3 mb-6">
+                    <h3 class="font-extrabold text-base text-slate-900 flex items-center"><i class="fas fa-clipboard-list mr-2 text-slate-400"></i> Registro Iscrizioni e Prenotazioni <span id="reg-count" class="ml-2 text-[11px] text-slate-400 font-bold"></span></h3>
+                    <div class="flex flex-wrap gap-2 items-center">
+                        <select id="flt-attivita" onchange="renderRegistrations()" class="px-3 py-2 rounded-xl bg-slate-50 border border-slate-200 text-xs focus:outline-none focus:border-ch-primary"><option value="">Tutte le attività</option></select>
+                        <select id="flt-tipo" onchange="renderRegistrations()" class="px-3 py-2 rounded-xl bg-slate-50 border border-slate-200 text-xs focus:outline-none focus:border-ch-primary"><option value="">Viaggi ed eventi</option><option value="Viaggio">Solo viaggi</option><option value="Evento">Solo eventi</option></select>
+                        <input id="flt-cerca" oninput="renderRegistrations()" placeholder="Cerca socio..." class="px-3 py-2 rounded-xl bg-slate-50 border border-slate-200 text-xs focus:outline-none focus:border-ch-primary">
+                        <button onclick="exportPresenze('xlsx')" class="bg-ch-primary hover:bg-ch-secondary text-white px-4 py-2 rounded-xl text-xs font-bold transition"><i class="fas fa-file-excel mr-1.5"></i> Esporta Excel</button><button onclick="exportPresenze('csv')" class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-4 py-2 rounded-xl text-xs font-bold transition"><i class="fas fa-file-csv mr-1.5"></i> CSV</button>
+                    </div>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="border-b border-slate-100 text-slate-400 text-[11px] uppercase tracking-wider">
+                                <th class="pb-3 font-bold">Data</th>
+                                <th class="pb-3 font-bold">Attività</th>
+                                <th class="pb-3 font-bold">Socio</th>
+                                <th class="pb-3 font-bold">Persone</th>
+                                <th class="pb-3 font-bold">Dettagli</th>
+                            </tr>
+                        </thead>
+                        <tbody id="admin-table-body" class="text-xs divide-y divide-slate-50"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="bg-white p-6 md:p-8 rounded-3xl shadow-sm border border-slate-200 mt-8">
+                <div class="flex justify-between items-center mb-6">
+                    <h3 class="font-extrabold text-base text-slate-900 flex items-center"><i class="fas fa-users mr-2 text-slate-400"></i> Soci registrati <span id="soci-count" class="ml-2 text-[11px] text-slate-400 font-bold"></span></h3>
+                    <button onclick="exportSociCSV()" class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-4 py-2 rounded-xl text-xs font-bold transition"><i class="fas fa-file-csv mr-1.5"></i> Esporta CSV</button>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
+                        <thead><tr class="border-b border-slate-100 text-slate-400 text-[11px] uppercase tracking-wider">
+                            <th class="pb-3 font-bold">Socio</th><th class="pb-3 font-bold">Contatti</th><th class="pb-3 font-bold">Nascita / CF</th><th class="pb-3 font-bold">Documento</th><th class="pb-3 font-bold"></th>
+                        </tr></thead>
+                        <tbody id="admin-soci-body" class="text-xs divide-y divide-slate-50"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-ch-dark text-slate-400 pt-12 pb-8 mt-auto border-t border-slate-800">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-left">
+                <div>
+                    <h4 class="text-white text-sm font-extrabold mb-3 tracking-wide">CLUB HOUSE</h4>
+                    <p class="text-xs text-slate-500 leading-relaxed">Associazione Lucana e altre Regioni Italiane "Giuseppe Novello".<br>Esperienze, persone, luoghi. Sempre con te.</p>
+                </div>
+                <div>
+                    <h4 class="text-white text-sm font-extrabold mb-3 tracking-wide">Contatti</h4>
+                    <ul class="space-y-2 text-xs">
+                        <li class="flex items-start"><i class="fas fa-map-marker-alt w-4 mt-0.5 mr-2 text-ch-accent"></i><span>Via Mezzano, 10034 Chivasso (TO)</span></li>
+                        <li class="flex items-start"><i class="fas fa-phone w-4 mt-0.5 mr-2 text-ch-accent"></i><a href="tel:+393337632452" class="hover:text-white transition">+39 333 7632452</a></li>
+                        <li class="flex items-start"><i class="fas fa-envelope w-4 mt-0.5 mr-2 text-ch-accent"></i><a href="mailto:ass.lucanagiuseppenovello@gmail.com" class="hover:text-white transition break-all">ass.lucanagiuseppenovello@gmail.com</a></li>
+                        <li class="flex items-start"><i class="fas fa-globe w-4 mt-0.5 mr-2 text-ch-accent"></i><a href="https://www.associazionenovello.it" target="_blank" rel="noopener noreferrer" class="hover:text-white transition">www.associazionenovello.it</a></li>
+                    </ul>
+                    
+                    <div class="flex space-x-4 mt-5">
+                        <!-- INSERIRE QUI I LINK DI FACEBOOK E INSTAGRAM AL POSTO DEL # -->
+                        <a href="#" target="_blank" class="text-slate-400 hover:text-[#1877f2] transition text-lg" title="Seguici su Facebook"><i class="fab fa-facebook"></i></a>
+                        <a href="#" target="_blank" class="text-slate-400 hover:text-[#e4405f] transition text-lg" title="Seguici su Instagram"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="text-white text-sm font-extrabold mb-3 tracking-wide">Informazioni</h4>
+                    <ul class="space-y-2 text-xs">
+                        <li><button onclick="showPrivacy()" class="hover:text-white transition text-left">Informativa privacy</button></li>
+                        <li><button onclick="showCookie()" class="hover:text-white transition text-left">Cookie policy</button></li>
+                        <li><button onclick="showView('conditions')" class="hover:text-white transition text-left">Condizioni di partecipazione</button></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="mt-8 pt-6 border-t border-slate-800 flex flex-col md:flex-row items-center justify-between gap-4">
+                <p class="text-[11px] text-slate-600">&copy; <span id="anno">2026</span> Associazione Giuseppe Novello &bull; Chivasso (TO)</p>
+                <button onclick="adminLoginPrompt()" class="text-[11px] text-slate-400 hover:text-white uppercase tracking-widest font-bold bg-slate-900 px-4 py-2 rounded-xl border border-slate-800 transition flex items-center">
+                    <i class="fas fa-lock mr-1.5 text-ch-accent"></i> Accesso Segreteria
+                </button>
+            </div>
+        </div>
+    </footer>
+
+<script>
+    const API = "https://clubhouse-api.francesco-fuoco.workers.dev";
+    let db = { trips: [], events: [] };
+    let adminData = { users: [], registrations: [] };
+    let session = null;
+    try { session = JSON.parse(sessionStorage.getItem('ch_session')); } catch (e) { session = null; }
+    let currentUser = session && session.role === 'user' ? session.user : null;
+    let isAdmin = !!(session && session.role === 'admin');
+    let pendingBooking = null, booking = false, privacyAccepted = false;
+
+    function esc(s) {
+        return String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+    }
+    const swalOk = { confirmButtonColor: '#1b3b5c' };
+    const CANCEL_WINDOW_MS = 48 * 3600 * 1000;
+    const MAX_PERSONE = 10;
+
+    function setSession(s) {
+        session = s;
+        currentUser = s && s.role === 'user' ? s.user : null;
+        isAdmin = !!(s && s.role === 'admin');
+        try { s ? sessionStorage.setItem('ch_session', JSON.stringify(s)) : sessionStorage.removeItem('ch_session'); } catch (e) {}
+    }
+
+    async function api(path, { method = 'GET', body, auth = true, ms = 20000 } = {}) {
+        const ctrl = new AbortController();
+        const t = setTimeout(() => ctrl.abort(), ms);
+        try {
+            const headers = { 'Content-Type': 'application/json' };
+            if (auth && session) headers.Authorization = 'Bearer ' + session.token;
+            const res = await fetch(API + path, { method, headers, body: body ? JSON.stringify(body) : undefined, signal: ctrl.signal });
+            let data = {};
+            try { data = await res.json(); } catch (e) {}
+            if (!res.ok) {
+                if (res.status === 401 && auth) { setSession(null); updateHeader(); }
+                throw Object.assign(new Error(data.error || ('Errore ' + res.status)), { status: res.status });
+            }
+            return data;
+        } catch (e) {
+            if (e.name === 'AbortError') throw new Error('Il server non risponde (timeout).');
+            if (e instanceof TypeError) throw new Error('Impossibile contattare il server.');
+            throw e;
+        } finally { clearTimeout(t); }
+    }
+
+    function fail(e, title = 'Errore') {
+        Swal.fire({ title, text: e.message, icon: 'error', ...swalOk }).then(() => { if (e.status === 401) goHome(); });
+    }
+
+    async function loadPublic() {
+        try {
+            const d = await api('/api/public-data', { auth: false });
+            db = { trips: d.trips || [], events: d.events || [] };
+            renderHome();
+            return true;
+        } catch (e) { console.error(e); return false; }
+    }
+
+    function showView(viewId) {
+        if (viewId === 'admin' && !isAdmin) return adminLoginPrompt();
+        if (viewId === 'user-dashboard' && !currentUser) viewId = 'auth';
+        document.querySelectorAll('.view').forEach(el => el.classList.remove('active'));
+        document.getElementById(viewId).classList.add('active');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        updateHeader();
+        if (viewId === 'home') renderHome();
+        if (viewId === 'user-dashboard') renderUserDashboard();
+        if (viewId === 'admin') renderAdmin();
+    }
+    function goHome() { pendingBooking = null; showView('home'); }
+
+    function updateHeader() {
+        const a = document.getElementById('header-user-actions');
+        a.innerHTML = currentUser
+            ? `<button onclick="showView('user-dashboard')" class="text-xs font-bold bg-ch-accent text-ch-dark px-4 py-2.5 rounded-xl shadow-sm hover:bg-amber-400 transition flex items-center"><i class="fas fa-user-circle mr-1.5"></i> ${esc(currentUser.nome)}</button>`
+            : `<button onclick="showAuth()" class="text-xs font-bold bg-ch-primary text-white px-5 py-2.5 rounded-xl shadow-sm hover:bg-ch-secondary transition flex items-center"><i class="fas fa-user mr-2 text-ch-accent"></i> Area Soci</button>`;
+    }
+
+    function renderHome() {
+        document.getElementById('dynamic-trips-list').innerHTML = db.trips.map((t, i) => `
+            <div class="glass-card p-5 rounded-2xl flex justify-between items-center border-l-4 border-l-ch-primary hover:shadow-md transition">
+                <div>
+                    <h4 class="font-extrabold text-sm text-slate-900">${esc(t.dest)}</h4>
+                    <p class="text-xs text-slate-500 mt-0.5"><i class="far fa-calendar-alt mr-1"></i> Dal ${esc(t.da)} al ${esc(t.al)}</p>
+                    <p class="text-xs font-semibold text-ch-primary mt-1">${esc(t.note)}</p>
+                </div>
+                <button onclick="initBooking(db.trips[${i}].dest, 'Viaggio')" class="bg-ch-primary hover:bg-ch-secondary text-white px-4 py-2.5 rounded-xl text-xs font-bold transition shadow-sm">Partecipa</button>
+            </div>`).join('') || '<div class="glass-card p-6 rounded-2xl text-center text-slate-400 text-xs italic">Nessun viaggio in programma al momento.</div>';
+        document.getElementById('dynamic-events-list').innerHTML = db.events.map((e, i) => `
+            <div class="glass-card p-5 rounded-2xl flex justify-between items-center border-l-4 border-l-amber-600 hover:shadow-md transition">
+                <div>
+                    <h4 class="font-extrabold text-sm text-slate-900">${esc(e.nome)}</h4>
+                    <p class="text-xs text-slate-500 mt-0.5"><i class="far fa-clock mr-1"></i> ${esc(e.data)}</p>
+                    <p class="text-xs font-bold text-amber-600 mt-1">Quota: ${esc(e.costo)}</p>
+                </div>
+                <button onclick="initBooking(db.events[${i}].nome, 'Evento')" class="bg-amber-600 hover:bg-amber-700 text-white px-4 py-2.5 rounded-xl text-xs font-bold transition shadow-sm">Prenota</button>
+            </div>`).join('') || '<div class="glass-card p-6 rounded-2xl text-center text-slate-400 text-xs italic">Nessun evento in programma al momento.</div>';
+    }
+
+    function initBooking(evento, tipo) {
+        pendingBooking = { evento, tipo };
+        if (!currentUser) Swal.fire({ title: 'Area Riservata', text: 'Devi effettuare l\'accesso per prenotare.', icon: 'info', ...swalOk }).then(() => showAuth());
+        else finalizeBooking();
+    }
+
+    function priceOf(evento, tipo) {
+        const it = tipo === 'Viaggio' ? (db.trips || []).find(t => t.dest === evento) : (db.events || []).find(e => e.nome === evento);
+        return it ? parseEuro(tipo === 'Viaggio' ? it.note : it.costo) : NaN;
+    }
+
+    async function askPersone(evento, tipo) {
+        const price = priceOf(evento, tipo);
+        const btn = 'type="button" class="swal2-styled" style="margin:0;width:52px;font-size:22px;padding:6px 0"';
+        const r = await Swal.fire({
+            title: 'Per quante persone?',
+            html: `<p style="font-size:12px;color:#64748b;margin-bottom:12px"><b>${esc(evento)}</b><br>Indica quante persone partecipano, <b>te compreso</b>. Se vieni solo tu, lascia 1.${tipo === 'Viaggio' ? ' Per i viaggi ti chiederò i dati di chi porti con te.' : ''}</p>
+                <div style="display:flex;align-items:center;justify-content:center;gap:14px">
+                    <button id="pp-minus" ${btn}>&minus;</button>
+                    <input id="pp-n" type="number" inputmode="numeric" min="1" max="${MAX_PERSONE}" value="1" class="swal2-input" style="width:90px;text-align:center;font-size:24px;margin:0">
+                    <button id="pp-plus" ${btn}>+</button>
+                </div>
+                <p id="pp-label" style="font-size:13px;margin-top:14px;color:#1b3b5c;font-weight:700"></p>`,
+            showCancelButton: true, confirmButtonText: 'Conferma prenotazione', cancelButtonText: 'Annulla', ...swalOk,
+            didOpen: () => {
+                const inp = document.getElementById('pp-n'), lab = document.getElementById('pp-label');
+                const val = () => Math.min(MAX_PERSONE, Math.max(1, parseInt(inp.value, 10) || 1));
+                const refresh = () => {
+                    const n = val();
+                    lab.textContent = (n === 1 ? 'Solo per te' : `Per te e altre ${n - 1} ${n === 2 ? 'persona' : 'persone'}`) + (Number.isNaN(price) ? '' : ` · ${eur.format(price)} × ${n} = ${eur.format(price * n)}`);
+                };
+                document.getElementById('pp-minus').addEventListener('click', () => { inp.value = Math.max(1, val() - 1); refresh(); });
+                document.getElementById('pp-plus').addEventListener('click', () => { inp.value = Math.min(MAX_PERSONE, val() + 1); refresh(); });
+                inp.addEventListener('input', refresh);
+                refresh();
+            },
+            preConfirm: () => {
+                const n = parseInt(document.getElementById('pp-n').value, 10);
+                if (!Number.isInteger(n) || n < 1 || n > MAX_PERSONE) { Swal.showValidationMessage(`Inserisci un numero da 1 a ${MAX_PERSONE}.`); return false; }
+                return n;
+            }
+        });
+        return r.isConfirmed ? r.value : null;
+    }
+
+    async function askAccompagnatori(evento, n) {
+        const inp = 'class="w-full px-3 py-2 rounded-xl bg-white border border-slate-200 text-xs focus:outline-none focus:border-ch-primary"';
+        const lab = t => `<label class="block text-[10px] font-bold text-slate-500 uppercase mb-1 text-left">${t}</label>`;
+        const fld = (i, k, label, type = 'text', extra = '') => `<div>${lab(label)}<input id="ac-${i}-${k}" type="${type}" ${extra} ${inp}></div>`;
+        const person = i => `<div class="p-4 mb-4 rounded-2xl bg-slate-50 border border-slate-200 text-left">
+            <p class="text-xs font-extrabold text-ch-primary mb-3">Persona ${i + 1} di ${n}</p>
+            <div class="grid grid-cols-2 gap-3">${fld(i, 'nome', 'Nome', 'text', 'autocomplete="off"')}${fld(i, 'cognome', 'Cognome', 'text', 'autocomplete="off"')}${fld(i, 'dataNascita', 'Data di nascita', 'date')}${fld(i, 'luogoNascita', 'Città di nascita')}</div>
+            <div class="mt-3">${fld(i, 'cf', 'Codice fiscale', 'text', 'maxlength="16" autocomplete="off" style="text-transform:uppercase"')}</div>
+            <div class="grid grid-cols-2 gap-3 mt-3">
+                <div>${lab('Documento')}<select id="ac-${i}-tipoDoc" ${inp}><option value="">Scegli...</option><option>Carta d'identità</option><option>Passaporto</option></select></div>
+                ${fld(i, 'numDoc', 'Numero documento', 'text', 'autocomplete="off"')}${fld(i, 'dataRilascio', 'Rilasciato il', 'date')}${fld(i, 'scadDoc', 'Scadenza', 'date')}
+                ${fld(i, 'tel', 'Telefono', 'tel')}${fld(i, 'email', 'Email (facoltativa)', 'email')}
+            </div></div>`;
+        const r = await Swal.fire({
+            title: 'Dati di chi viene con te',
+            html: `<p style="font-size:12px;color:#64748b;margin-bottom:12px">Per il viaggio <b>${esc(evento)}</b> servono i dati di ognuna delle ${n} ${n === 1 ? 'persona' : 'persone'} che porti con te. Tutti i campi sono obbligatori, tranne l'email.</p>
+                ${Array.from({ length: n }, (_, i) => person(i)).join('')}
+                <label style="display:flex;gap:8px;align-items:flex-start;text-align:left;font-size:12px;margin-top:6px"><input type="checkbox" id="ac-consent" style="margin-top:3px"> <span>Confermo di aver informato le persone indicate e di essere autorizzato a comunicare i loro dati all'associazione per l'organizzazione del viaggio.</span></label>`,
+            width: 760, showCancelButton: true, confirmButtonText: 'Conferma prenotazione', cancelButtonText: 'Annulla', allowOutsideClick: false, ...swalOk,
+            preConfirm: () => {
+                const isoToday = new Date().toISOString().slice(0, 10);
+                const v = (i, k) => (document.getElementById(`ac-${i}-${k}`).value || '').trim();
+                const list = [], seen = new Set();
+                for (let i = 0; i < n; i++) {
+                    const p = { nome: v(i, 'nome'), cognome: v(i, 'cognome'), dataNascita: v(i, 'dataNascita'), luogoNascita: v(i, 'luogoNascita'), cf: v(i, 'cf').toUpperCase(), tipoDoc: v(i, 'tipoDoc'), numDoc: v(i, 'numDoc'), dataRilascio: v(i, 'dataRilascio'), scadDoc: v(i, 'scadDoc'), tel: v(i, 'tel'), email: v(i, 'email') };
+                    const err = (m, k) => { Swal.showValidationMessage(`Persona ${i + 1}: ${m}`); const el = document.getElementById(`ac-${i}-${k}`); if (el) { el.scrollIntoView({ block: 'center' }); el.focus(); } return false; };
+                    for (const [k, l] of [['nome', 'il nome'], ['cognome', 'il cognome'], ['dataNascita', 'la data di nascita'], ['luogoNascita', 'la città di nascita'], ['cf', 'il codice fiscale'], ['tipoDoc', 'il tipo di documento'], ['numDoc', 'il numero del documento'], ['dataRilascio', 'la data di rilascio'], ['scadDoc', 'la scadenza'], ['tel', 'il telefono']]) if (!p[k]) return err(`manca ${l}.`, k);
+                    if (p.dataNascita > isoToday) return err('la data di nascita è nel futuro.', 'dataNascita');
+                    if (!/^[A-Z0-9]{16}$/.test(p.cf)) return err('il codice fiscale deve avere 16 caratteri.', 'cf');
+                    if (seen.has(p.cf)) return err('questo codice fiscale è già stato inserito per un\'altra persona.', 'cf');
+                    seen.add(p.cf);
+                    if (p.dataRilascio > isoToday) return err('la data di rilascio è nel futuro.', 'dataRilascio');
+                    if (p.scadDoc < isoToday) return err('il documento è scaduto.', 'scadDoc');
+                    if (p.scadDoc <= p.dataRilascio) return err('la scadenza deve essere successiva al rilascio.', 'scadDoc');
+                    if (!/^[0-9+()\s.-]{6,30}$/.test(p.tel)) return err('telefono non valido.', 'tel');
+                    if (p.email && !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(p.email)) return err('email non valida.', 'email');
+                    list.push(p);
+                }
+                if (!document.getElementById('ac-consent').checked) { Swal.showValidationMessage('Conferma di aver informato le persone indicate.'); return false; }
+                return list;
+            }
+        });
+        return r.isConfirmed ? r.value : null;
+    }
+
+    function parseAcc(r) {
+        if (Array.isArray(r.accompagnatori)) return r.accompagnatori;
+        try { return JSON.parse(r.accompagnatori || '[]') || []; } catch (e) { return []; }
+    }
+    const accText = x => { const a = parseAcc(x); return a.length ? `<span class="block text-[11px] text-slate-500 mt-1">Con: ${esc(a.map(p => p.nome + ' ' + p.cognome).join(', '))}</span>` : ''; };
+
+    async function finalizeBooking() {
+        if (booking || !pendingBooking) return;
+        booking = true;
+        const p = pendingBooking; pendingBooking = null;
+        try {
+            const persone = await askPersone(p.evento, p.tipo);
+            if (persone === null) return;
+            let accompagnatori;
+            if (p.tipo === 'Viaggio' && persone > 1) {
+                accompagnatori = await askAccompagnatori(p.evento, persone - 1);
+                if (accompagnatori === null) return;
+            }
+            await api('/api/book', { method: 'POST', body: { ...p, persone, accompagnatori, consensoAccompagnatori: accompagnatori ? true : undefined }, ms: 30000 });
+            await Swal.fire({ title: 'Prenotazione effettuata!', text: persone === 1 ? 'Prenotazione registrata per una persona (solo per te).' : `Prenotazione registrata per ${persone} persone (te compreso).`, icon: 'success', ...swalOk });
+            showView('user-dashboard');
+        } catch (e) {
+            if (e.status === 409) { await Swal.fire({ title: 'Già prenotato', text: e.message, icon: 'info', ...swalOk }); showView('user-dashboard'); }
+            else fail(e);
+        } finally { booking = false; }
+    }
+
+    function showAuth() { if (currentUser) showView('user-dashboard'); else { applyAuthTab('login'); showView('auth'); } }
+
+    function applyAuthTab(tab) {
+        const l = tab === 'login';
+        document.getElementById('form-user-login').classList.toggle('hidden', !l);
+        document.getElementById('form-user-register').classList.toggle('hidden', l);
+        document.getElementById('tab-login').classList.toggle('active', l);
+        document.getElementById('tab-register').classList.toggle('active', !l);
+    }
+
+    function legalBox(inner) {
+        return `<div style="text-align:left;font-size:12px;line-height:1.55;max-height:60vh;overflow-y:auto;padding-right:6px">${inner}</div>`;
+    }
+    function privacyHtml(accept = false) {
+        const h = t => `<p style="font-weight:800;margin:14px 0 4px;color:#1b3b5c">${t}</p>`;
+        return legalBox(
+            h('Titolare del trattamento') +
+            `<p>Associazione Lucana e altre Regioni Italiane "Giuseppe Novello" - Via Mezzano, 10034 Chivasso (TO) - ass.lucanagiuseppenovello@gmail.com</p>` +
+            h('Dati trattati') +
+            `<p>Dati anagrafici e di contatto (nome, cognome, data e luogo di nascita, codice fiscale, indirizzo, telefono, email), estremi del documento di identità e copia fotografica dei documenti caricati, prenotazioni a viaggi ed eventi e, per i viaggi, i dati delle persone che porti con te (anagrafici, contatto, documento di identità o passaporto), che dichiari di essere autorizzato a comunicare. Se usi la compilazione automatica, la lettura del documento avviene sul tuo dispositivo: per questa operazione l'immagine non viene inviata a servizi esterni.</p>` +
+            h('Finalità e base giuridica') +
+            `<p>Gestione dell'iscrizione e della partecipazione a viaggi, escursioni ed eventi, coperture assicurative, adempimenti amministrativi e di legge. Base giuridica: esecuzione del rapporto associativo, obblighi di legge e, per i documenti caricati, il tuo consenso.</p>` +
+            h('Chi può vedere i dati') +
+            `<p>Solo la segreteria dell'associazione. Non vengono diffusi. Possono accedervi, per le sole attività tecniche necessarie, i fornitori dell'infrastruttura informatica (hosting e database Cloudflare) e, per i viaggi, i fornitori dei servizi strettamente necessari (agenzie, compagnie di trasporto, strutture, assicurazioni).</p>` +
+            h('Conservazione') +
+            `<p>I dati sono conservati per il tempo in cui sei socio e per i periodi previsti dalla legge; puoi chiedere la cancellazione in qualsiasi momento, salvo obblighi di conservazione.</p>` +
+            h('I tuoi diritti') +
+            `<p>Puoi chiedere accesso, rettifica, cancellazione, limitazione, portabilità e opporti al trattamento scrivendo a ass.lucanagiuseppenovello@gmail.com. Puoi modificare i tuoi dati e documenti direttamente dalla tua area riservata. Hai inoltre diritto di reclamo al Garante per la protezione dei dati personali (www.garanteprivacy.it).</p>` +
+            (accept ? `<p style="margin-top:12px;font-weight:700">Per continuare devi accettare il trattamento dei dati.</p>` : '')
+        );
+    }
+    function cookieHtml() {
+        const h = t => `<p style="font-weight:800;margin:14px 0 4px;color:#1b3b5c">${t}</p>`;
+        return legalBox(
+            `<p>Questo sito <b>non utilizza cookie di profilazione o di marketing</b> e non usa strumenti di analisi o pubblicità.</p>` +
+            h('Archiviazione tecnica') +
+            `<p>Dopo l'accesso, il browser conserva temporaneamente un codice di sessione nella memoria della scheda (sessionStorage) per mantenerti collegato. Serve solo al funzionamento del servizio e viene cancellato quando esci o chiudi la scheda. Non richiede consenso perché strettamente necessario.</p>` +
+            h('Servizi di terze parti') +
+            `<p>Per mostrare correttamente la pagina vengono caricati caratteri e librerie da Google Fonts, Cloudflare (cdnjs), jsDelivr e Tailwind CDN. Questi servizi possono ricevere dati tecnici del tuo browser, come l'indirizzo IP, secondo le proprie informative. Se usi la compilazione automatica dal documento, da jsDelivr vengono scaricati anche il programma di lettura (Tesseract.js) e i suoi dati linguistici; l'immagine resta sul tuo dispositivo.</p>` +
+            h('Come gestire o cancellare i dati del browser') +
+            `<p>Puoi eliminare i dati di navigazione dalle impostazioni del tuo browser in qualsiasi momento.</p>` +
+            h('Contatti') +
+            `<p>Per informazioni: ass.lucanagiuseppenovello@gmail.com</p>`
+        );
+    }
+    function showPrivacy() { Swal.fire({ title: 'Informativa Privacy', html: privacyHtml(), width: 700, confirmButtonText: 'Chiudi', ...swalOk }); }
+    function showCookie() { Swal.fire({ title: 'Cookie Policy', html: cookieHtml(), width: 700, confirmButtonText: 'Chiudi', ...swalOk }); }
+
+    function switchAuthTab(tab) {
+        if (tab === 'register' && !privacyAccepted) {
+            Swal.fire({
+                title: 'Informativa Privacy',
+                html: privacyHtml(true), width: 700,
+                showCancelButton: true, confirmButtonText: 'Accetto e continuo', cancelButtonText: 'Non accetto', ...swalOk
+            }).then(r => { if (r.isConfirmed) { privacyAccepted = true; applyAuthTab('register'); } else applyAuthTab('login'); });
+            return;
+        }
+        applyAuthTab(tab);
+    }
+
+    function compressImage(file, maxSide = 1200, quality = 0.65) {
+        return new Promise((resolve, reject) => {
+            if (!file || !file.type.startsWith('image/')) return reject(new Error('Carica solo immagini (JPG o PNG).'));
+            const reader = new FileReader();
+            reader.onerror = () => reject(new Error('Lettura del file non riuscita.'));
+            reader.onload = () => {
+                const img = new Image();
+                img.onerror = () => reject(new Error('Immagine non valida o formato non supportato (HEIC non ammesso).'));
+                img.onload = () => {
+                    const k = Math.min(1, maxSide / Math.max(img.width, img.height));
+                    const c = document.createElement('canvas');
+                    c.width = Math.round(img.width * k); c.height = Math.round(img.height * k);
+                    c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
+                    resolve(c.toDataURL('image/jpeg', quality));
+                };
+                img.src = reader.result;
+            };
+            reader.readAsDataURL(file);
+        });
+    }
+
+    async function userRegister(e) {
+        e.preventDefault();
+        const v = id => document.getElementById(id).value.trim();
+        const cf = v('ru-cf').toUpperCase();
+        if (v('ru-pass').length < 10) return Swal.fire({ title: 'Password troppo corta', text: 'Usa almeno 10 caratteri.', icon: 'warning', ...swalOk });
+        if (cf.length !== 16) return Swal.fire({ title: 'Codice fiscale non valido', text: 'Deve avere 16 caratteri.', icon: 'warning', ...swalOk });
+        if (new Date(v('ru-scaddoc')) < new Date(new Date().toDateString())) return Swal.fire({ title: 'Documento scaduto', text: 'Inserisci un documento in corso di validità.', icon: 'warning', ...swalOk });
+        if (!document.getElementById('ru-privacy').checked) return Swal.fire({ title: 'Consenso necessario', text: 'Accetta l\'informativa privacy per continuare.', icon: 'warning', ...swalOk });
+
+        Swal.fire({ title: 'Registrazione in corso...', text: 'Elaboro i documenti, attendi qualche secondo.', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
+        const docs = [];
+        try {
+            for (const [nome, id] of [['Fronte documento', 'ru-doc1'], ['Retro documento', 'ru-doc2'], ['Tessera sanitaria', 'ru-doc3']]) {
+                const f = document.getElementById(id).files[0];
+                if (f) docs.push({ nome, tipo: 'image/jpeg', data: await compressImage(f) });
+            }
+        } catch (err) { return fail(err, 'Documento non valido'); }
+
+        const user = {
+            email: v('ru-email').toLowerCase(), password: document.getElementById('ru-pass').value,
+            nome: v('ru-nome'), cognome: v('ru-cognome'), tel: v('ru-tel'), cf,
+            dataNascita: v('ru-datanascita'), luogoNascita: v('ru-luogonascita'), ind: v('ru-ind'),
+            tipoDoc: v('ru-tipodoc'), numDoc: v('ru-numdoc'), scadDoc: v('ru-scaddoc'), docs
+        };
+        try {
+            const r = await api('/api/register', { method: 'POST', body: { user }, auth: false, ms: 60000 });
+            setSession({ token: r.token, role: 'user', user: r.user });
+            document.getElementById('form-user-register').reset();
+            await Swal.fire({ title: 'Benvenuto!', text: 'Registrazione completata con successo.', icon: 'success', ...swalOk });
+            if (pendingBooking) finalizeBooking(); else showView('user-dashboard');
+        } catch (err) {
+            if (err.status === 409) Swal.fire({ title: 'Registrazione già effettuata', text: 'Risulti già registrato: accedi con le tue credenziali.', icon: 'info', ...swalOk }).then(() => applyAuthTab('login'));
+            else fail(err);
+        }
+    }
+
+    async function userLogin(e) {
+        e.preventDefault();
+        Swal.fire({ title: 'Accesso in corso...', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
+        try {
+            const r = await api('/api/login', { method: 'POST', auth: false, body: { email: document.getElementById('lu-email').value.trim(), password: document.getElementById('lu-pass').value } });
+            document.getElementById('lu-pass').value = '';
+            setSession({ token: r.token, role: 'user', user: r.user });
+            Swal.close();
+            if (r.mustChange) await forcePasswordChange();
+            if (pendingBooking) finalizeBooking(); else showView('user-dashboard');
+        } catch (err) { fail(err, 'Accesso Negato'); }
+    }
+
+    async function logout() {
+        try { if (session) await api('/api/logout', { method: 'POST' }); } catch (e) {}
+        setSession(null); updateHeader(); goHome();
+    }
+    const userLogout = logout, adminLogout = logout;
+
+    async function renderUserDashboard() {
+        if (!currentUser) return;
+        renderProfile();
+        document.getElementById('ud-welcome').innerText = `Ciao, ${currentUser.nome}!`;
+        const box = document.getElementById('ud-bookings');
+        try {
+            const r = (await api('/api/my-bookings')).registrations || [];
+            box.innerHTML = r.map(x => {
+                const left = x.createdAt ? CANCEL_WINDOW_MS - (Date.now() - x.createdAt) : 0;
+                const action = left > 0
+                    ? `<button onclick="cancelBooking('${esc(x.id)}')" class="mt-2 bg-red-50 hover:bg-red-100 text-red-600 px-3 py-1.5 rounded-lg text-[11px] font-bold transition">Annulla prenotazione</button><span class="block text-[10px] text-slate-400 mt-1">Annullabile ancora per circa ${Math.max(1, Math.ceil(left / 3600000))} ore</span>`
+                    : `<span class="block text-[10px] text-slate-400 italic mt-2">Oltre le 48 ore: contatta la segreteria per annullare</span>`;
+                return `<div class="p-4 bg-slate-50 border border-slate-200 rounded-2xl flex justify-between items-start gap-3">
+                    <div><span class="font-extrabold text-xs text-slate-900 block">${esc(x.evento)}</span><span class="text-[11px] text-slate-400">Tipologia: ${esc(x.tipo)} &middot; ${Number(x.persone) || 1} ${(Number(x.persone) || 1) === 1 ? 'persona' : 'persone'}</span>${accText(x)}${action}</div>
+                    <span class="text-[11px] font-bold text-ch-primary bg-ch-accent/20 px-3 py-1 rounded-full whitespace-nowrap">${esc(x.dataReg)}</span>
+                </div>`;
+            }).join('') || '<p class="text-slate-400 text-xs italic">Nessuna prenotazione attiva al momento.</p>';
+        } catch (e) { box.innerHTML = '<p class="text-red-500 text-xs">Impossibile caricare le prenotazioni.</p>'; }
+    }
+
+    async function changeUsernamePrompt() {
+        const inp = 'class="swal2-input !text-xs"';
+        const r = await Swal.fire({
+            title: 'Cambia utente segreteria',
+            html: `<p style="font-size:12px;color:#64748b">Utente attuale: <b>${esc(adminData.adminUser || '')}</b></p><input id="cu-new" ${inp} placeholder="Nuovo utente (4-40 caratteri)" autocomplete="off"><input id="cu-pass" ${inp} type="password" placeholder="Password attuale (conferma)" autocomplete="current-password">`,
+            showCancelButton: true, confirmButtonText: 'Salva', cancelButtonText: 'Annulla', ...swalOk, showLoaderOnConfirm: true,
+            preConfirm: async () => {
+                const nu = document.getElementById('cu-new').value.trim(), cur = document.getElementById('cu-pass').value;
+                if (!/^[A-Za-z0-9._-]{4,40}$/.test(nu)) { Swal.showValidationMessage('Usa 4-40 caratteri: lettere, numeri, punto, trattino, underscore.'); return false; }
+                if (!cur) { Swal.showValidationMessage('Inserisci la password attuale.'); return false; }
+                try { return await api('/api/admin/change-username', { method: 'POST', body: { current: cur, newUser: nu } }); }
+                catch (e) { Swal.showValidationMessage(e.message); return false; }
+            }
+        });
+        if (r.isConfirmed && r.value) { await renderAdmin(); Swal.fire({ title: 'Utente aggiornato', text: 'Dal prossimo accesso usa il nuovo utente. Le altre sessioni sono state chiuse.', icon: 'success', ...swalOk }); }
+    }
+
+    async function changePasswordPrompt(kind) {
+        const min = kind === 'admin' ? 12 : 10;
+        const inp = 'class="swal2-input !text-xs" type="password"';
+        const r = await Swal.fire({
+            title: kind === 'admin' ? 'Cambia password segreteria' : 'Cambia password',
+            html: `<input id="cp-cur" ${inp} placeholder="Password attuale" autocomplete="current-password"><input id="cp-new" ${inp} placeholder="Nuova password (min. ${min} caratteri)" autocomplete="new-password"><input id="cp-new2" ${inp} placeholder="Ripeti nuova password" autocomplete="new-password">`,
+            showCancelButton: true, confirmButtonText: 'Salva', cancelButtonText: 'Annulla', ...swalOk, showLoaderOnConfirm: true,
+            preConfirm: async () => {
+                const cur = document.getElementById('cp-cur').value, nw = document.getElementById('cp-new').value, nw2 = document.getElementById('cp-new2').value;
+                if (!cur) { Swal.showValidationMessage('Inserisci la password attuale.'); return false; }
+                if (nw.length < min) { Swal.showValidationMessage(`La nuova password deve avere almeno ${min} caratteri.`); return false; }
+                if (nw !== nw2) { Swal.showValidationMessage('Le due password non coincidono.'); return false; }
+                try {
+                    return await api(kind === 'admin' ? '/api/admin/change-password' : '/api/change-password', { method: 'POST', body: { current: cur, newPassword: nw } });
+                } catch (e) { Swal.showValidationMessage(e.message); return false; }
+            }
+        });
+        if (r.isConfirmed && r.value) Swal.fire({ title: 'Password aggiornata', text: 'Le altre sessioni aperte sono state chiuse.', icon: 'success', ...swalOk });
+    }
+
+    // ---------- COMPILAZIONE AUTOMATICA DA DOCUMENTO ----------
+    // ---- OCR PARSE BEGIN ----
+    const MRZ_W = [7, 3, 1];
+    const mrzVal = c => (c >= '0' && c <= '9') ? +c : (c >= 'A' && c <= 'Z') ? c.charCodeAt(0) - 55 : 0;
+    const mrzCheck = s => { let t = 0; for (let i = 0; i < s.length; i++) t += mrzVal(s[i]) * MRZ_W[i % 3]; return t % 10; };
+    const TO_DIGIT = { O: '0', Q: '0', D: '0', I: '1', L: '1', Z: '2', S: '5', B: '8', G: '6' };
+    const TO_LETTER = { '0': 'O', '1': 'I', '2': 'Z', '5': 'S', '8': 'B', '6': 'G' };
+    const fixDigits = s => s.replace(/[A-Z]/g, c => TO_DIGIT[c] ?? c);
+    const fixLetters = s => s.replace(/[0-9]/g, c => TO_LETTER[c] ?? c);
+    const toTitle = s => s.toLowerCase().replace(/(^|[\s'’-])([a-z])/g, (m, a, b) => a + b.toUpperCase()).replace(/\(([a-z]{2})\)/g, (m, p) => `(${p.toUpperCase()})`);
+
+    function isoDate(y, m, d) {
+        const dt = new Date(Date.UTC(y, m - 1, d));
+        if (dt.getUTCFullYear() !== y || dt.getUTCMonth() !== m - 1 || dt.getUTCDate() !== d) return null;
+        return `${y}-${String(m).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
+    }
+    function yyToYear(yy, past) {
+        const nowYY = new Date().getFullYear() % 100;
+        return past ? (yy > nowYY ? 1900 + yy : 2000 + yy) : 2000 + yy;
+    }
+    function mrzDate(s, past) {
+        s = fixDigits(s);
+        if (!/^\d{6}$/.test(s)) return null;
+        return isoDate(yyToYear(+s.slice(0, 2), past), +s.slice(2, 4), +s.slice(4, 6));
+    }
+
+    const cleanMrzLine = l => l.toUpperCase().replace(/[«‹]/g, '<').replace(/\s+/g, '').replace(/[^A-Z0-9<]/g, '');
+
+    function parseTD1(a, b, c) {
+        const pad = l => (l + '<'.repeat(30)).slice(0, 30);
+        const l1 = pad(a), l2 = pad(b);
+        const l3 = pad(c.replace(/[<KCLSX]{4,}$/, m => '<'.repeat(m.length)));
+        const f = {}; let ok = 0;
+        const raw = l1.slice(5, 14), chk = fixDigits(l1[14]);
+        const variants = [raw, fixLetters(raw.slice(0, 2)) + fixDigits(raw.slice(2, 7)) + fixLetters(raw.slice(7))];
+        if (/^\d$/.test(chk)) for (const v of variants) if (mrzCheck(v) === +chk) { f.numDoc = v.replace(/</g, ''); ok++; break; }
+        const dob = fixDigits(l2.slice(0, 6)), dchk = fixDigits(l2[6]);
+        if (/^\d{7}$/.test(dob + dchk) && mrzCheck(dob) === +dchk) { const d = mrzDate(dob, true); if (d) { f.dataNascita = d; ok++; } }
+        const ex = fixDigits(l2.slice(8, 14)), echk = fixDigits(l2[14]);
+        if (/^\d{7}$/.test(ex + echk) && mrzCheck(ex) === +echk) { const d = mrzDate(ex, false); if (d) { f.scadDoc = d; ok++; } }
+        if (ok < 2) return null; 
+        const [sur, giv = ''] = l3.replace(/^<+/, '').split('<<');
+        const S = fixLetters(sur.replace(/</g, ' ')).trim(), G = fixLetters(giv.replace(/</g, ' ')).trim();
+        if (/^[A-Z' ]{2,}$/.test(S)) f.cognome = toTitle(S);
+        if (/^[A-Z' ]{2,}$/.test(G)) f.nome = toTitle(G);
+        if (/^[CI]/.test(l1.slice(0, 2))) f.tipoDoc = "Carta d'identità";
+        return { fields: f, score: ok };
+    }
+    function parseMRZ(text) {
+        const lines = String(text || '').split(/\r?\n/).map(cleanMrzLine).filter(l => l.length >= 10);
+        let best = null;
+        for (let i = 0; i + 3 <= lines.length; i++) {
+            const [a, b, c] = [lines[i], lines[i + 1], lines[i + 2]];
+            if (a.length < 24 || a.length > 36 || b.length < 24 || b.length > 36) continue;
+            const r = parseTD1(a, b, c);
+            if (r && (!best || r.score > best.score)) best = r;
+        }
+        return best;
+    }
+
+    const CF_ODD = { 0: 1, 1: 0, 2: 5, 3: 7, 4: 9, 5: 13, 6: 15, 7: 17, 8: 19, 9: 21, A: 1, B: 0, C: 5, D: 7, E: 9, F: 13, G: 15, H: 17, I: 19, J: 21, K: 2, L: 4, M: 18, N: 20, O: 11, P: 3, Q: 6, R: 8, S: 12, T: 14, U: 16, V: 10, W: 22, X: 25, Y: 24, Z: 23 };
+    function cfCheck(c15) {
+        let sum = 0;
+        for (let i = 0; i < 15; i++) { const c = c15[i]; sum += i % 2 === 0 ? CF_ODD[c] : (/\d/.test(c) ? +c : c.charCodeAt(0) - 65); }
+        return String.fromCharCode(65 + sum % 26);
+    }
+    function findCF(text) {
+        const s = String(text || '').toUpperCase().replace(/[^A-Z0-9]/g, '');
+        const L = [0, 1, 2, 3, 4, 5, 8, 11, 15], D = [6, 7, 9, 10, 12, 13, 14];
+        for (let i = 0; i + 16 <= s.length; i++) {
+            const w = s.slice(i, i + 16).split('');
+            for (const p of L) w[p] = TO_LETTER[w[p]] ?? w[p];
+            for (const p of D) w[p] = TO_DIGIT[w[p]] ?? w[p];
+            const c = w.join('');
+            if (/^[A-Z]{6}\d{2}[ABCDEHLMPRST]\d{2}[A-Z]\d{3}[A-Z]$/.test(c) && cfCheck(c.slice(0, 15)) === c[15]) return c;
+        }
+        return null;
+    }
+    function cfDob(cf) {
+        const mm = 'ABCDEHLMPRST'.indexOf(cf[8]) + 1;
+        let dd = +cf.slice(9, 11); if (dd > 40) dd -= 40;
+        return { yy: +cf.slice(6, 8), mm, dd };
+    }
+
+    const normText = t => String(t || '').toUpperCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^\S\n]+/g, ' ');
+    const DATE_RE = /(\d{2})\s?[.\/-]\s?(\d{2})\s?[.\/-]\s?(\d{4})/;
+    const dmy = s => { const m = s && s.match(DATE_RE); return m ? isoDate(+m[3], +m[2], +m[1]) : null; };
+    const strip = (s, re) => s.replace(re, ' ').replace(/[\/:|]/g, ' ').replace(/\s+/g, ' ').trim();
+    const STOP = /STATURA|HEIGHT|CODICE|FISCAL|ESTREMI|CITTADINANZA|NATIONALITY|SESSO|SEX|SCADENZA|EXPIRY|EMISSIONE|ISSUING|FIRMA|SIGNATURE|NASCITA|BIRTH/;
+
+    function parseFront(textRaw) {
+        const lines = normText(textRaw).split('\n').map(l => l.trim()).filter(Boolean);
+        const out = {};
+        const find = re => lines.findIndex(l => re.test(l));
+        let i = find(/\bCOGNOME\b|\bSURNAME\b/);
+        if (i >= 0) for (const k of [i, i + 1]) { const v = strip(lines[k] || '', /\b(COGNOME|SURNAME)\b/g); if (/^[A-Z][A-Z' ]{1,30}$/.test(v)) { out.cognome = toTitle(v); break; } }
+        i = find(/(^|\s)NOME(\s|$)|\bNAME\b/);
+        if (i >= 0) for (const k of [i, i + 1]) { const v = strip(lines[k] || '', /\b(NOME|NAME)\b/g); if (/^[A-Z][A-Z' ]{1,30}$/.test(v)) { out.nome = toTitle(v); break; } }
+
+        i = find(/NASCITA|BIRTH/);
+        if (i >= 0) {
+            const first = strip(lines[i], /\b(LUOGO|E|DATA|DI|NASCITA|PLACE|AND|DATE|OF|BIRTH)\b/g);
+            const joined = [first, lines[i + 1], lines[i + 2]].filter(Boolean).join(' ');
+            const idx = joined.search(DATE_RE);
+            if (idx >= 0) {
+                const d = dmy(joined.slice(idx)); if (d) out.dataNascita = d;
+                const pm = joined.slice(0, idx).match(/([A-Z][A-Z' ]{1,40}?)\s*(?:\(\s*([A-Z]{2})\s*\))?\s*$/);
+                if (pm && !/SESSO|SEX|STATURA/.test(pm[1])) out.luogoNascita = toTitle(pm[1].trim()) + (pm[2] ? ` (${pm[2]})` : '');
+            }
+        }
+        i = find(/SCADENZA|EXPIRY|EXPIRES/);
+        if (i >= 0) { const d = dmy([lines[i], lines[i + 1], lines[i + 2]].filter(Boolean).join(' ')); if (d) out.scadDoc = d; }
+
+        i = find(/RESIDENZA|INDIRIZZO|ADDRESS/);
+        if (i >= 0) {
+            const parts = [strip(lines[i], /\b(COMUNE|DI|CITY|OF|RESIDENZA|RESIDENCE|INDIRIZZO|ADDRESS|DOMICILIO)\b/g)];
+            for (const k of [i + 1, i + 2]) { if (!lines[k] || STOP.test(lines[k])) break; parts.push(lines[k]); }
+            const a = parts.filter(Boolean).join(', ');
+            if (/\d/.test(a) && a.length >= 8) out.ind = toTitle(a);
+        }
+        const dn = normText(textRaw).match(/\b([A-Z]{2})\s?(\d{5})\s?([A-Z]{2})\b/);
+        if (dn) out.numDoc = dn[1] + dn[2] + dn[3];
+        if (/CARTA D.?IDENTITA|IDENTITY CARD/.test(normText(textRaw))) out.tipoDoc = "Carta d'identità";
+        return out;
+    }
+
+    function parseDocument(full, mrzText) {
+        const m = parseMRZ(mrzText) || parseMRZ(full);
+        const t = parseFront(full);
+        const f = { ...t, ...(m ? m.fields : {}) }; 
+        const cf = findCF((full || '') + '\n' + (mrzText || ''));
+        let cfDropped = false;
+        if (cf) {
+            const d = cfDob(cf);
+            if (f.dataNascita) {
+                const [y, mo, da] = f.dataNascita.split('-').map(Number);
+                if (y % 100 === d.yy && mo === d.mm && da === d.dd) f.cf = cf; else cfDropped = true;
+            } else {
+                f.cf = cf;
+                const dd = isoDate(yyToYear(d.yy, true), d.mm, d.dd);
+                if (dd) f.dataNascita = dd;
+            }
+        }
+        return { fields: f, hasMrz: !!m, hasBack: !!(m || f.ind || f.cf), hasFront: !!(t.cognome || t.nome || t.luogoNascita), cfDropped };
+    }
+    // ---- OCR PARSE END ----
+
+    function loadScript(src) {
+        return new Promise((res, rej) => {
+            const s = document.createElement('script');
+            s.src = src; s.onload = res;
+            s.onerror = () => rej(new Error('Impossibile caricare il lettore di documenti. Compila i campi a mano.'));
+            document.head.appendChild(s);
+        });
+    }
+    let ocrWorkerP = null, ocrStatusCb = null;
+    function getOcrWorker() {
+        if (!ocrWorkerP) ocrWorkerP = (async () => {
+            if (typeof Tesseract === 'undefined') await loadScript('https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js'); 
+            return Tesseract.createWorker('eng', 1, { logger: m => { if (ocrStatusCb) ocrStatusCb(m); } });
+        })().catch(e => { ocrWorkerP = null; throw e; });
+        return ocrWorkerP;
+    }
+    function loadImage(file) {
+        return new Promise((res, rej) => {
+            const url = URL.createObjectURL(file), img = new Image();
+            img.onload = () => { URL.revokeObjectURL(url); res(img); };
+            img.onerror = () => { URL.revokeObjectURL(url); rej(new Error('Immagine non leggibile (formato non supportato).')); };
+            img.src = url;
+        });
+    }
+    function canvasFrom(img, { maxSide = 1800, minW = 0, cropY = [0, 1] } = {}) {
+        const sy = Math.round(img.naturalHeight * cropY[0]), sh = Math.round(img.naturalHeight * (cropY[1] - cropY[0]));
+        let k = Math.min(1, maxSide / Math.max(img.naturalWidth, sh));
+        if (minW && img.naturalWidth * k < minW) k = Math.min(3, minW / img.naturalWidth);
+        const c = document.createElement('canvas');
+        c.width = Math.round(img.naturalWidth * k); c.height = Math.round(sh * k);
+        const x = c.getContext('2d');
+        x.filter = 'grayscale(1) contrast(1.4)';
+        x.drawImage(img, 0, sy, img.naturalWidth, sh, 0, 0, c.width, c.height);
+        return c;
+    }
+    async function ocrImage(file) {
+        const img = await loadImage(file), w = await getOcrWorker();
+        await w.setParameters({ tessedit_char_whitelist: '', tessedit_pageseg_mode: '3', user_defined_dpi: '300' });
+        const full = (await w.recognize(canvasFrom(img))).data.text;
+        await w.setParameters({ tessedit_char_whitelist: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789<', tessedit_pageseg_mode: '6' });
+        const mrz = (await w.recognize(canvasFrom(img, { maxSide: 3000, minW: 1800, cropY: [0.55, 1] }))).data.text;
+        return parseDocument(full, mrz);
+    }
+
+    const SCAN_FIELDS = { nome: 'ru-nome', cognome: 'ru-cognome', dataNascita: 'ru-datanascita', luogoNascita: 'ru-luogonascita', cf: 'ru-cf', ind: 'ru-ind', tipoDoc: 'ru-tipodoc', numDoc: 'ru-numdoc', scadDoc: 'ru-scaddoc' };
+    const SCAN_LABELS = { nome: 'nome', cognome: 'cognome', dataNascita: 'data di nascita', luogoNascita: 'luogo di nascita', cf: 'codice fiscale', ind: 'indirizzo', tipoDoc: 'tipo documento', numDoc: 'numero documento', scadDoc: 'scadenza' };
+
+    function applyScan(fields) {
+        const filled = [];
+        for (const [k, id] of Object.entries(SCAN_FIELDS)) {
+            const el = document.getElementById(id), v = fields[k];
+            if (!el || !v) continue;
+            if (el.value && el.dataset.auto !== '1') continue; 
+            el.value = v;
+            if (el.value !== v) continue; 
+            el.dataset.auto = '1';
+            el.classList.add('ring-2', 'ring-green-300');
+            el.addEventListener('input', () => { el.dataset.auto = '0'; el.classList.remove('ring-2', 'ring-green-300'); }, { once: true });
+            filled.push(k);
+        }
+        return filled;
+    }
+
+    function assignDoc(file, r) {
+        try {
+            const order = (r.hasMrz || r.hasBack) ? ['ru-doc2', 'ru-doc1'] : r.hasFront ? ['ru-doc1', 'ru-doc2'] : ['ru-doc1', 'ru-doc2'];
+            const target = order.map(id => document.getElementById(id)).find(el => el && !el.files.length);
+            if (!target) return;
+            const dt = new DataTransfer(); dt.items.add(file); target.files = dt.files;
+        } catch (e) { }
+    }
+
+    async function scanDocuments(files) {
+        files = files.filter(f => f.type.startsWith('image/')).slice(0, 2);
+        if (!files.length) return;
+        Swal.fire({ title: 'Lettura del documento', html: '<p id="ocr-status" style="font-size:12px;color:#64748b">Preparazione...</p>', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
+        ocrStatusCb = m => {
+            const el = document.getElementById('ocr-status'); if (!el) return;
+            const s = m.status || '';
+            el.textContent = s.includes('language') ? 'Scarico i dati di lettura (solo la prima volta)...' : s.includes('recognizing') ? `Lettura in corso ${Math.round((m.progress || 0) * 100)}%` : 'Preparazione del lettore...';
+        };
+        const filled = new Set(), notes = [];
+        try {
+            for (const f of files) {
+                const r = await ocrImage(f);
+                applyScan(r.fields).forEach(k => filled.add(k));
+                if (r.cfDropped) notes.push('Il codice fiscale letto non coincide con la data di nascita, quindi non l\'ho inserito.');
+                assignDoc(f, r);
+            }
+        } catch (e) { ocrStatusCb = null; return fail(e, 'Lettura non riuscita'); }
+        ocrStatusCb = null;
+        const list = [...filled].map(k => SCAN_LABELS[k]);
+        const missing = ['nome', 'cognome', 'dataNascita', 'luogoNascita', 'cf', 'ind', 'tipoDoc', 'numDoc', 'scadDoc'].filter(k => !filled.has(k) && !document.getElementById(SCAN_FIELDS[k]).value).map(k => SCAN_LABELS[k]);
+        if (!list.length) return Swal.fire({ title: 'Non sono riuscito a leggere i dati', text: 'Prova con una foto più nitida, ben illuminata e senza riflessi, con il documento intero in primo piano. Oppure compila i campi a mano.', icon: 'info', ...swalOk });
+        Swal.fire({
+            title: 'Dati letti dal documento', icon: 'success',
+            html: `<div style="font-size:12px;text-align:left;line-height:1.5"><p><b>Compilato:</b> ${esc(list.join(', '))}.</p>${missing.length ? `<p style="margin-top:6px"><b>Da completare tu:</b> ${esc(missing.join(', '))}.</p>` : ''}${notes.map(n => `<p style="margin-top:6px;color:#b45309">${esc(n)}</p>`).join('')}<p style="margin-top:8px;color:#64748b">I campi compilati sono evidenziati in verde. La lettura automatica può sbagliare: controlla ogni dato prima di confermare.</p></div>`,
+            ...swalOk
+        });
+    }
+
+    // ---------- DATI E DOCUMENTI DEL SOCIO ----------
+    const DOC_SLOTS = ['Fronte documento', 'Retro documento', 'Tessera sanitaria'];
+    let myDocs = [];
+
+    async function renderProfile() {
+        const box = document.getElementById('ud-profile');
+        if (!box) return;
+        try {
+            const { profile: p, docs } = await api('/api/me');
+            myDocs = docs || [];
+            const inp = 'class="w-full px-3.5 py-2.5 rounded-xl bg-white border border-slate-200 text-xs focus:outline-none focus:border-ch-primary"';
+            const lab = t => `<label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">${t}</label>`;
+            const f = (id, label, val, type = 'text') => `<div>${lab(label)}<input id="pf-${id}" type="${type}" value="${esc(val)}" ${inp}></div>`;
+            const expired = p.scadDoc && p.scadDoc < new Date().toISOString().slice(0, 10);
+            const tipi = ["Carta d'identità", 'Patente', 'Passaporto'];
+            box.innerHTML = `
+                <h3 class="font-extrabold text-sm text-slate-700 uppercase tracking-wide mb-1">I miei dati e documenti</h3>
+                <p class="text-[11px] text-slate-400 mb-4">Email (${esc(p.email)}) e codice fiscale (${esc(p.cf)}) non sono modificabili: per cambiarli contatta la segreteria.</p>
+                ${expired ? '<div class="mb-4 p-3 rounded-xl bg-red-50 text-red-600 text-xs font-bold">Il tuo documento risulta scaduto: aggiorna scadenza e foto.</div>' : ''}
+                <div class="space-y-3">
+                    <div class="grid grid-cols-2 gap-3">${f('nome', 'Nome', p.nome)}${f('cognome', 'Cognome', p.cognome)}</div>
+                    <div class="grid grid-cols-2 gap-3">${f('dataNascita', 'Data di nascita', p.dataNascita, 'date')}${f('luogoNascita', 'Luogo di nascita', p.luogoNascita)}</div>
+                    ${f('ind', 'Indirizzo di residenza', p.ind)}
+                    ${f('tel', 'Telefono', p.tel, 'tel')}
+                    <div class="grid grid-cols-2 gap-3">
+                        <div>${lab('Tipo documento')}<select id="pf-tipoDoc" ${inp}>${tipi.map(t => `<option ${t === p.tipoDoc ? 'selected' : ''}>${esc(t)}</option>`).join('')}</select></div>
+                        ${f('numDoc', 'Numero documento', p.numDoc)}
+                    </div>
+                    ${f('scadDoc', 'Scadenza documento', p.scadDoc, 'date')}
+                    <button onclick="saveProfile()" class="w-full hero-gradient text-white font-bold py-3 rounded-xl text-xs shadow-sm hover:opacity-95 transition">Salva i miei dati</button>
+                </div>
+                <div class="mt-8 p-5 rounded-2xl border border-ch-accent/40 bg-ch-accent/10">
+                    <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                        <div>
+                            <h4 class="font-extrabold text-sm text-ch-primary"><i class="fas fa-id-card mr-2"></i>La mia tessera socio</h4>
+                            <p class="text-[11px] text-slate-600 mt-1">Codice personale: <strong>${esc(p.codiceSocio || '')}</strong>. Puoi visualizzare e stampare la tessera con il QR individuale.</p>
+                        </div>
+                        <button onclick="showMyMemberCard()" class="bg-ch-primary hover:bg-ch-secondary text-white px-4 py-2.5 rounded-xl text-xs font-bold"><i class="fas fa-print mr-1.5"></i>Visualizza / stampa tessera</button>
+                    </div>
+                </div>
+                <h4 class="font-extrabold text-xs text-slate-700 uppercase tracking-wide mt-8 mb-3">Documenti caricati</h4>
+                <div class="space-y-3">${DOC_SLOTS.map((n, i) => {
+                    const d = myDocs.find(x => x.nome === n);
+                    return `<div class="p-3 bg-slate-50 border border-slate-200 rounded-2xl">
+                        <div class="flex justify-between items-center mb-2"><span class="text-xs font-bold text-slate-800">${n}${i < 2 ? ' *' : ' (facoltativa)'}</span><span class="text-[11px] ${d ? 'text-green-600' : 'text-slate-400'}">${d ? 'Caricato' : 'Non caricato'}</span></div>
+                        ${d ? `<img src="${esc(d.data)}" class="max-h-32 rounded-lg border border-slate-200 mb-2">` : ''}
+                        <div class="flex flex-wrap gap-2 items-center">
+                            <input type="file" id="pd-${i}" accept="image/*" class="text-[11px] text-slate-500 max-w-[60%]">
+                            <button onclick="uploadDoc(${i})" class="bg-ch-primary text-white px-3 py-1.5 rounded-lg text-[11px] font-bold">${d ? 'Sostituisci' : 'Carica'}</button>
+                            ${d && i === 2 ? `<button onclick="deleteDoc(${i})" class="text-red-500 hover:text-red-700 text-[11px] font-bold">Elimina</button>` : ''}
+                        </div></div>`;
+                }).join('')}</div>`;
+        } catch (e) { box.innerHTML = '<p class="text-red-500 text-xs">Impossibile caricare i tuoi dati.</p>'; }
+    }
+
+    async function cancelBooking(id) {
+        const c = await Swal.fire({ title: 'Annullare la prenotazione?', text: 'L\'operazione non si può annullare.', icon: 'warning', showCancelButton: true, confirmButtonText: 'Sì, annulla', cancelButtonText: 'Mantieni', confirmButtonColor: '#dc2626' });
+        if (!c.isConfirmed) return;
+        try {
+            await api('/api/cancel-booking', { method: 'POST', body: { id } });
+            await Swal.fire({ title: 'Prenotazione annullata', icon: 'success', ...swalOk });
+            renderUserDashboard();
+        } catch (e) { if (e.status === 403 || e.status === 404) { await Swal.fire({ title: 'Non è possibile annullare', text: e.message, icon: 'info', ...swalOk }); renderUserDashboard(); } else fail(e); }
+    }
+
+    async function saveProfile() {
+        const g = id => document.getElementById('pf-' + id).value.trim();
+        const profile = {};
+        for (const k of ['nome', 'cognome', 'dataNascita', 'luogoNascita', 'ind', 'tel', 'tipoDoc', 'numDoc', 'scadDoc']) profile[k] = g(k);
+        if (Object.values(profile).some(v => !v)) return Swal.fire({ title: 'Dati incompleti', text: 'Compila tutti i campi.', icon: 'warning', ...swalOk });
+        Swal.fire({ title: 'Salvataggio...', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
+        try {
+            const r = await api('/api/me/update', { method: 'POST', body: { profile } });
+            setSession({ ...session, user: r.user }); updateHeader();
+            await Swal.fire({ title: 'Dati aggiornati', icon: 'success', ...swalOk });
+            renderUserDashboard();
+        } catch (e) { fail(e); }
+    }
+
+    async function uploadDoc(i) {
+        const f = document.getElementById('pd-' + i).files[0];
+        if (!f) return Swal.fire({ title: 'Scegli un file', text: 'Seleziona prima una foto del documento.', icon: 'info', ...swalOk });
+        Swal.fire({ title: 'Caricamento...', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
+        try {
+            const data = await compressImage(f);
+            await api('/api/me/doc', { method: 'POST', body: { nome: DOC_SLOTS[i], data }, ms: 60000 });
+            await Swal.fire({ title: 'Documento aggiornato', icon: 'success', ...swalOk });
+            renderProfile();
+        } catch (e) { fail(e); }
+    }
+
+    async function deleteDoc(i) {
+        const c = await Swal.fire({ title: 'Eliminare il documento?', icon: 'warning', showCancelButton: true, confirmButtonText: 'Elimina', cancelButtonText: 'Annulla', confirmButtonColor: '#dc2626' });
+        if (!c.isConfirmed) return;
+        try { await api('/api/me/doc-delete', { method: 'POST', body: { nome: DOC_SLOTS[i] } }); renderProfile(); } catch (e) { fail(e); }
+    }
+
+    // ---------- ADMIN ----------
+    function adminLoginPrompt() {
+        Swal.fire({
+            title: 'Accesso Segreteria',
+            html: '<input id="swal-user" class="swal2-input !text-xs" placeholder="Utente" autocomplete="off"><input id="swal-pass" type="password" class="swal2-input !text-xs" placeholder="Password" autocomplete="off">',
+            confirmButtonText: 'Accedi', showCancelButton: true, cancelButtonText: 'Annulla', ...swalOk,
+            showLoaderOnConfirm: true,
+            preConfirm: async () => {
+                try {
+                    return await api('/api/admin-login', { method: 'POST', auth: false, body: { user: document.getElementById('swal-user').value, password: document.getElementById('swal-pass').value } });
+                } catch (e) { Swal.showValidationMessage(e.message); return false; }
+            }
+        }).then(r => { if (r.isConfirmed && r.value) { setSession({ token: r.value.token, role: 'admin' }); showView('admin'); } });
+    }
+
+    async function renderAdmin() {
+        try {
+            adminData = await api('/api/admin/data');
+            await loadPublic();
+            renderAdminActivities();
+            fillActivityFilter(); renderRegistrations(); renderRicavi();
+            document.getElementById('soci-count').innerText = `(${adminData.users.length})`;
+            document.getElementById('admin-soci-body').innerHTML = adminData.users.map((u, i) => `
+                <tr>
+                    <td class="py-3 pr-3 font-bold text-slate-900">${esc(u.nome)} ${esc(u.cognome)}<br><span class="text-[11px] text-slate-400 font-normal">${esc(u.ind)}</span></td>
+                    <td class="py-3 pr-3 text-slate-600">${esc(u.email)}<br>${esc(u.tel)}</td>
+                    <td class="py-3 pr-3 text-slate-600">${esc(u.dataNascita)} - ${esc(u.luogoNascita)}<br><span class="text-[11px]">${esc(u.cf)}</span></td>
+                    <td class="py-3 pr-3 text-slate-600">${esc(u.tipoDoc)} ${esc(u.numDoc)}<br><span class="text-[11px]">scad. ${esc(u.scadDoc)}</span></td>
+                    <td class="py-3 whitespace-nowrap"><button onclick="showMemberCard(${i})" class="bg-ch-accent text-ch-dark px-3 py-1.5 rounded-lg text-[11px] font-extrabold"><i class="fas fa-id-card mr-1"></i>Tessera / QR</button> <button onclick="viewDocs(${i})" class="ml-1 bg-ch-primary text-white px-3 py-1.5 rounded-lg text-[11px] font-bold">Documenti (${u.nDocs || 0})</button> <button onclick="resetUserPassword(${i})" class="ml-1 text-amber-600 hover:text-amber-800" title="Reimposta password"><i class="fas fa-key"></i></button> <button onclick="deleteUser(${i})" class="ml-1 text-red-500 hover:text-red-700" title="Elimina socio"><i class="fas fa-trash"></i></button></td>
+                </tr>`).join('') || '<tr><td colspan="5" class="py-6 text-center text-slate-400 italic">Nessun socio registrato.</td></tr>';
+        } catch (e) { fail(e); }
+    }
+
+    const eur = new Intl.NumberFormat('it-IT', { style: 'currency', currency: 'EUR' });
+
+    function parseEuro(s) {
+        const m = String(s ?? '').match(/\d[\d.,]*/);
+        if (!m) return NaN;
+        let t = m[0].replace(/[.,]+$/, '');
+        if (t.includes(',') && t.includes('.')) t = t.replace(/\./g, '').replace(',', '.');
+        else if (t.includes(',')) t = t.replace(',', '.');
+        else if (/^\d{1,3}(\.\d{3})+$/.test(t)) t = t.replace(/\./g, '');
+        const n = parseFloat(t);
+        return Number.isFinite(n) ? n : NaN;
+    }
+
+    function revenueRows() {
+        const count = {};
+        adminData.registrations.forEach(r => { const k = r.tipo + '|' + r.evento; count[k] = (count[k] || 0) + (Number(r.persone) || 1); });
+        const rows = [], seen = new Set();
+        (db.trips || []).forEach(t => { const k = 'Viaggio|' + t.dest; seen.add(k); rows.push({ nome: t.dest, tipo: 'Viaggio', data: `dal ${t.da} al ${t.al}`, quota: parseEuro(t.note), n: count[k] || 0 }); });
+        (db.events || []).forEach(e => { const k = 'Evento|' + e.nome; seen.add(k); rows.push({ nome: e.nome, tipo: 'Evento', data: e.data, quota: parseEuro(e.costo), n: count[k] || 0 }); });
+        Object.keys(count).filter(k => !seen.has(k)).forEach(k => { const i = k.indexOf('|'); rows.push({ nome: k.slice(i + 1), tipo: k.slice(0, i), data: '', quota: NaN, n: count[k] }); });
+        rows.forEach(r => { r.ricavo = Number.isNaN(r.quota) ? null : r.quota * r.n; });
+        return rows;
+    }
+
+    function renderRicavi() {
+        const rows = revenueRows();
+        document.getElementById('admin-ricavi-body').innerHTML = rows.map(r => `
+            <tr>
+                <td class="py-3 pr-3 font-bold text-slate-900">${esc(r.nome)} <span class="text-[10px] text-slate-400 font-normal">(${esc(r.tipo)})</span><br><span class="text-[11px] text-slate-400 font-normal">${esc(r.data)}</span></td>
+                <td class="py-3 pr-3 text-slate-600">${r.ricavo === null ? 'n.d.' : eur.format(r.quota)}</td>
+                <td class="py-3 pr-3 text-slate-600">${r.n}</td>
+                <td class="py-3 text-right font-extrabold text-slate-900">${r.ricavo === null ? 'n.d.' : eur.format(r.ricavo)}${r.ricavo !== null ? `<br><span class="text-[10px] text-slate-400 font-normal">${eur.format(r.quota)} × ${r.n}</span>` : ''}</td>
+            </tr>`).join('') || '<tr><td colspan="4" class="py-6 text-center text-slate-400 italic">Nessuna attività in programma.</td></tr>';
+        const tot = rows.reduce((a, r) => a + (r.ricavo || 0), 0), totN = rows.reduce((a, r) => a + r.n, 0);
+        document.getElementById('admin-ricavi-foot').innerHTML = rows.length
+            ? `<tr class="border-t-2 border-slate-200"><td class="pt-3 font-extrabold text-slate-900">TOTALE</td><td></td><td class="pt-3 font-extrabold text-slate-900">${totN}</td><td class="pt-3 text-right font-extrabold text-ch-primary text-sm">${eur.format(tot)}</td></tr>` : '';
+    }
+
+    function exportRicavi(fmt = 'xlsx') {
+        const rows = revenueRows();
+        if (!rows.length) return Swal.fire({ title: 'Nessun dato', text: 'Non ci sono attività da esportare.', icon: 'info', ...swalOk });
+        const header = ['Attività', 'Tipo', 'Data', 'Quota unitaria (€)', 'Persone iscritte', 'Ricavo previsto (€)'];
+        const data = rows.map(r => [r.nome, r.tipo, r.data, Number.isNaN(r.quota) ? '' : r.quota, r.n, r.ricavo === null ? '' : r.ricavo]);
+        data.push(['TOTALE', '', '', '', rows.reduce((a, r) => a + r.n, 0), rows.reduce((a, r) => a + (r.ricavo || 0), 0)]);
+        const name = `ricavi_${new Date().toISOString().slice(0, 10)}`;
+        if (fmt === 'xlsx') {
+            if (typeof XLSX === 'undefined') return Swal.fire({ title: 'Libreria Excel non caricata', text: 'Ricarica la pagina oppure usa il CSV.', icon: 'warning', ...swalOk });
+            const ws = XLSX.utils.aoa_to_sheet([header, ...data]);
+            ws['!cols'] = header.map((hd, i) => ({ wch: Math.min(40, Math.max(hd.length, ...data.map(r => String(r[i] ?? '').length)) + 2) }));
+            const wb = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(wb, ws, 'Ricavi');
+            XLSX.writeFile(wb, name + '.xlsx');
+        } else {
+            const fmtN = c => typeof c === 'number' ? c.toLocaleString('it-IT', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : c;
+            downloadCSV(name + '.csv', header, data.map(r => r.map((c, i) => (i === 3 || i === 5) ? fmtN(c) : c)));
+        }
+    }
+
+    function filteredRegs() {
+        const a = document.getElementById('flt-attivita').value, t = document.getElementById('flt-tipo').value;
+        const q = document.getElementById('flt-cerca').value.trim().toLowerCase();
+        return adminData.registrations.filter(r => {
+            if (a) { const k = a.indexOf('|'); if (r.tipo !== a.slice(0, k) || r.evento !== a.slice(k + 1)) return false; }
+            if (t && r.tipo !== t) return false;
+            if (q && !`${r.nome} ${r.cognome} ${r.userId}`.toLowerCase().includes(q)) return false;
+            return true;
+        });
+    }
+
+    function fillActivityFilter() {
+        const sel = document.getElementById('flt-attivita'), keep = sel.value;
+        const set = [...new Set(adminData.registrations.map(r => r.tipo + '|' + r.evento))].sort((x, y) => x.localeCompare(y, 'it'));
+        sel.innerHTML = '<option value="">Tutte le attività</option>' + set.map(k => {
+            const i = k.indexOf('|');
+            return `<option value="${esc(k)}">${esc(k.slice(i + 1))} (${esc(k.slice(0, i))})</option>`;
+        }).join('');
+        sel.value = set.includes(keep) ? keep : '';
+    }
+
+    function renderRegistrations() {
+        const regs = filteredRegs();
+        document.getElementById('reg-count').innerText = `(${regs.length} prenotazioni, ${regs.reduce((a, r) => a + (Number(r.persone) || 1), 0)} persone)`;
+        document.getElementById('admin-table-body').innerHTML = regs.map(r => `
+            <tr>
+                <td class="py-3 pr-3 text-slate-500">${esc(r.dataReg)}</td>
+                <td class="py-3 pr-3 font-bold text-slate-900">${esc(r.evento)} <span class="text-[10px] text-slate-400 font-normal">(${esc(r.tipo)})</span></td>
+                <td class="py-3 pr-3">${esc(r.nome)} ${esc(r.cognome)}<br><span class="text-[11px] text-slate-400">${esc(r.userId)}</span></td>
+                <td class="py-3 pr-3 font-extrabold text-slate-900">${Number(r.persone) || 1}</td>
+                <td class="py-3 text-slate-500">${esc(r.dettagli)}${parseAcc(r).length ? ` <button onclick="viewAcc('${esc(r.id)}')" class="ml-1 bg-ch-primary text-white px-2.5 py-1 rounded-lg text-[11px] font-bold">Viaggiatori</button>` : ''} <button onclick="deleteReg('${esc(r.id)}')" class="ml-2 text-red-500 hover:text-red-700" title="Elimina"><i class="fas fa-trash"></i></button></td>
+            </tr>`).join('') || '<tr><td colspan="5" class="py-6 text-center text-slate-400 italic">Nessuna iscrizione trovata.</td></tr>';
+    }
+
+    function downloadCSV(name, header, rows) {
+        const q = x => '"' + String(x ?? '').replace(/"/g, '""').replace(/^([=+\-@])/, "'$1") + '"';
+        const csv = [header.map(q).join(';'), ...rows.map(r => r.map(q).join(';'))].join('\n');
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(new Blob(['\ufeff' + csv], { type: 'text/csv;charset=utf-8' }));
+        a.download = name; a.click();
+    }
+
+    function viewAcc(id) {
+        const r = adminData.registrations.find(x => x.id === id); if (!r) return;
+        const acc = parseAcc(r);
+        const row = (p, role) => `<tr class="border-b border-slate-100"><td style="padding:6px">${esc(role)}</td><td style="padding:6px;font-weight:700">${esc(p.cognome)} ${esc(p.nome)}</td><td style="padding:6px">${esc(p.dataNascita)}<br>${esc(p.luogoNascita)}</td><td style="padding:6px">${esc(p.cf)}</td><td style="padding:6px">${esc(p.tipoDoc)} ${esc(p.numDoc)}<br>rilasc. ${esc(p.dataRilascio)} &middot; scad. ${esc(p.scadDoc)}</td><td style="padding:6px">${esc(p.tel)}<br>${esc(p.email)}</td></tr>`;
+        const owner = adminData.users.find(u => u.email === r.userId) || {};
+        Swal.fire({
+            title: esc(r.evento),
+            html: `<p style="font-size:12px;color:#64748b;margin-bottom:8px">Prenotazione per ${Number(r.persone) || 1} persone</p><div style="overflow-x:auto"><table style="font-size:11px;text-align:left;border-collapse:collapse;width:100%"><tr style="color:#94a3b8;text-transform:uppercase;font-size:10px"><th style="padding:6px">Ruolo</th><th style="padding:6px">Nome</th><th style="padding:6px">Nascita</th><th style="padding:6px">Codice fiscale</th><th style="padding:6px">Documento</th><th style="padding:6px">Contatti</th></tr>${row({ cognome: r.cognome, nome: r.nome, dataNascita: owner.dataNascita, luogoNascita: owner.luogoNascita, cf: owner.cf, tipoDoc: owner.tipoDoc, numDoc: owner.numDoc, dataRilascio: '-', scadDoc: owner.scadDoc, tel: owner.tel, email: r.userId }, 'Titolare')}${acc.map(p => row(p, 'Accompagnatore')).join('')}</table></div>`,
+            width: 900, ...swalOk
+        });
+    }
+
+    const PRESENZE_HEADER = ['Attività', 'Tipo', 'Data prenotazione', 'Ruolo', 'Cognome', 'Nome', 'Email', 'Telefono', 'Codice fiscale', 'Data di nascita', 'Luogo di nascita', 'Indirizzo', 'Tipo documento', 'Numero documento', 'Rilasciato il', 'Scadenza documento', 'Persone', 'Presente'];
+    function presenzeRows(regs, by) {
+        const sorted = [...regs].sort((a, b) => (a.evento + a.cognome).localeCompare(b.evento + b.cognome, 'it'));
+        const rows = [];
+        for (const r of sorted) {
+            const u = by[r.userId] || {};
+            rows.push([r.evento, r.tipo, r.dataReg, 'Titolare prenotazione', r.cognome, r.nome, r.userId, u.tel, u.cf, u.dataNascita, u.luogoNascita, u.ind, u.tipoDoc, u.numDoc, '', u.scadDoc, Number(r.persone) || 1, '']);
+            for (const p of parseAcc(r)) rows.push([r.evento, r.tipo, r.dataReg, 'Accompagnatore', p.cognome, p.nome, p.email || '', p.tel, p.cf, p.dataNascita, p.luogoNascita, '', p.tipoDoc, p.numDoc, p.dataRilascio, p.scadDoc, '', '']);
+        }
+        return { header: PRESENZE_HEADER, rows };
+    }
+
+    function exportPresenze(fmt = 'csv') {
+        const regs = filteredRegs();
+        if (!regs.length) return Swal.fire({ title: 'Nessun dato', text: 'Nessuna prenotazione corrisponde ai filtri.', icon: 'info', ...swalOk });
+        const by = Object.fromEntries(adminData.users.map(u => [u.email, u]));
+        const { header, rows } = presenzeRows(regs, by);
+        const sel = document.getElementById('flt-attivita');
+        const label = sel.value ? sel.options[sel.selectedIndex].text : 'tutte';
+        const slug = label.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 40) || 'tutte';
+        const name = `presenze_${slug}_${new Date().toISOString().slice(0, 10)}`;
+        if (fmt === 'xlsx') {
+            if (typeof XLSX === 'undefined') return Swal.fire({ title: 'Libreria Excel non caricata', text: 'Ricarica la pagina oppure usa il CSV.', icon: 'warning', ...swalOk });
+            const ws = XLSX.utils.aoa_to_sheet([header, ...rows]);
+            ws['!cols'] = header.map((hd, i) => ({ wch: Math.min(40, Math.max(hd.length, ...rows.map(r => String(r[i] ?? '').length)) + 2) }));
+            const wb = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(wb, ws, 'Presenze');
+            XLSX.writeFile(wb, name + '.xlsx');
+        } else downloadCSV(name + '.csv', header, rows);
+    }
+
+    // ---------- TESSERA SOCIO / QR INDIVIDUALE ----------
+    function memberQrText(m) {
+        return [
+            'BEGIN:VCARD', 'VERSION:3.0',
+            `N:${m.cognome || ''};${m.nome || ''};;;`,
+            `FN:${m.nome || ''} ${m.cognome || ''}`,
+            m.email ? `EMAIL:${m.email}` : '',
+            m.tel ? `TEL:${m.tel}` : '',
+            m.codiceSocio ? `NOTE:Tessera socio ${m.codiceSocio}` : '',
+            'END:VCARD'
+        ].filter(Boolean).join('\n');
+    }
+
+    function cardHtml(m) {
+        const safeName = esc(`${m.nome || ''} ${m.cognome || ''}`.trim());
+        const code = esc(m.codiceSocio || '');
+        const qrId = 'member-qr-' + Math.random().toString(36).slice(2);
+        return `<div id="member-card-print" class="member-card-print mx-auto" style="width:85.60mm;min-height:54mm;background:#fff;border:1px solid #dbe2ea;border-radius:5mm;padding:5mm;box-sizing:border-box;color:#0f172a;text-align:left;position:relative;overflow:hidden">
+            <div style="position:absolute;inset:0;background:linear-gradient(135deg,rgba(27,59,92,.05),rgba(212,175,55,.08));pointer-events:none"></div>
+            <div style="position:relative;display:flex;justify-content:space-between;align-items:flex-start;gap:4mm">
+                <div><div style="font-size:11px;font-weight:800;letter-spacing:1px;color:#1b3b5c">CLUB HOUSE</div><div style="font-size:8px;color:#64748b;margin-top:1mm">Associazione Giuseppe Novello</div></div>
+                <div style="font-size:7px;font-weight:800;color:#b08d20;border:1px solid #d4af37;border-radius:99px;padding:1mm 2mm">TESSERA SOCIO</div>
+            </div>
+            <div style="position:relative;display:flex;align-items:center;gap:5mm;margin-top:5mm">
+                <div id="${qrId}" style="width:30mm;height:30mm;flex:0 0 30mm"></div>
+                <div style="min-width:0"><div style="font-size:14px;font-weight:800;line-height:1.15">${safeName}</div><div style="font-size:9px;color:#475569;margin-top:2mm">Codice socio</div><div style="font-size:12px;font-weight:800;letter-spacing:1px;color:#1b3b5c;margin-top:1mm">${code}</div>${m.email ? `<div style="font-size:7px;color:#64748b;margin-top:2mm;word-break:break-all">${esc(m.email)}</div>` : ''}${m.tel ? `<div style="font-size:7px;color:#64748b;margin-top:1mm">${esc(m.tel)}</div>` : ''}</div>
+            </div>
+            <div style="position:relative;border-top:1px solid #e2e8f0;margin-top:4mm;padding-top:2mm;font-size:6.5px;color:#64748b">QR individuale • valido per identificazione della tessera</div>
+        </div><div class="mt-4 flex justify-center gap-2"><button onclick="printMemberCard()" class="bg-ch-primary text-white px-4 py-2 rounded-xl text-xs font-bold"><i class="fas fa-print mr-1.5"></i>Stampa tessera</button><button onclick="Swal.close()" class="bg-slate-100 text-slate-700 px-4 py-2 rounded-xl text-xs font-bold">Chiudi</button></div>`;
+    }
+
+    function showMemberCard(i) {
+        const u = adminData.users[i];
+        if (!u) return;
+        Swal.fire({ title: 'Tessera socio', html: cardHtml(u), width: 560, showConfirmButton: false, showCloseButton: true, didOpen: () => {
+            const el = document.querySelector('#member-card-print [id^="member-qr-"]');
+            if (el && window.QRCode) new QRCode(el, { text: memberQrText(u), width: 112, height: 112, correctLevel: QRCode.CorrectLevel.M });
+        }});
+    }
+
+    async function showMyMemberCard() {
+        try { const { profile: p } = await api('/api/me'); showMemberCardData(p); } catch (e) { fail(e); }
+    }
+    function showMemberCardData(p) {
+        Swal.fire({ title: 'La mia tessera socio', html: cardHtml(p), width: 560, showConfirmButton: false, showCloseButton: true, didOpen: () => {
+            const el = document.querySelector('#member-card-print [id^="member-qr-"]');
+            if (el && window.QRCode) new QRCode(el, { text: memberQrText(p), width: 112, height: 112, correctLevel: QRCode.CorrectLevel.M });
+        }});
+    }
+    function printMemberCard() {
+        const card = document.getElementById('member-card-print');
+        if (!card) return;
+        const w = window.open('', '_blank', 'width=700,height=600');
+        if (!w) return Swal.fire({ title: 'Stampa bloccata', text: 'Consenti i popup del browser per stampare la tessera.', icon: 'warning', ...swalOk });
+        w.document.write(`<!doctype html><html><head><title>Tessera socio</title><style>@page{size:85.6mm 54mm;margin:0}body{margin:0;width:85.6mm;min-height:54mm;display:flex;align-items:center;justify-content:center;font-family:Arial,sans-serif}*{box-sizing:border-box}</style></head><body>${card.outerHTML}</body></html>`);
+        w.document.close();
+        setTimeout(() => { w.focus(); w.print(); }, 400);
+    }
+
+    function renderAdminActivities() {
+        const tl = document.getElementById('admin-trips-list'), el = document.getElementById('admin-events-list');
+        if (!tl || !el) return;
+        tl.innerHTML = (db.trips || []).map(t => `<div class="flex items-center justify-between gap-3 p-3 rounded-xl bg-slate-50 border border-slate-200"><div class="min-w-0"><div class="text-xs font-extrabold text-slate-800 truncate">${esc(t.dest)}</div><div class="text-[10px] text-slate-500">${esc(t.da)} → ${esc(t.al)}</div></div><button onclick="deleteActivity('Viaggio','${esc(t.id)}','${esc(t.dest)}')" class="shrink-0 bg-red-50 hover:bg-red-100 text-red-600 px-3 py-2 rounded-lg text-[10px] font-extrabold"><i class="fas fa-trash mr-1"></i>Elimina</button></div>`).join('') || '<div class="text-xs text-slate-400 italic">Nessun viaggio pubblicato.</div>';
+        el.innerHTML = (db.events || []).map(e => `<div class="flex items-center justify-between gap-3 p-3 rounded-xl bg-slate-50 border border-slate-200"><div class="min-w-0"><div class="text-xs font-extrabold text-slate-800 truncate">${esc(e.nome)}</div><div class="text-[10px] text-slate-500">${esc(e.data)} · ${esc(e.costo)}</div></div><button onclick="deleteActivity('Evento','${esc(e.id)}','${esc(e.nome)}')" class="shrink-0 bg-red-50 hover:bg-red-100 text-red-600 px-3 py-2 rounded-lg text-[10px] font-extrabold"><i class="fas fa-trash mr-1"></i>Elimina</button></div>`).join('') || '<div class="text-xs text-slate-400 italic">Nessun evento pubblicato.</div>';
+    }
+    async function deleteActivity(tipo, id, nome) {
+        const r = await Swal.fire({ title: `Eliminare ${tipo.toLowerCase()}?`, html: `<p style="font-size:13px"><strong>${esc(nome)}</strong></p><p style="font-size:11px;color:#64748b;margin-top:6px">L'attività verrà rimossa dal sito. Le prenotazioni collegate verranno eliminate quando non esiste un'altra attività con lo stesso nome.</p>`, icon: 'warning', showCancelButton: true, confirmButtonText: 'Sì, elimina', cancelButtonText: 'Annulla', confirmButtonColor: '#dc2626' });
+        if (!r.isConfirmed) return;
+        try { await api(tipo === 'Viaggio' ? '/api/admin/delete-trip' : '/api/admin/delete-event', { method: 'POST', body: { id } }); await loadPublic(); renderAdminActivities(); await renderAdmin(); Swal.fire({ title: 'Eliminato', text: `${tipo} rimosso correttamente.`, icon: 'success', ...swalOk }); } catch (e) { fail(e); }
+    }
+
+    async function viewDocs(i) {
+        const u = adminData.users[i];
+        try {
+            const { docs } = await api('/api/admin/docs?email=' + encodeURIComponent(u.email));
+            const html = (docs || []).length
+                ? docs.map(d => `<p style="font-size:12px;font-weight:700;margin:10px 0 4px">${esc(d.nome)}</p><img src="${esc(d.data)}" style="max-width:100%;border-radius:8px;border:1px solid #e2e8f0">`).join('')
+                : '<p>Nessun documento caricato.</p>';
+            Swal.fire({ title: `${esc(u.nome)} ${esc(u.cognome)}`, html, width: 700, ...swalOk });
+        } catch (e) { fail(e); }
+    }
+
+    async function deleteReg(id) {
+        const c = await Swal.fire({ title: 'Eliminare l\'iscrizione?', icon: 'warning', showCancelButton: true, confirmButtonText: 'Elimina', cancelButtonText: 'Annulla', confirmButtonColor: '#dc2626' });
+        if (!c.isConfirmed) return;
+        try { await api('/api/admin/delete-registration', { method: 'POST', body: { id } }); renderAdmin(); } catch (e) { fail(e); }
+    }
+    async function resetUserPassword(i) {
+        const u = adminData.users[i];
+        const c = await Swal.fire({ title: `Reimpostare la password di ${esc(u.nome)} ${esc(u.cognome)}?`, text: 'Verrà creata una password temporanea e le sue sessioni aperte saranno chiuse.', icon: 'question', showCancelButton: true, confirmButtonText: 'Reimposta', cancelButtonText: 'Annulla', ...swalOk });
+        if (!c.isConfirmed) return;
+        try {
+            const r = await api('/api/admin/reset-user-password', { method: 'POST', body: { email: u.email } });
+            Swal.fire({
+                title: 'Password temporanea',
+                html: `<p style="font-size:12px;color:#64748b">Comunicala al socio in modo riservato. Viene mostrata solo adesso e al primo accesso dovrà scegliere una nuova password.</p><p style="font-size:22px;font-weight:800;letter-spacing:2px;margin-top:12px;user-select:all">${esc(r.tempPassword)}</p>`,
+                ...swalOk
+            });
+        } catch (e) { fail(e); }
+    }
+
+    async function forcePasswordChange() {
+        const inp = 'class="swal2-input !text-xs" type="password"';
+        while (true) {
+            const r = await Swal.fire({
+                title: 'Scegli una nuova password',
+                html: `<p style="font-size:12px;color:#64748b">Hai effettuato l'accesso con una password temporanea: sceglierne una tua è obbligatorio.</p><input id="cp-cur" ${inp} placeholder="Password temporanea" autocomplete="current-password"><input id="cp-new" ${inp} placeholder="Nuova password (min. 10 caratteri)" autocomplete="new-password"><input id="cp-new2" ${inp} placeholder="Ripeti nuova password" autocomplete="new-password">`,
+                allowOutsideClick: false, allowEscapeKey: false, confirmButtonText: 'Salva', ...swalOk, showLoaderOnConfirm: true,
+                preConfirm: async () => {
+                    const cur = document.getElementById('cp-cur').value, nw = document.getElementById('cp-new').value, nw2 = document.getElementById('cp-new2').value;
+                    if (!cur) { Swal.showValidationMessage('Inserisci la password temporanea.'); return false; }
+                    if (nw.length < 10) { Swal.showValidationMessage('La nuova password deve avere almeno 10 caratteri.'); return false; }
+                    if (nw !== nw2) { Swal.showValidationMessage('Le due password non coincidono.'); return false; }
+                    try { return await api('/api/change-password', { method: 'POST', body: { current: cur, newPassword: nw } }); }
+                    catch (e) { Swal.showValidationMessage(e.message); return false; }
+                }
+            });
+            if (r.isConfirmed && r.value) { await Swal.fire({ title: 'Password aggiornata', icon: 'success', ...swalOk }); return; }
+        }
+    }
+
+    async function deleteUser(i) {
+        const u = adminData.users[i];
+        const c = await Swal.fire({ title: `Eliminare ${esc(u.nome)} ${esc(u.cognome)}?`, text: 'Verranno cancellati dati e documenti.', icon: 'warning', showCancelButton: true, confirmButtonText: 'Elimina', cancelButtonText: 'Annulla', confirmButtonColor: '#dc2626' });
+        if (!c.isConfirmed) return;
+        try { await api('/api/admin/delete-user', { method: 'POST', body: { email: u.email } }); renderAdmin(); } catch (e) { fail(e); }
+    }
+
+    function exportSociCSV() {
+        const cols = ['nome', 'cognome', 'email', 'tel', 'cf', 'dataNascita', 'luogoNascita', 'ind', 'tipoDoc', 'numDoc', 'scadDoc'];
+        const q = x => '"' + String(x ?? '').replace(/"/g, '""').replace(/^([=+\-@])/, "'$1") + '"';
+        const csv = [cols.join(';'), ...adminData.users.map(u => cols.map(c => q(u[c])).join(';'))].join('\n');
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(new Blob(['\ufeff' + csv], { type: 'text/csv;charset=utf-8' }));
+        a.download = 'soci.csv'; a.click();
+    }
+
+    async function createTrip(e) {
+        e.preventDefault();
+        const trip = { dest: document.getElementById('at-dest').value, da: document.getElementById('at-da').value, al: document.getElementById('at-al').value, note: document.getElementById('at-costo').value };
+        try {
+            await api('/api/admin/trip', { method: 'POST', body: { trip } });
+            await loadPublic();
+            Swal.fire({ title: 'Pubblicato!', text: 'Il viaggio è ora online.', icon: 'success', ...swalOk });
+            document.getElementById('form-create-trip').reset();
+        } catch (err) { fail(err); }
+    }
+    async function salvaEvento(e) {
+        e.preventDefault();
+        const event = { nome: document.getElementById('ae-nome').value, data: document.getElementById('ae-data').value, costo: document.getElementById('ae-costo').value };
+        try {
+            await api('/api/admin/event', { method: 'POST', body: { event } });
+            await loadPublic();
+            Swal.fire({ title: 'Pubblicato!', text: 'L\'evento è ora online.', icon: 'success', ...swalOk });
+            document.getElementById('form-create-event').reset();
+        } catch (err) { fail(err); }
+    }
+
+    loadPublic().then(ok => {
+        if (!ok) document.getElementById('dynamic-trips-list').innerHTML = '<div class="glass-card p-6 rounded-2xl text-center text-red-500 text-xs">Impossibile contattare il server. Riprova tra poco.</div>';
+    });
+    updateHeader();
+    document.getElementById('anno').textContent = new Date().getFullYear();
+    const scanInput = document.getElementById('scan-files');
+    if (scanInput) scanInput.addEventListener('change', e => { const f = [...e.target.files]; e.target.value = ''; scanDocuments(f); });
+    if (isAdmin) showView('admin');
+</script>
+</body>
+</html>
