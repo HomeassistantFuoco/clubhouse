@@ -28,6 +28,7 @@
         .hero-gradient { background: linear-gradient(135deg, #1b3b5c 0%, #0f172a 100%); }
     </style>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 </head>
 <body class="flex flex-col min-h-screen selection:bg-ch-primary selection:text-white">
 
@@ -269,6 +270,26 @@
                     </form>
                 </div>
             </div>
+            <div class="bg-white p-6 md:p-8 rounded-3xl shadow-sm border border-slate-200 mb-8">
+                <div class="flex flex-wrap items-center justify-between gap-3 mb-5">
+                    <div>
+                        <h3 class="font-extrabold text-base text-slate-900 flex items-center"><i class="fas fa-tasks mr-2 text-ch-primary"></i> Gestione attività</h3>
+                        <p class="text-[11px] text-slate-400 mt-1">Da qui la segreteria può rimuovere un viaggio o un evento pubblicato.</p>
+                    </div>
+                    <button onclick="renderAdminActivities()" class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 py-2 rounded-xl text-xs font-bold"><i class="fas fa-sync-alt mr-1"></i>Aggiorna</button>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <h4 class="text-xs font-extrabold uppercase tracking-wide text-ch-primary mb-3">Viaggi</h4>
+                        <div id="admin-trips-list" class="space-y-2"></div>
+                    </div>
+                    <div>
+                        <h4 class="text-xs font-extrabold uppercase tracking-wide text-amber-600 mb-3">Eventi</h4>
+                        <div id="admin-events-list" class="space-y-2"></div>
+                    </div>
+                </div>
+            </div>
+
             <div class="bg-white p-6 md:p-8 rounded-3xl shadow-sm border border-slate-200 mb-8">
                 <div class="flex flex-wrap items-center justify-between gap-3 mb-6">
                     <h3 class="font-extrabold text-base text-slate-900 flex items-center"><i class="fas fa-euro-sign mr-2 text-slate-400"></i> Ricavi previsti per attività</h3>
@@ -1060,6 +1081,15 @@
                     ${f('scadDoc', 'Scadenza documento', p.scadDoc, 'date')}
                     <button onclick="saveProfile()" class="w-full hero-gradient text-white font-bold py-3 rounded-xl text-xs shadow-sm hover:opacity-95 transition">Salva i miei dati</button>
                 </div>
+                <div class="mt-8 p-5 rounded-2xl border border-ch-accent/40 bg-ch-accent/10">
+                    <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                        <div>
+                            <h4 class="font-extrabold text-sm text-ch-primary"><i class="fas fa-id-card mr-2"></i>La mia tessera socio</h4>
+                            <p class="text-[11px] text-slate-600 mt-1">Codice personale: <strong>${esc(p.codiceSocio || '')}</strong>. Puoi visualizzare e stampare la tessera con il QR individuale.</p>
+                        </div>
+                        <button onclick="showMyMemberCard()" class="bg-ch-primary hover:bg-ch-secondary text-white px-4 py-2.5 rounded-xl text-xs font-bold"><i class="fas fa-print mr-1.5"></i>Visualizza / stampa tessera</button>
+                    </div>
+                </div>
                 <h4 class="font-extrabold text-xs text-slate-700 uppercase tracking-wide mt-8 mb-3">Documenti caricati</h4>
                 <div class="space-y-3">${DOC_SLOTS.map((n, i) => {
                     const d = myDocs.find(x => x.nome === n);
@@ -1136,6 +1166,7 @@
         try {
             adminData = await api('/api/admin/data');
             await loadPublic();
+            renderAdminActivities();
             fillActivityFilter(); renderRegistrations(); renderRicavi();
             document.getElementById('soci-count').innerText = `(${adminData.users.length})`;
             document.getElementById('admin-soci-body').innerHTML = adminData.users.map((u, i) => `
@@ -1144,7 +1175,7 @@
                     <td class="py-3 pr-3 text-slate-600">${esc(u.email)}<br>${esc(u.tel)}</td>
                     <td class="py-3 pr-3 text-slate-600">${esc(u.dataNascita)} - ${esc(u.luogoNascita)}<br><span class="text-[11px]">${esc(u.cf)}</span></td>
                     <td class="py-3 pr-3 text-slate-600">${esc(u.tipoDoc)} ${esc(u.numDoc)}<br><span class="text-[11px]">scad. ${esc(u.scadDoc)}</span></td>
-                    <td class="py-3 whitespace-nowrap"><button onclick="viewDocs(${i})" class="bg-ch-primary text-white px-3 py-1.5 rounded-lg text-[11px] font-bold">Documenti (${u.nDocs || 0})</button> <button onclick="resetUserPassword(${i})" class="ml-1 text-amber-600 hover:text-amber-800" title="Reimposta password"><i class="fas fa-key"></i></button> <button onclick="deleteUser(${i})" class="ml-1 text-red-500 hover:text-red-700" title="Elimina socio"><i class="fas fa-trash"></i></button></td>
+                    <td class="py-3 whitespace-nowrap"><button onclick="showMemberCard(${i})" class="bg-ch-accent text-ch-dark px-3 py-1.5 rounded-lg text-[11px] font-extrabold"><i class="fas fa-id-card mr-1"></i>Tessera / QR</button> <button onclick="viewDocs(${i})" class="ml-1 bg-ch-primary text-white px-3 py-1.5 rounded-lg text-[11px] font-bold">Documenti (${u.nDocs || 0})</button> <button onclick="resetUserPassword(${i})" class="ml-1 text-amber-600 hover:text-amber-800" title="Reimposta password"><i class="fas fa-key"></i></button> <button onclick="deleteUser(${i})" class="ml-1 text-red-500 hover:text-red-700" title="Elimina socio"><i class="fas fa-trash"></i></button></td>
                 </tr>`).join('') || '<tr><td colspan="5" class="py-6 text-center text-slate-400 italic">Nessun socio registrato.</td></tr>';
         } catch (e) { fail(e); }
     }
@@ -1291,6 +1322,78 @@
             XLSX.utils.book_append_sheet(wb, ws, 'Presenze');
             XLSX.writeFile(wb, name + '.xlsx');
         } else downloadCSV(name + '.csv', header, rows);
+    }
+
+    // ---------- TESSERA SOCIO / QR INDIVIDUALE ----------
+    function memberQrText(m) {
+        // vCard: il QR contiene i dati essenziali del socio e il codice tessera.
+        return [
+            'BEGIN:VCARD', 'VERSION:3.0',
+            `N:${m.cognome || ''};${m.nome || ''};;;`,
+            `FN:${m.nome || ''} ${m.cognome || ''}`,
+            m.email ? `EMAIL:${m.email}` : '',
+            m.tel ? `TEL:${m.tel}` : '',
+            m.codiceSocio ? `NOTE:Tessera socio ${m.codiceSocio}` : '',
+            'END:VCARD'
+        ].filter(Boolean).join('\n');
+    }
+
+    function cardHtml(m) {
+        const safeName = esc(`${m.nome || ''} ${m.cognome || ''}`.trim());
+        const code = esc(m.codiceSocio || '');
+        const qrId = 'member-qr-' + Math.random().toString(36).slice(2);
+        return `<div id="member-card-print" class="member-card-print mx-auto" style="width:85.60mm;min-height:54mm;background:#fff;border:1px solid #dbe2ea;border-radius:5mm;padding:5mm;box-sizing:border-box;color:#0f172a;text-align:left;position:relative;overflow:hidden">
+            <div style="position:absolute;inset:0;background:linear-gradient(135deg,rgba(27,59,92,.05),rgba(212,175,55,.08));pointer-events:none"></div>
+            <div style="position:relative;display:flex;justify-content:space-between;align-items:flex-start;gap:4mm">
+                <div><div style="font-size:11px;font-weight:800;letter-spacing:1px;color:#1b3b5c">CLUB HOUSE</div><div style="font-size:8px;color:#64748b;margin-top:1mm">Associazione Giuseppe Novello</div></div>
+                <div style="font-size:7px;font-weight:800;color:#b08d20;border:1px solid #d4af37;border-radius:99px;padding:1mm 2mm">TESSERA SOCIO</div>
+            </div>
+            <div style="position:relative;display:flex;align-items:center;gap:5mm;margin-top:5mm">
+                <div id="${qrId}" style="width:30mm;height:30mm;flex:0 0 30mm"></div>
+                <div style="min-width:0"><div style="font-size:14px;font-weight:800;line-height:1.15">${safeName}</div><div style="font-size:9px;color:#475569;margin-top:2mm">Codice socio</div><div style="font-size:12px;font-weight:800;letter-spacing:1px;color:#1b3b5c;margin-top:1mm">${code}</div>${m.email ? `<div style="font-size:7px;color:#64748b;margin-top:2mm;word-break:break-all">${esc(m.email)}</div>` : ''}${m.tel ? `<div style="font-size:7px;color:#64748b;margin-top:1mm">${esc(m.tel)}</div>` : ''}</div>
+            </div>
+            <div style="position:relative;border-top:1px solid #e2e8f0;margin-top:4mm;padding-top:2mm;font-size:6.5px;color:#64748b">QR individuale • valido per identificazione della tessera</div>
+        </div><div class="mt-4 flex justify-center gap-2"><button onclick="printMemberCard()" class="bg-ch-primary text-white px-4 py-2 rounded-xl text-xs font-bold"><i class="fas fa-print mr-1.5"></i>Stampa tessera</button><button onclick="Swal.close()" class="bg-slate-100 text-slate-700 px-4 py-2 rounded-xl text-xs font-bold">Chiudi</button></div>`;
+    }
+
+    function showMemberCard(i) {
+        const u = adminData.users[i];
+        if (!u) return;
+        Swal.fire({ title: 'Tessera socio', html: cardHtml(u), width: 560, showConfirmButton: false, showCloseButton: true, didOpen: () => {
+            const el = document.querySelector('#member-card-print [id^="member-qr-"]');
+            if (el && window.QRCode) new QRCode(el, { text: memberQrText(u), width: 112, height: 112, correctLevel: QRCode.CorrectLevel.M });
+        }});
+    }
+
+    async function showMyMemberCard() {
+        try { const { profile: p } = await api('/api/me'); showMemberCardData(p); } catch (e) { fail(e); }
+    }
+    function showMemberCardData(p) {
+        Swal.fire({ title: 'La mia tessera socio', html: cardHtml(p), width: 560, showConfirmButton: false, showCloseButton: true, didOpen: () => {
+            const el = document.querySelector('#member-card-print [id^="member-qr-"]');
+            if (el && window.QRCode) new QRCode(el, { text: memberQrText(p), width: 112, height: 112, correctLevel: QRCode.CorrectLevel.M });
+        }});
+    }
+    function printMemberCard() {
+        const card = document.getElementById('member-card-print');
+        if (!card) return;
+        const w = window.open('', '_blank', 'width=700,height=600');
+        if (!w) return Swal.fire({ title: 'Stampa bloccata', text: 'Consenti i popup del browser per stampare la tessera.', icon: 'warning', ...swalOk });
+        w.document.write(`<!doctype html><html><head><title>Tessera socio</title><style>@page{size:85.6mm 54mm;margin:0}body{margin:0;width:85.6mm;min-height:54mm;display:flex;align-items:center;justify-content:center;font-family:Arial,sans-serif}*{box-sizing:border-box}</style></head><body>${card.outerHTML}</body></html>`);
+        w.document.close();
+        setTimeout(() => { w.focus(); w.print(); }, 400);
+    }
+
+    function renderAdminActivities() {
+        const tl = document.getElementById('admin-trips-list'), el = document.getElementById('admin-events-list');
+        if (!tl || !el) return;
+        tl.innerHTML = (db.trips || []).map(t => `<div class="flex items-center justify-between gap-3 p-3 rounded-xl bg-slate-50 border border-slate-200"><div class="min-w-0"><div class="text-xs font-extrabold text-slate-800 truncate">${esc(t.dest)}</div><div class="text-[10px] text-slate-500">${esc(t.da)} → ${esc(t.al)}</div></div><button onclick="deleteActivity('Viaggio','${esc(t.id)}','${esc(t.dest)}')" class="shrink-0 bg-red-50 hover:bg-red-100 text-red-600 px-3 py-2 rounded-lg text-[10px] font-extrabold"><i class="fas fa-trash mr-1"></i>Elimina</button></div>`).join('') || '<div class="text-xs text-slate-400 italic">Nessun viaggio pubblicato.</div>';
+        el.innerHTML = (db.events || []).map(e => `<div class="flex items-center justify-between gap-3 p-3 rounded-xl bg-slate-50 border border-slate-200"><div class="min-w-0"><div class="text-xs font-extrabold text-slate-800 truncate">${esc(e.nome)}</div><div class="text-[10px] text-slate-500">${esc(e.data)} · ${esc(e.costo)}</div></div><button onclick="deleteActivity('Evento','${esc(e.id)}','${esc(e.nome)}')" class="shrink-0 bg-red-50 hover:bg-red-100 text-red-600 px-3 py-2 rounded-lg text-[10px] font-extrabold"><i class="fas fa-trash mr-1"></i>Elimina</button></div>`).join('') || '<div class="text-xs text-slate-400 italic">Nessun evento pubblicato.</div>';
+    }
+    async function deleteActivity(tipo, id, nome) {
+        const r = await Swal.fire({ title: `Eliminare ${tipo.toLowerCase()}?`, html: `<p style="font-size:13px"><strong>${esc(nome)}</strong></p><p style="font-size:11px;color:#64748b;margin-top:6px">L'attività verrà rimossa dal sito. Le prenotazioni collegate verranno eliminate quando non esiste un'altra attività con lo stesso nome.</p>`, icon: 'warning', showCancelButton: true, confirmButtonText: 'Sì, elimina', cancelButtonText: 'Annulla', confirmButtonColor: '#dc2626' });
+        if (!r.isConfirmed) return;
+        try { await api(tipo === 'Viaggio' ? '/api/admin/delete-trip' : '/api/admin/delete-event', { method: 'POST', body: { id } }); await loadPublic(); renderAdminActivities(); await renderAdmin(); Swal.fire({ title: 'Eliminato', text: `${tipo} rimosso correttamente.`, icon: 'success', ...swalOk }); } catch (e) { fail(e); }
     }
 
     async function viewDocs(i) {
