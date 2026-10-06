@@ -482,7 +482,7 @@
         const btn = 'type="button" class="swal2-styled" style="margin:0;width:52px;font-size:22px;padding:6px 0"';
         const r = await Swal.fire({
             title: 'Per quante persone?',
-            html: `<p style="font-size:12px;color:#64748b;margin-bottom:12px"><b>${esc(evento)}</b><br>Indica quante persone partecipano, <b>te compreso</b>. Se vieni solo tu, lascia 1.</p>
+            html: `<p style="font-size:12px;color:#64748b;margin-bottom:12px"><b>${esc(evento)}</b><br>Indica quante persone partecipano, <b>te compreso</b>. Se vieni solo tu, lascia 1.${tipo === 'Viaggio' ? ' Per i viaggi ti chiederò i dati di chi porti con te.' : ''}</p>
                 <div style="display:flex;align-items:center;justify-content:center;gap:14px">
                     <button id="pp-minus" ${btn}>&minus;</button>
                     <input id="pp-n" type="number" inputmode="numeric" min="1" max="${MAX_PERSONE}" value="1" class="swal2-input" style="width:90px;text-align:center;font-size:24px;margin:0">
@@ -511,6 +511,58 @@
         return r.isConfirmed ? r.value : null;
     }
 
+    // Dati di ogni persona che il socio porta con sé in un viaggio. Restituisce l'elenco oppure null se annulla.
+    async function askAccompagnatori(evento, n) {
+        const inp = 'class="w-full px-3 py-2 rounded-xl bg-white border border-slate-200 text-xs focus:outline-none focus:border-ch-primary"';
+        const lab = t => `<label class="block text-[10px] font-bold text-slate-500 uppercase mb-1 text-left">${t}</label>`;
+        const fld = (i, k, label, type = 'text', extra = '') => `<div>${lab(label)}<input id="ac-${i}-${k}" type="${type}" ${extra} ${inp}></div>`;
+        const person = i => `<div class="p-4 mb-4 rounded-2xl bg-slate-50 border border-slate-200 text-left">
+            <p class="text-xs font-extrabold text-ch-primary mb-3">Persona ${i + 1} di ${n}</p>
+            <div class="grid grid-cols-2 gap-3">${fld(i, 'nome', 'Nome', 'text', 'autocomplete="off"')}${fld(i, 'cognome', 'Cognome', 'text', 'autocomplete="off"')}${fld(i, 'dataNascita', 'Data di nascita', 'date')}${fld(i, 'luogoNascita', 'Città di nascita')}</div>
+            <div class="mt-3">${fld(i, 'cf', 'Codice fiscale', 'text', 'maxlength="16" autocomplete="off" style="text-transform:uppercase"')}</div>
+            <div class="grid grid-cols-2 gap-3 mt-3">
+                <div>${lab('Documento')}<select id="ac-${i}-tipoDoc" ${inp}><option value="">Scegli...</option><option>Carta d'identità</option><option>Passaporto</option></select></div>
+                ${fld(i, 'numDoc', 'Numero documento', 'text', 'autocomplete="off"')}${fld(i, 'dataRilascio', 'Rilasciato il', 'date')}${fld(i, 'scadDoc', 'Scadenza', 'date')}
+                ${fld(i, 'tel', 'Telefono', 'tel')}${fld(i, 'email', 'Email (facoltativa)', 'email')}
+            </div></div>`;
+        const r = await Swal.fire({
+            title: 'Dati di chi viene con te',
+            html: `<p style="font-size:12px;color:#64748b;margin-bottom:12px">Per il viaggio <b>${esc(evento)}</b> servono i dati di ognuna delle ${n} ${n === 1 ? 'persona' : 'persone'} che porti con te. Tutti i campi sono obbligatori, tranne l'email.</p>
+                ${Array.from({ length: n }, (_, i) => person(i)).join('')}
+                <label style="display:flex;gap:8px;align-items:flex-start;text-align:left;font-size:12px;margin-top:6px"><input type="checkbox" id="ac-consent" style="margin-top:3px"> <span>Confermo di aver informato le persone indicate e di essere autorizzato a comunicare i loro dati all'associazione per l'organizzazione del viaggio.</span></label>`,
+            width: 760, showCancelButton: true, confirmButtonText: 'Conferma prenotazione', cancelButtonText: 'Annulla', allowOutsideClick: false, ...swalOk,
+            preConfirm: () => {
+                const isoToday = new Date().toISOString().slice(0, 10);
+                const v = (i, k) => (document.getElementById(`ac-${i}-${k}`).value || '').trim();
+                const list = [], seen = new Set();
+                for (let i = 0; i < n; i++) {
+                    const p = { nome: v(i, 'nome'), cognome: v(i, 'cognome'), dataNascita: v(i, 'dataNascita'), luogoNascita: v(i, 'luogoNascita'), cf: v(i, 'cf').toUpperCase(), tipoDoc: v(i, 'tipoDoc'), numDoc: v(i, 'numDoc'), dataRilascio: v(i, 'dataRilascio'), scadDoc: v(i, 'scadDoc'), tel: v(i, 'tel'), email: v(i, 'email') };
+                    const err = (m, k) => { Swal.showValidationMessage(`Persona ${i + 1}: ${m}`); const el = document.getElementById(`ac-${i}-${k}`); if (el) { el.scrollIntoView({ block: 'center' }); el.focus(); } return false; };
+                    for (const [k, l] of [['nome', 'il nome'], ['cognome', 'il cognome'], ['dataNascita', 'la data di nascita'], ['luogoNascita', 'la città di nascita'], ['cf', 'il codice fiscale'], ['tipoDoc', 'il tipo di documento'], ['numDoc', 'il numero del documento'], ['dataRilascio', 'la data di rilascio'], ['scadDoc', 'la scadenza'], ['tel', 'il telefono']]) if (!p[k]) return err(`manca ${l}.`, k);
+                    if (p.dataNascita > isoToday) return err('la data di nascita è nel futuro.', 'dataNascita');
+                    if (!/^[A-Z0-9]{16}$/.test(p.cf)) return err('il codice fiscale deve avere 16 caratteri.', 'cf');
+                    if (seen.has(p.cf)) return err('questo codice fiscale è già stato inserito per un\'altra persona.', 'cf');
+                    seen.add(p.cf);
+                    if (p.dataRilascio > isoToday) return err('la data di rilascio è nel futuro.', 'dataRilascio');
+                    if (p.scadDoc < isoToday) return err('il documento è scaduto.', 'scadDoc');
+                    if (p.scadDoc <= p.dataRilascio) return err('la scadenza deve essere successiva al rilascio.', 'scadDoc');
+                    if (!/^[0-9+()\s.-]{6,30}$/.test(p.tel)) return err('telefono non valido.', 'tel');
+                    if (p.email && !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(p.email)) return err('email non valida.', 'email');
+                    list.push(p);
+                }
+                if (!document.getElementById('ac-consent').checked) { Swal.showValidationMessage('Conferma di aver informato le persone indicate.'); return false; }
+                return list;
+            }
+        });
+        return r.isConfirmed ? r.value : null;
+    }
+
+    function parseAcc(r) {
+        if (Array.isArray(r.accompagnatori)) return r.accompagnatori;
+        try { return JSON.parse(r.accompagnatori || '[]') || []; } catch (e) { return []; }
+    }
+    const accText = x => { const a = parseAcc(x); return a.length ? `<span class="block text-[11px] text-slate-500 mt-1">Con: ${esc(a.map(p => p.nome + ' ' + p.cognome).join(', '))}</span>` : ''; };
+
     async function finalizeBooking() {
         if (booking || !pendingBooking) return;
         booking = true;
@@ -518,7 +570,12 @@
         try {
             const persone = await askPersone(p.evento, p.tipo);
             if (persone === null) return; // la persona ha annullato: nessuna prenotazione
-            await api('/api/book', { method: 'POST', body: { ...p, persone } });
+            let accompagnatori;
+            if (p.tipo === 'Viaggio' && persone > 1) {
+                accompagnatori = await askAccompagnatori(p.evento, persone - 1);
+                if (accompagnatori === null) return;
+            }
+            await api('/api/book', { method: 'POST', body: { ...p, persone, accompagnatori, consensoAccompagnatori: accompagnatori ? true : undefined }, ms: 30000 });
             await Swal.fire({ title: 'Prenotazione effettuata!', text: persone === 1 ? 'Prenotazione registrata per una persona (solo per te).' : `Prenotazione registrata per ${persone} persone (te compreso).`, icon: 'success', ...swalOk });
             showView('user-dashboard');
         } catch (e) {
@@ -546,7 +603,7 @@
             h('Titolare del trattamento') +
             `<p>Associazione Lucana e altre Regioni Italiane "Giuseppe Novello" - Via Mezzano, 10034 Chivasso (TO) - info@associazionenovello.it</p>` +
             h('Dati trattati') +
-            `<p>Dati anagrafici e di contatto (nome, cognome, data e luogo di nascita, codice fiscale, indirizzo, telefono, email), estremi del documento di identità e copia fotografica dei documenti caricati, prenotazioni a viaggi ed eventi. Se usi la compilazione automatica, la lettura del documento avviene sul tuo dispositivo: per questa operazione l'immagine non viene inviata a servizi esterni.</p>` +
+            `<p>Dati anagrafici e di contatto (nome, cognome, data e luogo di nascita, codice fiscale, indirizzo, telefono, email), estremi del documento di identità e copia fotografica dei documenti caricati, prenotazioni a viaggi ed eventi e, per i viaggi, i dati delle persone che porti con te (anagrafici, contatto, documento di identità o passaporto), che dichiari di essere autorizzato a comunicare. Se usi la compilazione automatica, la lettura del documento avviene sul tuo dispositivo: per questa operazione l'immagine non viene inviata a servizi esterni.</p>` +
             h('Finalità e base giuridica') +
             `<p>Gestione dell'iscrizione e della partecipazione a viaggi, escursioni ed eventi, coperture assicurative, adempimenti amministrativi e di legge. Base giuridica: esecuzione del rapporto associativo, obblighi di legge e, per i documenti caricati, il tuo consenso.</p>` +
             h('Chi può vedere i dati') +
@@ -676,7 +733,7 @@
                     ? `<button onclick="cancelBooking('${esc(x.id)}')" class="mt-2 bg-red-50 hover:bg-red-100 text-red-600 px-3 py-1.5 rounded-lg text-[11px] font-bold transition">Annulla prenotazione</button><span class="block text-[10px] text-slate-400 mt-1">Annullabile ancora per circa ${Math.max(1, Math.ceil(left / 3600000))} ore</span>`
                     : `<span class="block text-[10px] text-slate-400 italic mt-2">Oltre le 48 ore: contatta la segreteria per annullare</span>`;
                 return `<div class="p-4 bg-slate-50 border border-slate-200 rounded-2xl flex justify-between items-start gap-3">
-                    <div><span class="font-extrabold text-xs text-slate-900 block">${esc(x.evento)}</span><span class="text-[11px] text-slate-400">Tipologia: ${esc(x.tipo)} &middot; ${Number(x.persone) || 1} ${(Number(x.persone) || 1) === 1 ? 'persona' : 'persone'}</span>${action}</div>
+                    <div><span class="font-extrabold text-xs text-slate-900 block">${esc(x.evento)}</span><span class="text-[11px] text-slate-400">Tipologia: ${esc(x.tipo)} &middot; ${Number(x.persone) || 1} ${(Number(x.persone) || 1) === 1 ? 'persona' : 'persone'}</span>${accText(x)}${action}</div>
                     <span class="text-[11px] font-bold text-ch-primary bg-ch-accent/20 px-3 py-1 rounded-full whitespace-nowrap">${esc(x.dataReg)}</span>
                 </div>`;
             }).join('') || '<p class="text-slate-400 text-xs italic">Nessuna prenotazione attiva al momento.</p>';
@@ -1180,7 +1237,7 @@
                 <td class="py-3 pr-3 font-bold text-slate-900">${esc(r.evento)} <span class="text-[10px] text-slate-400 font-normal">(${esc(r.tipo)})</span></td>
                 <td class="py-3 pr-3">${esc(r.nome)} ${esc(r.cognome)}<br><span class="text-[11px] text-slate-400">${esc(r.userId)}</span></td>
                 <td class="py-3 pr-3 font-extrabold text-slate-900">${Number(r.persone) || 1}</td>
-                <td class="py-3 text-slate-500">${esc(r.dettagli)} <button onclick="deleteReg('${esc(r.id)}')" class="ml-2 text-red-500 hover:text-red-700" title="Elimina"><i class="fas fa-trash"></i></button></td>
+                <td class="py-3 text-slate-500">${esc(r.dettagli)}${parseAcc(r).length ? ` <button onclick="viewAcc('${esc(r.id)}')" class="ml-1 bg-ch-primary text-white px-2.5 py-1 rounded-lg text-[11px] font-bold">Viaggiatori</button>` : ''} <button onclick="deleteReg('${esc(r.id)}')" class="ml-2 text-red-500 hover:text-red-700" title="Elimina"><i class="fas fa-trash"></i></button></td>
             </tr>`).join('') || '<tr><td colspan="5" class="py-6 text-center text-slate-400 italic">Nessuna iscrizione trovata.</td></tr>';
     }
 
@@ -1192,19 +1249,40 @@
         a.download = name; a.click();
     }
 
+    function viewAcc(id) {
+        const r = adminData.registrations.find(x => x.id === id); if (!r) return;
+        const acc = parseAcc(r);
+        const row = (p, role) => `<tr class="border-b border-slate-100"><td style="padding:6px">${esc(role)}</td><td style="padding:6px;font-weight:700">${esc(p.cognome)} ${esc(p.nome)}</td><td style="padding:6px">${esc(p.dataNascita)}<br>${esc(p.luogoNascita)}</td><td style="padding:6px">${esc(p.cf)}</td><td style="padding:6px">${esc(p.tipoDoc)} ${esc(p.numDoc)}<br>rilasc. ${esc(p.dataRilascio)} &middot; scad. ${esc(p.scadDoc)}</td><td style="padding:6px">${esc(p.tel)}<br>${esc(p.email)}</td></tr>`;
+        const owner = adminData.users.find(u => u.email === r.userId) || {};
+        Swal.fire({
+            title: esc(r.evento),
+            html: `<p style="font-size:12px;color:#64748b;margin-bottom:8px">Prenotazione per ${Number(r.persone) || 1} persone</p><div style="overflow-x:auto"><table style="font-size:11px;text-align:left;border-collapse:collapse;width:100%"><tr style="color:#94a3b8;text-transform:uppercase;font-size:10px"><th style="padding:6px">Ruolo</th><th style="padding:6px">Nome</th><th style="padding:6px">Nascita</th><th style="padding:6px">Codice fiscale</th><th style="padding:6px">Documento</th><th style="padding:6px">Contatti</th></tr>${row({ cognome: r.cognome, nome: r.nome, dataNascita: owner.dataNascita, luogoNascita: owner.luogoNascita, cf: owner.cf, tipoDoc: owner.tipoDoc, numDoc: owner.numDoc, dataRilascio: '-', scadDoc: owner.scadDoc, tel: owner.tel, email: r.userId }, 'Titolare')}${acc.map(p => row(p, 'Accompagnatore')).join('')}</table></div>`,
+            width: 900, ...swalOk
+        });
+    }
+
+    const PRESENZE_HEADER = ['Attività', 'Tipo', 'Data prenotazione', 'Ruolo', 'Cognome', 'Nome', 'Email', 'Telefono', 'Codice fiscale', 'Data di nascita', 'Luogo di nascita', 'Indirizzo', 'Tipo documento', 'Numero documento', 'Rilasciato il', 'Scadenza documento', 'Persone', 'Presente'];
+    // Una riga per ogni persona: il titolare della prenotazione e, nei viaggi, ciascun accompagnatore
+    function presenzeRows(regs, by) {
+        const sorted = [...regs].sort((a, b) => (a.evento + a.cognome).localeCompare(b.evento + b.cognome, 'it'));
+        const rows = [];
+        for (const r of sorted) {
+            const u = by[r.userId] || {};
+            rows.push([r.evento, r.tipo, r.dataReg, 'Titolare prenotazione', r.cognome, r.nome, r.userId, u.tel, u.cf, u.dataNascita, u.luogoNascita, u.ind, u.tipoDoc, u.numDoc, '', u.scadDoc, Number(r.persone) || 1, '']);
+            for (const p of parseAcc(r)) rows.push([r.evento, r.tipo, r.dataReg, 'Accompagnatore', p.cognome, p.nome, p.email || '', p.tel, p.cf, p.dataNascita, p.luogoNascita, '', p.tipoDoc, p.numDoc, p.dataRilascio, p.scadDoc, '', '']);
+        }
+        return { header: PRESENZE_HEADER, rows };
+    }
+
     function exportPresenze(fmt = 'csv') {
         const regs = filteredRegs();
         if (!regs.length) return Swal.fire({ title: 'Nessun dato', text: 'Nessuna prenotazione corrisponde ai filtri.', icon: 'info', ...swalOk });
         const by = Object.fromEntries(adminData.users.map(u => [u.email, u]));
-        const rows = regs.map(r => {
-            const u = by[r.userId] || {};
-            return [r.evento, r.tipo, r.dataReg, r.cognome, r.nome, r.userId, u.tel, u.cf, u.dataNascita, u.luogoNascita, u.ind, u.tipoDoc, u.numDoc, u.scadDoc, Number(r.persone) || 1, ''];
-        }).sort((a, b) => (a[0] + a[3]).localeCompare(b[0] + b[3], 'it'));
+        const { header, rows } = presenzeRows(regs, by);
         const sel = document.getElementById('flt-attivita');
         const label = sel.value ? sel.options[sel.selectedIndex].text : 'tutte';
         const slug = label.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 40) || 'tutte';
         const name = `presenze_${slug}_${new Date().toISOString().slice(0, 10)}`;
-        const header = ['Attività', 'Tipo', 'Data prenotazione', 'Cognome', 'Nome', 'Email', 'Telefono', 'Codice fiscale', 'Data di nascita', 'Luogo di nascita', 'Indirizzo', 'Tipo documento', 'Numero documento', 'Scadenza documento', 'Persone', 'Presente'];
         if (fmt === 'xlsx') {
             if (typeof XLSX === 'undefined') return Swal.fire({ title: 'Libreria Excel non caricata', text: 'Ricarica la pagina oppure usa il CSV.', icon: 'warning', ...swalOk });
             const ws = XLSX.utils.aoa_to_sheet([header, ...rows]);
