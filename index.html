@@ -280,13 +280,13 @@
                 <div class="overflow-x-auto">
                     <table class="w-full text-left border-collapse">
                         <thead><tr class="border-b border-slate-100 text-slate-400 text-[11px] uppercase tracking-wider">
-                            <th class="pb-3 font-bold">Attività</th><th class="pb-3 font-bold">Quota</th><th class="pb-3 font-bold">Iscritti</th><th class="pb-3 font-bold text-right">Ricavo previsto</th>
+                            <th class="pb-3 font-bold">Attività</th><th class="pb-3 font-bold">Quota</th><th class="pb-3 font-bold">Persone iscritte</th><th class="pb-3 font-bold text-right">Ricavo previsto</th>
                         </tr></thead>
                         <tbody id="admin-ricavi-body" class="text-xs divide-y divide-slate-50"></tbody>
                         <tfoot id="admin-ricavi-foot"></tfoot>
                     </table>
                 </div>
-                <p class="text-[11px] text-slate-400 mt-3">Ricavo previsto = quota × numero di iscritti. La quota è l'importo scritto nel campo costo/note dell'attività; se non è un importo leggibile compare "n.d.".</p>
+                <p class="text-[11px] text-slate-400 mt-3">Ricavo previsto = quota × numero di persone iscritte (una prenotazione per 3 persone conta 3). La quota è l'importo scritto nel campo costo/note dell'attività; se non è un importo leggibile compare "n.d.".</p>
             </div>
 
             <div class="bg-white p-6 md:p-8 rounded-3xl shadow-sm border border-slate-200">
@@ -306,6 +306,7 @@
                                 <th class="pb-3 font-bold">Data</th>
                                 <th class="pb-3 font-bold">Attività</th>
                                 <th class="pb-3 font-bold">Socio</th>
+                                <th class="pb-3 font-bold">Persone</th>
                                 <th class="pb-3 font-bold">Dettagli</th>
                             </tr>
                         </thead>
@@ -380,6 +381,7 @@
     }
     const swalOk = { confirmButtonColor: '#1b3b5c' };
     const CANCEL_WINDOW_MS = 48 * 3600 * 1000;
+    const MAX_PERSONE = 10;
 
     function setSession(s) {
         session = s;
@@ -469,13 +471,55 @@
         else finalizeBooking();
     }
 
+    function priceOf(evento, tipo) {
+        const it = tipo === 'Viaggio' ? (db.trips || []).find(t => t.dest === evento) : (db.events || []).find(e => e.nome === evento);
+        return it ? parseEuro(tipo === 'Viaggio' ? it.note : it.costo) : NaN;
+    }
+
+    // Chiede per quante persone si prenota (te compreso). Restituisce il numero oppure null se la persona annulla.
+    async function askPersone(evento, tipo) {
+        const price = priceOf(evento, tipo);
+        const btn = 'type="button" class="swal2-styled" style="margin:0;width:52px;font-size:22px;padding:6px 0"';
+        const r = await Swal.fire({
+            title: 'Per quante persone?',
+            html: `<p style="font-size:12px;color:#64748b;margin-bottom:12px"><b>${esc(evento)}</b><br>Indica quante persone partecipano, <b>te compreso</b>. Se vieni solo tu, lascia 1.</p>
+                <div style="display:flex;align-items:center;justify-content:center;gap:14px">
+                    <button id="pp-minus" ${btn}>&minus;</button>
+                    <input id="pp-n" type="number" inputmode="numeric" min="1" max="${MAX_PERSONE}" value="1" class="swal2-input" style="width:90px;text-align:center;font-size:24px;margin:0">
+                    <button id="pp-plus" ${btn}>+</button>
+                </div>
+                <p id="pp-label" style="font-size:13px;margin-top:14px;color:#1b3b5c;font-weight:700"></p>`,
+            showCancelButton: true, confirmButtonText: 'Conferma prenotazione', cancelButtonText: 'Annulla', ...swalOk,
+            didOpen: () => {
+                const inp = document.getElementById('pp-n'), lab = document.getElementById('pp-label');
+                const val = () => Math.min(MAX_PERSONE, Math.max(1, parseInt(inp.value, 10) || 1));
+                const refresh = () => {
+                    const n = val();
+                    lab.textContent = (n === 1 ? 'Solo per te' : `Per te e altre ${n - 1} ${n === 2 ? 'persona' : 'persone'}`) + (Number.isNaN(price) ? '' : ` · ${eur.format(price)} × ${n} = ${eur.format(price * n)}`);
+                };
+                document.getElementById('pp-minus').addEventListener('click', () => { inp.value = Math.max(1, val() - 1); refresh(); });
+                document.getElementById('pp-plus').addEventListener('click', () => { inp.value = Math.min(MAX_PERSONE, val() + 1); refresh(); });
+                inp.addEventListener('input', refresh);
+                refresh();
+            },
+            preConfirm: () => {
+                const n = parseInt(document.getElementById('pp-n').value, 10);
+                if (!Number.isInteger(n) || n < 1 || n > MAX_PERSONE) { Swal.showValidationMessage(`Inserisci un numero da 1 a ${MAX_PERSONE}.`); return false; }
+                return n;
+            }
+        });
+        return r.isConfirmed ? r.value : null;
+    }
+
     async function finalizeBooking() {
         if (booking || !pendingBooking) return;
         booking = true;
         const p = pendingBooking; pendingBooking = null;
         try {
-            await api('/api/book', { method: 'POST', body: p });
-            await Swal.fire({ title: 'Prenotazione Effettuata!', text: 'La tua richiesta è stata registrata con successo.', icon: 'success', ...swalOk });
+            const persone = await askPersone(p.evento, p.tipo);
+            if (persone === null) return; // la persona ha annullato: nessuna prenotazione
+            await api('/api/book', { method: 'POST', body: { ...p, persone } });
+            await Swal.fire({ title: 'Prenotazione effettuata!', text: persone === 1 ? 'Prenotazione registrata per una persona (solo per te).' : `Prenotazione registrata per ${persone} persone (te compreso).`, icon: 'success', ...swalOk });
             showView('user-dashboard');
         } catch (e) {
             if (e.status === 409) { await Swal.fire({ title: 'Già prenotato', text: e.message, icon: 'info', ...swalOk }); showView('user-dashboard'); }
@@ -632,7 +676,7 @@
                     ? `<button onclick="cancelBooking('${esc(x.id)}')" class="mt-2 bg-red-50 hover:bg-red-100 text-red-600 px-3 py-1.5 rounded-lg text-[11px] font-bold transition">Annulla prenotazione</button><span class="block text-[10px] text-slate-400 mt-1">Annullabile ancora per circa ${Math.max(1, Math.ceil(left / 3600000))} ore</span>`
                     : `<span class="block text-[10px] text-slate-400 italic mt-2">Oltre le 48 ore: contatta la segreteria per annullare</span>`;
                 return `<div class="p-4 bg-slate-50 border border-slate-200 rounded-2xl flex justify-between items-start gap-3">
-                    <div><span class="font-extrabold text-xs text-slate-900 block">${esc(x.evento)}</span><span class="text-[11px] text-slate-400">Tipologia: ${esc(x.tipo)}</span>${action}</div>
+                    <div><span class="font-extrabold text-xs text-slate-900 block">${esc(x.evento)}</span><span class="text-[11px] text-slate-400">Tipologia: ${esc(x.tipo)} &middot; ${Number(x.persone) || 1} ${(Number(x.persone) || 1) === 1 ? 'persona' : 'persone'}</span>${action}</div>
                     <span class="text-[11px] font-bold text-ch-primary bg-ch-accent/20 px-3 py-1 rounded-full whitespace-nowrap">${esc(x.dataReg)}</span>
                 </div>`;
             }).join('') || '<p class="text-slate-400 text-xs italic">Nessuna prenotazione attiva al momento.</p>';
@@ -1063,7 +1107,7 @@
 
     function revenueRows() {
         const count = {};
-        adminData.registrations.forEach(r => { const k = r.tipo + '|' + r.evento; count[k] = (count[k] || 0) + 1; });
+        adminData.registrations.forEach(r => { const k = r.tipo + '|' + r.evento; count[k] = (count[k] || 0) + (Number(r.persone) || 1); });
         const rows = [], seen = new Set();
         (db.trips || []).forEach(t => { const k = 'Viaggio|' + t.dest; seen.add(k); rows.push({ nome: t.dest, tipo: 'Viaggio', data: `dal ${t.da} al ${t.al}`, quota: parseEuro(t.note), n: count[k] || 0 }); });
         (db.events || []).forEach(e => { const k = 'Evento|' + e.nome; seen.add(k); rows.push({ nome: e.nome, tipo: 'Evento', data: e.data, quota: parseEuro(e.costo), n: count[k] || 0 }); });
@@ -1089,7 +1133,7 @@
     function exportRicavi(fmt = 'xlsx') {
         const rows = revenueRows();
         if (!rows.length) return Swal.fire({ title: 'Nessun dato', text: 'Non ci sono attività da esportare.', icon: 'info', ...swalOk });
-        const header = ['Attività', 'Tipo', 'Data', 'Quota unitaria (€)', 'Iscritti', 'Ricavo previsto (€)'];
+        const header = ['Attività', 'Tipo', 'Data', 'Quota unitaria (€)', 'Persone iscritte', 'Ricavo previsto (€)'];
         const data = rows.map(r => [r.nome, r.tipo, r.data, Number.isNaN(r.quota) ? '' : r.quota, r.n, r.ricavo === null ? '' : r.ricavo]);
         data.push(['TOTALE', '', '', '', rows.reduce((a, r) => a + r.n, 0), rows.reduce((a, r) => a + (r.ricavo || 0), 0)]);
         const name = `ricavi_${new Date().toISOString().slice(0, 10)}`;
@@ -1129,14 +1173,15 @@
 
     function renderRegistrations() {
         const regs = filteredRegs();
-        document.getElementById('reg-count').innerText = `(${regs.length})`;
+        document.getElementById('reg-count').innerText = `(${regs.length} prenotazioni, ${regs.reduce((a, r) => a + (Number(r.persone) || 1), 0)} persone)`;
         document.getElementById('admin-table-body').innerHTML = regs.map(r => `
             <tr>
                 <td class="py-3 pr-3 text-slate-500">${esc(r.dataReg)}</td>
                 <td class="py-3 pr-3 font-bold text-slate-900">${esc(r.evento)} <span class="text-[10px] text-slate-400 font-normal">(${esc(r.tipo)})</span></td>
                 <td class="py-3 pr-3">${esc(r.nome)} ${esc(r.cognome)}<br><span class="text-[11px] text-slate-400">${esc(r.userId)}</span></td>
+                <td class="py-3 pr-3 font-extrabold text-slate-900">${Number(r.persone) || 1}</td>
                 <td class="py-3 text-slate-500">${esc(r.dettagli)} <button onclick="deleteReg('${esc(r.id)}')" class="ml-2 text-red-500 hover:text-red-700" title="Elimina"><i class="fas fa-trash"></i></button></td>
-            </tr>`).join('') || '<tr><td colspan="4" class="py-6 text-center text-slate-400 italic">Nessuna iscrizione trovata.</td></tr>';
+            </tr>`).join('') || '<tr><td colspan="5" class="py-6 text-center text-slate-400 italic">Nessuna iscrizione trovata.</td></tr>';
     }
 
     function downloadCSV(name, header, rows) {
@@ -1153,13 +1198,13 @@
         const by = Object.fromEntries(adminData.users.map(u => [u.email, u]));
         const rows = regs.map(r => {
             const u = by[r.userId] || {};
-            return [r.evento, r.tipo, r.dataReg, r.cognome, r.nome, r.userId, u.tel, u.cf, u.dataNascita, u.luogoNascita, u.ind, u.tipoDoc, u.numDoc, u.scadDoc, ''];
+            return [r.evento, r.tipo, r.dataReg, r.cognome, r.nome, r.userId, u.tel, u.cf, u.dataNascita, u.luogoNascita, u.ind, u.tipoDoc, u.numDoc, u.scadDoc, Number(r.persone) || 1, ''];
         }).sort((a, b) => (a[0] + a[3]).localeCompare(b[0] + b[3], 'it'));
         const sel = document.getElementById('flt-attivita');
         const label = sel.value ? sel.options[sel.selectedIndex].text : 'tutte';
         const slug = label.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 40) || 'tutte';
         const name = `presenze_${slug}_${new Date().toISOString().slice(0, 10)}`;
-        const header = ['Attività', 'Tipo', 'Data prenotazione', 'Cognome', 'Nome', 'Email', 'Telefono', 'Codice fiscale', 'Data di nascita', 'Luogo di nascita', 'Indirizzo', 'Tipo documento', 'Numero documento', 'Scadenza documento', 'Presente'];
+        const header = ['Attività', 'Tipo', 'Data prenotazione', 'Cognome', 'Nome', 'Email', 'Telefono', 'Codice fiscale', 'Data di nascita', 'Luogo di nascita', 'Indirizzo', 'Tipo documento', 'Numero documento', 'Scadenza documento', 'Persone', 'Presente'];
         if (fmt === 'xlsx') {
             if (typeof XLSX === 'undefined') return Swal.fire({ title: 'Libreria Excel non caricata', text: 'Ricarica la pagina oppure usa il CSV.', icon: 'warning', ...swalOk });
             const ws = XLSX.utils.aoa_to_sheet([header, ...rows]);
