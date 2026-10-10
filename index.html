@@ -1273,12 +1273,12 @@
 
     async function createTrip(e) {
         e.preventDefault();
-        const trip = { dest: document.getElementById('at-dest').value, da: document.getElementById('at-da').value, al: document.getElementById('at-al').value, note: document.getElementById('at-costo').value.trim() || 'n.d.' };
+        const trip = { dest: document.getElementById('at-dest').value, da: document.getElementById('at-da').value, al: document.getElementById('at-al').value, note: document.getElementById('at-costo').value.trim() || '€ 0' };
         try { await api('/api/admin/trip', { method: 'POST', body: { trip } }); await loadPublic(); Swal.fire({ title: 'Pubblicato!', text: 'Il viaggio è ora online.', icon: 'success', ...swalOk }); document.getElementById('form-create-trip').reset(); } catch (err) { fail(err); }
     }
     async function salvaEvento(e) {
         e.preventDefault();
-        const event = { nome: document.getElementById('ae-nome').value, data: document.getElementById('ae-data').value, costo: 'n.d.' };
+        const event = { nome: document.getElementById('ae-nome').value, data: document.getElementById('ae-data').value, costo: '€ 0' };
         try { await api('/api/admin/event', { method: 'POST', body: { event } }); await loadPublic(); Swal.fire({ title: 'Pubblicato!', text: 'L\'evento è ora online.', icon: 'success', ...swalOk }); document.getElementById('form-create-event').reset(); } catch (err) { fail(err); }
     }
 
