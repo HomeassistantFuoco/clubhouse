@@ -196,7 +196,7 @@
                     <!-- REGISTER FORM -->
                     <form id="form-user-register" onsubmit="userRegister(event)" class="hidden space-y-3.5">
                         <h2 class="text-xl font-extrabold text-slate-900 mb-1">Nuovo Socio</h2>
-                        <p class="text-xs text-slate-400 mb-4">Obbligatori solo nome, cognome, telefono e password. Il resto è facoltativo.</p>
+                        <p class="text-xs text-slate-400 mb-4">Obbligatori: nome, cognome, data e luogo di nascita, residenza, telefono e password. Tutto il resto è facoltativo.</p>
                         <div class="p-4 rounded-2xl bg-ch-accent/10 border border-ch-accent/40">
                             <p class="text-xs font-extrabold text-ch-primary mb-1"><i class="fas fa-id-card mr-1.5"></i> Compila in automatico</p>
                             <p class="text-[11px] text-slate-600 mb-3">Fotografa o scegli la tua carta d'identità (meglio elettronica, fronte e retro): i campi si compilano da soli. La lettura avviene sul tuo telefono o computer e la foto non viene inviata a nessun servizio per questo scopo. Poi controlla i dati. Se preferisci, puoi compilare tutto a mano.</p>
@@ -210,11 +210,11 @@
                             <input type="text" id="ru-cognome" placeholder="Cognome" required class="w-full px-3.5 py-2.5 rounded-xl bg-white border border-slate-200 text-xs focus:outline-none focus:border-ch-primary">
                         </div>
                         <div class="grid grid-cols-2 gap-3">
-                            <div><label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Data di nascita</label><input type="date" id="ru-datanascita" class="w-full px-3.5 py-2.5 rounded-xl bg-white border border-slate-200 text-xs focus:outline-none focus:border-ch-primary"></div>
-                            <div><label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Luogo di nascita</label><input type="text" id="ru-luogonascita" placeholder="Città (prov.)" class="w-full px-3.5 py-2.5 rounded-xl bg-white border border-slate-200 text-xs focus:outline-none focus:border-ch-primary"></div>
+                            <div><label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Data di nascita</label><input type="date" id="ru-datanascita" required class="w-full px-3.5 py-2.5 rounded-xl bg-white border border-slate-200 text-xs focus:outline-none focus:border-ch-primary"></div>
+                            <div><label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Luogo di nascita</label><input type="text" id="ru-luogonascita" placeholder="Città (prov.)" required class="w-full px-3.5 py-2.5 rounded-xl bg-white border border-slate-200 text-xs focus:outline-none focus:border-ch-primary"></div>
                         </div>
                         <input type="text" id="ru-cf" placeholder="Codice Fiscale (facoltativo)" maxlength="16" class="w-full px-3.5 py-2.5 rounded-xl bg-white border border-slate-200 text-xs uppercase focus:outline-none focus:border-ch-primary">
-                        <input type="text" id="ru-ind" placeholder="Indirizzo di residenza (facoltativo)" class="w-full px-3.5 py-2.5 rounded-xl bg-white border border-slate-200 text-xs focus:outline-none focus:border-ch-primary">
+                        <input type="text" id="ru-ind" placeholder="Indirizzo di residenza (via, n., CAP, città)" required class="w-full px-3.5 py-2.5 rounded-xl bg-white border border-slate-200 text-xs focus:outline-none focus:border-ch-primary">
                         <div class="grid grid-cols-2 gap-3">
                             <div>
                                 <label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Telefono (Obbligatorio)</label>
@@ -648,8 +648,8 @@
             `<p>Associazione Lucana e altre Regioni Italiane ETS-APS "Giuseppe Novello", con sede operativa in Via Mezzano, s.n.c. 10034 Chivasso (TO). Contatti per ogni richiesta sui dati personali: <b>clubhousenovello@gmail.com</b> - tel. 333 7632452.</p>` +
             h('2. Quali dati trattiamo') +
             li([
-                '<b>Dati obbligatori per registrarti:</b> nome, cognome, numero di telefono e password di accesso.',
-                '<b>Dati facoltativi:</b> email, data e luogo di nascita, codice fiscale, indirizzo di residenza, tipo, numero e scadenza del documento di identità, copia fotografica del documento (fronte e retro) e della tessera sanitaria. Puoi non fornirli o aggiungerli in un secondo momento dalla tua area riservata.',
+                '<b>Dati obbligatori per registrarti:</b> nome, cognome, data e luogo di nascita, indirizzo di residenza, numero di telefono e password di accesso.',
+                '<b>Dati facoltativi:</b> email, codice fiscale, tipo, numero e scadenza del documento di identità, copia fotografica del documento (fronte e retro) e della tessera sanitaria. Puoi non fornirli o aggiungerli in un secondo momento dalla tua area riservata.',
                 '<b>Dati di utilizzo:</b> le adesioni a viaggi, escursioni ed eventi (iniziativa, data, numero di persone).',
                 '<b>Dati di chi porti con te:</b> per le iniziative che lo richiedono, i dati anagrafici, di contatto e del documento delle persone che indichi come partecipanti insieme a te.'
             ]) +
@@ -663,7 +663,7 @@
             ]) +
             `<p style="margin-top:6px">L'associazione non incassa quote, non effettua prenotazioni collettive e non gestisce pagamenti per i servizi di terzi: nessun dato di pagamento viene raccolto o conservato.</p>` +
             h('4. Conferimento dei dati') +
-            `<p>Nome, cognome, telefono e password sono necessari per creare l'account: senza di essi non è possibile registrarsi. Tutti gli altri dati sono facoltativi; per alcune iniziative (ad esempio viaggi con prenotazioni a nome dei partecipanti) la segreteria potrà chiederti di integrarli, e in tal caso la mancata comunicazione può impedire la partecipazione a quella specifica iniziativa.</p>` +
+            `<p>Nome, cognome, data e luogo di nascita, residenza, telefono e password sono necessari per creare l'account: senza di essi non è possibile registrarsi. Tutti gli altri dati sono facoltativi; per alcune iniziative (ad esempio viaggi con prenotazioni a nome dei partecipanti) la segreteria potrà chiederti di integrarli, e in tal caso la mancata comunicazione può impedire la partecipazione a quella specifica iniziativa.</p>` +
             h('5. Dati delle persone che porti con te') +
             `<p>Se inserisci i dati di altre persone, dichiari di essere autorizzato a comunicarli e di averle informate del trattamento, mettendo a loro disposizione questa informativa. Tali dati sono usati esclusivamente per coordinare l'iniziativa a cui partecipano.</p>` +
             h('6. Come trattiamo i dati e chi può vederli') +
@@ -951,7 +951,7 @@
                     ${f('ind', 'Indirizzo di residenza', p.ind)}
                     ${f('tel', 'Telefono', p.tel, 'tel')}
                     <div class="grid grid-cols-2 gap-3">
-                        <div>${lab('Tipo documento')}<select id="pf-tipoDoc" ${inp}>${tipi.map(t => `<option ${t === p.tipoDoc ? 'selected' : ''}>${esc(t)}</option>`).join('')}</select></div>
+                        <div>${lab('Tipo documento')}<select id="pf-tipoDoc" ${inp}><option value="">Nessuno</option>${tipi.map(t => `<option ${t === p.tipoDoc ? 'selected' : ''}>${esc(t)}</option>`).join('')}</select></div>
                         ${f('numDoc', 'Numero documento', p.numDoc)}
                     </div>
                     ${f('scadDoc', 'Scadenza documento', p.scadDoc, 'date')}
@@ -995,7 +995,7 @@
         const g = id => document.getElementById('pf-' + id).value.trim();
         const profile = {};
         for (const k of ['nome', 'cognome', 'dataNascita', 'luogoNascita', 'ind', 'tel', 'tipoDoc', 'numDoc', 'scadDoc']) profile[k] = g(k);
-        if (Object.values(profile).some(v => !v)) return Swal.fire({ title: 'Dati incompleti', text: 'Compila tutti i campi.', icon: 'warning', ...swalOk });
+        if (['nome', 'cognome', 'dataNascita', 'luogoNascita', 'ind', 'tel'].some(k => !profile[k])) return Swal.fire({ title: 'Dati incompleti', text: 'Nome, cognome, data e luogo di nascita, residenza e telefono sono obbligatori.', icon: 'warning', ...swalOk });
         Swal.fire({ title: 'Salvataggio...', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
         try {
             const r = await api('/api/me/update', { method: 'POST', body: { profile } });
