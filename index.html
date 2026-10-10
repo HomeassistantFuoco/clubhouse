@@ -196,7 +196,7 @@
                     <!-- REGISTER FORM -->
                     <form id="form-user-register" onsubmit="userRegister(event)" class="hidden space-y-3.5">
                         <h2 class="text-xl font-extrabold text-slate-900 mb-1">Nuovo Socio</h2>
-                        <p class="text-xs text-slate-400 mb-4">Compila tutti i dati e carica i documenti richiesti.</p>
+                        <p class="text-xs text-slate-400 mb-4">Obbligatori solo nome, cognome, telefono e password. Il resto è facoltativo.</p>
                         <div class="p-4 rounded-2xl bg-ch-accent/10 border border-ch-accent/40">
                             <p class="text-xs font-extrabold text-ch-primary mb-1"><i class="fas fa-id-card mr-1.5"></i> Compila in automatico</p>
                             <p class="text-[11px] text-slate-600 mb-3">Fotografa o scegli la tua carta d'identità (meglio elettronica, fronte e retro): i campi si compilano da soli. La lettura avviene sul tuo telefono o computer e la foto non viene inviata a nessun servizio per questo scopo. Poi controlla i dati. Se preferisci, puoi compilare tutto a mano.</p>
@@ -210,11 +210,11 @@
                             <input type="text" id="ru-cognome" placeholder="Cognome" required class="w-full px-3.5 py-2.5 rounded-xl bg-white border border-slate-200 text-xs focus:outline-none focus:border-ch-primary">
                         </div>
                         <div class="grid grid-cols-2 gap-3">
-                            <div><label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Data di nascita</label><input type="date" id="ru-datanascita" required class="w-full px-3.5 py-2.5 rounded-xl bg-white border border-slate-200 text-xs focus:outline-none focus:border-ch-primary"></div>
-                            <div><label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Luogo di nascita</label><input type="text" id="ru-luogonascita" placeholder="Città (prov.)" required class="w-full px-3.5 py-2.5 rounded-xl bg-white border border-slate-200 text-xs focus:outline-none focus:border-ch-primary"></div>
+                            <div><label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Data di nascita</label><input type="date" id="ru-datanascita" class="w-full px-3.5 py-2.5 rounded-xl bg-white border border-slate-200 text-xs focus:outline-none focus:border-ch-primary"></div>
+                            <div><label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Luogo di nascita</label><input type="text" id="ru-luogonascita" placeholder="Città (prov.)" class="w-full px-3.5 py-2.5 rounded-xl bg-white border border-slate-200 text-xs focus:outline-none focus:border-ch-primary"></div>
                         </div>
-                        <input type="text" id="ru-cf" placeholder="Codice Fiscale" maxlength="16" required class="w-full px-3.5 py-2.5 rounded-xl bg-white border border-slate-200 text-xs uppercase focus:outline-none focus:border-ch-primary">
-                        <input type="text" id="ru-ind" placeholder="Indirizzo di residenza (via, n., CAP, città)" required class="w-full px-3.5 py-2.5 rounded-xl bg-white border border-slate-200 text-xs focus:outline-none focus:border-ch-primary">
+                        <input type="text" id="ru-cf" placeholder="Codice Fiscale (facoltativo)" maxlength="16" class="w-full px-3.5 py-2.5 rounded-xl bg-white border border-slate-200 text-xs uppercase focus:outline-none focus:border-ch-primary">
+                        <input type="text" id="ru-ind" placeholder="Indirizzo di residenza (facoltativo)" class="w-full px-3.5 py-2.5 rounded-xl bg-white border border-slate-200 text-xs focus:outline-none focus:border-ch-primary">
                         <div class="grid grid-cols-2 gap-3">
                             <div>
                                 <label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Telefono (Obbligatorio)</label>
@@ -228,17 +228,17 @@
                         <input type="password" id="ru-pass" placeholder="Crea Password (min. 10 caratteri)" minlength="10" required class="w-full px-3.5 py-2.5 rounded-xl bg-white border border-slate-200 text-xs focus:outline-none focus:border-ch-primary">
                         <p class="text-[11px] font-extrabold text-ch-primary uppercase tracking-wider pt-2">Documento di identità</p>
                         <div class="grid grid-cols-2 gap-3">
-                            <select id="ru-tipodoc" required class="w-full px-3.5 py-2.5 rounded-xl bg-white border border-slate-200 text-xs focus:outline-none focus:border-ch-primary">
+                            <select id="ru-tipodoc" class="w-full px-3.5 py-2.5 rounded-xl bg-white border border-slate-200 text-xs focus:outline-none focus:border-ch-primary">
                                 <option value="">Tipo documento</option>
                                 <option>Carta d'identità</option>
                                 <option>Patente</option>
                                 <option>Passaporto</option>
                             </select>
-                            <input type="text" id="ru-numdoc" placeholder="Numero documento" required class="w-full px-3.5 py-2.5 rounded-xl bg-white border border-slate-200 text-xs focus:outline-none focus:border-ch-primary">
+                            <input type="text" id="ru-numdoc" placeholder="Numero documento" class="w-full px-3.5 py-2.5 rounded-xl bg-white border border-slate-200 text-xs focus:outline-none focus:border-ch-primary">
                         </div>
-                        <div><label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Scadenza documento</label><input type="date" id="ru-scaddoc" required class="w-full px-3.5 py-2.5 rounded-xl bg-white border border-slate-200 text-xs focus:outline-none focus:border-ch-primary"></div>
-                        <div><label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Foto documento - fronte</label><input type="file" id="ru-doc1" accept="image/*" required class="w-full text-xs text-slate-500 file:mr-3 file:py-2 file:px-3 file:rounded-lg file:border-0 file:bg-ch-primary file:text-white file:text-xs file:font-bold"></div>
-                        <div><label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Foto documento - retro</label><input type="file" id="ru-doc2" accept="image/*" required class="w-full text-xs text-slate-500 file:mr-3 file:py-2 file:px-3 file:rounded-lg file:border-0 file:bg-ch-primary file:text-white file:text-xs file:font-bold"></div>
+                        <div><label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Scadenza documento</label><input type="date" id="ru-scaddoc" class="w-full px-3.5 py-2.5 rounded-xl bg-white border border-slate-200 text-xs focus:outline-none focus:border-ch-primary"></div>
+                        <div><label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Foto documento - fronte (facoltativa)</label><input type="file" id="ru-doc1" accept="image/*" class="w-full text-xs text-slate-500 file:mr-3 file:py-2 file:px-3 file:rounded-lg file:border-0 file:bg-ch-primary file:text-white file:text-xs file:font-bold"></div>
+                        <div><label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Foto documento - retro (facoltativa)</label><input type="file" id="ru-doc2" accept="image/*" class="w-full text-xs text-slate-500 file:mr-3 file:py-2 file:px-3 file:rounded-lg file:border-0 file:bg-ch-primary file:text-white file:text-xs file:font-bold"></div>
                         <div><label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Tessera sanitaria (facoltativa)</label><input type="file" id="ru-doc3" accept="image/*" class="w-full text-xs text-slate-500 file:mr-3 file:py-2 file:px-3 file:rounded-lg file:border-0 file:bg-slate-200 file:text-slate-700 file:text-xs file:font-bold"></div>
                         <label class="flex items-start gap-2 text-[11px] text-slate-600 pt-1"><input type="checkbox" id="ru-privacy" required class="mt-0.5"> <span>Ho letto l'<a href="#" onclick="showPrivacy(); return false;" class="underline font-bold text-ch-primary">informativa privacy</a> e acconsento al trattamento dei miei dati e dei documenti caricati.</span></label>
                         <button type="submit" class="w-full bg-ch-accent text-ch-dark font-extrabold py-3.5 rounded-xl text-xs shadow-md hover:bg-amber-400 transition mt-2">Conferma Registrazione</button>
@@ -641,18 +641,52 @@
     }
     function privacyHtml(accept = false) {
         const h = t => `<p style="font-weight:800;margin:14px 0 4px;color:#083c76">${t}</p>`;
+        const li = arr => `<ul style="margin:4px 0 0 18px;list-style:disc">${arr.map(x => `<li style="margin-bottom:3px">${x}</li>`).join('')}</ul>`;
         return legalBox(
-            h('Titolare del trattamento') +
-            `<p>Associazione Lucana e altre Regioni Italiane "Giuseppe Novello" - Via Mezzano, s.n.c. 10034 Chivasso (TO) - clubhousenovello@gmail.com</p>` +
-            h('Dati trattati') +
-            `<p>Dati anagrafici e di contatto (nome, cognome, data e luogo di nascita, codice fiscale, indirizzo, telefono, email facoltativa), estremi del documento di identità e copia fotografica dei documenti caricati, adesioni a iniziative ed eventi e, per le escursioni, i dati delle persone che porti con te, che dichiari di essere autorizzato a comunicare. Se usi la compilazione automatica, la lettura del documento avviene sul tuo dispositivo: l'immagine non viene inviata a servizi esterni.</p>` +
-            h('Finalità e base giuridica') +
-            `<p>Gestione dell'iscrizione e della partecipazione alla vita associativa. L'associazione non incassa quote né prenota per conto terzi: i dati servono unicamente a livello organizzativo e di coordinamento. Base giuridica: esecuzione del rapporto associativo, obblighi di legge e il tuo consenso.</p>` +
-            h('Conservazione') +
-            `<p>I dati sono conservati per il tempo in cui sei socio e per i periodi previsti dalla legge; puoi chiedere la cancellazione in qualsiasi momento.</p>` +
-            h('I tuoi diritti') +
-            `<p>Puoi chiedere accesso, rettifica, cancellazione, limitazione opporti al trattamento scrivendo a clubhousenovello@gmail.com.</p>` +
-            (accept ? `<p style="margin-top:12px;font-weight:700">Per continuare devi accettare il trattamento dei dati.</p>` : '')
+            `<p style="font-size:11px;color:#64748b">Informativa ai sensi degli artt. 13 e 14 del Regolamento (UE) 2016/679 (GDPR) &middot; Ultimo aggiornamento: ottobre 2026</p>` +
+            h('1. Titolare del trattamento') +
+            `<p>Associazione Lucana e altre Regioni Italiane ETS-APS "Giuseppe Novello", con sede operativa in Via Mezzano, s.n.c. 10034 Chivasso (TO). Contatti per ogni richiesta sui dati personali: <b>clubhousenovello@gmail.com</b> - tel. 333 7632452.</p>` +
+            h('2. Quali dati trattiamo') +
+            li([
+                '<b>Dati obbligatori per registrarti:</b> nome, cognome, numero di telefono e password di accesso.',
+                '<b>Dati facoltativi:</b> email, data e luogo di nascita, codice fiscale, indirizzo di residenza, tipo, numero e scadenza del documento di identità, copia fotografica del documento (fronte e retro) e della tessera sanitaria. Puoi non fornirli o aggiungerli in un secondo momento dalla tua area riservata.',
+                '<b>Dati di utilizzo:</b> le adesioni a viaggi, escursioni ed eventi (iniziativa, data, numero di persone).',
+                '<b>Dati di chi porti con te:</b> per le iniziative che lo richiedono, i dati anagrafici, di contatto e del documento delle persone che indichi come partecipanti insieme a te.'
+            ]) +
+            `<p style="margin-top:6px">Non ti chiediamo dati sulla salute né altre categorie particolari di dati. Ti invitiamo a non caricare documenti che contengano informazioni di questo tipo.</p>` +
+            h('3. Perché li trattiamo e su quale base giuridica') +
+            li([
+                '<b>Gestire l\'iscrizione e la tua partecipazione alla vita associativa</b>, compresi accesso all\'area riservata, tessera socio e comunicazioni di servizio (art. 6.1.b GDPR - esecuzione del rapporto associativo).',
+                '<b>Organizzare e coordinare viaggi, escursioni ed eventi</b>, raccogliere le adesioni e produrre gli elenchi dei partecipanti (art. 6.1.b GDPR).',
+                '<b>Adempiere a obblighi di legge</b> e di tenuta dei registri dell\'associazione (art. 6.1.c GDPR).',
+                '<b>Trattare i dati e i documenti facoltativi che decidi di fornire</b>, per gli scopi sopra indicati (art. 6.1.a GDPR - consenso, che puoi revocare in qualsiasi momento).'
+            ]) +
+            `<p style="margin-top:6px">L'associazione non incassa quote, non effettua prenotazioni collettive e non gestisce pagamenti per i servizi di terzi: nessun dato di pagamento viene raccolto o conservato.</p>` +
+            h('4. Conferimento dei dati') +
+            `<p>Nome, cognome, telefono e password sono necessari per creare l'account: senza di essi non è possibile registrarsi. Tutti gli altri dati sono facoltativi; per alcune iniziative (ad esempio viaggi con prenotazioni a nome dei partecipanti) la segreteria potrà chiederti di integrarli, e in tal caso la mancata comunicazione può impedire la partecipazione a quella specifica iniziativa.</p>` +
+            h('5. Dati delle persone che porti con te') +
+            `<p>Se inserisci i dati di altre persone, dichiari di essere autorizzato a comunicarli e di averle informate del trattamento, mettendo a loro disposizione questa informativa. Tali dati sono usati esclusivamente per coordinare l'iniziativa a cui partecipano.</p>` +
+            h('6. Come trattiamo i dati e chi può vederli') +
+            `<p>Il trattamento avviene con strumenti informatici, con misure tecniche e organizzative adeguate (connessione cifrata, accesso riservato tramite credenziali, sessioni a scadenza). I dati sono accessibili al personale volontario della segreteria e ai referenti incaricati, solo per quanto necessario alle finalità indicate. Non vengono venduti né diffusi e non sono soggetti a processi decisionali automatizzati o profilazione.</p>` +
+            `<p style="margin-top:6px">Il sito e il relativo archivio dati si appoggiano a fornitori tecnologici (hosting e infrastruttura cloud) che operano come responsabili del trattamento. Quando serve per organizzare un'iniziativa, i dati strettamente necessari possono essere comunicati ai fornitori dei servizi di viaggio (ad esempio strutture ricettive o vettori) o a soggetti a cui siamo tenuti per legge. Se alcuni fornitori operano fuori dallo Spazio Economico Europeo, il trasferimento avviene con le garanzie previste dagli artt. 44 e seguenti del GDPR.</p>` +
+            h('7. Documenti caricati e funzione "Scansiona documento"') +
+            `<p>La funzione di scansione carica nell'elenco dei campi la foto che scegli: l'immagine viene inviata ai nostri server solo quando confermi la registrazione o carichi un documento dalla tua area riservata. Le immagini sono ridimensionate e compresse prima dell'invio. Puoi sostituire i documenti in qualsiasi momento; la tessera sanitaria può anche essere eliminata dalla tua area.</p>` +
+            h('8. Per quanto tempo conserviamo i dati') +
+            `<p>I dati dell'account e i documenti sono conservati finché sei socio. Dopo la cessazione o la richiesta di cancellazione vengono eliminati, salvo quanto dobbiamo conservare per obblighi di legge o per tutelare un diritto dell'associazione, e solo per il tempo necessario. I dati relativi a una singola iniziativa sono conservati per il tempo utile alla sua organizzazione e alle eventuali verifiche successive.</p>` +
+            h('9. I tuoi diritti') +
+            `<p>In ogni momento puoi esercitare i diritti previsti dagli artt. 15-22 del GDPR:</p>` +
+            li([
+                'accedere ai tuoi dati e ottenerne copia;',
+                'rettificarli o integrarli (molti dati puoi correggerli da solo dall\'area riservata);',
+                'chiederne la cancellazione;',
+                'chiedere la limitazione del trattamento od opporti per motivi legati alla tua situazione;',
+                'ricevere i dati in formato strutturato (portabilità);',
+                'revocare il consenso, senza effetto sul trattamento già avvenuto.'
+            ]) +
+            `<p style="margin-top:6px">Per esercitarli scrivi a <b>clubhousenovello@gmail.com</b>. Risponderemo entro un mese. Se ritieni che il trattamento violi la normativa, puoi proporre reclamo al Garante per la protezione dei dati personali (www.garanteprivacy.it).</p>` +
+            h('10. Cookie e strumenti tecnici') +
+            `<p>Il sito non usa cookie di profilazione né strumenti di analisi o pubblicità. Per i dettagli consulta la Cookie Policy.</p>` +
+            (accept ? `<p style="margin-top:14px;font-weight:700">Per continuare con la registrazione devi prendere visione di questa informativa e acconsentire al trattamento dei dati.</p>` : '')
         );
     }
     function cookieHtml() {
@@ -714,8 +748,8 @@
 
         const cf = v('ru-cf').toUpperCase();
         if (v('ru-pass').length < 10) return Swal.fire({ title: 'Password troppo corta', text: 'Usa almeno 10 caratteri.', icon: 'warning', ...swalOk });
-        if (cf.length !== 16) return Swal.fire({ title: 'Codice fiscale non valido', text: 'Deve avere 16 caratteri.', icon: 'warning', ...swalOk });
-        if (new Date(v('ru-scaddoc')) < new Date(new Date().toDateString())) return Swal.fire({ title: 'Documento scaduto', text: 'Inserisci un documento in corso di validità.', icon: 'warning', ...swalOk });
+        if (cf && cf.length !== 16) return Swal.fire({ title: 'Codice fiscale non valido', text: 'Deve avere 16 caratteri.', icon: 'warning', ...swalOk });
+        if (v('ru-scaddoc') && new Date(v('ru-scaddoc')) < new Date(new Date().toDateString())) return Swal.fire({ title: 'Documento scaduto', text: 'Inserisci un documento in corso di validità.', icon: 'warning', ...swalOk });
         if (!document.getElementById('ru-privacy').checked) return Swal.fire({ title: 'Consenso necessario', text: 'Accetta l\'informativa privacy per continuare.', icon: 'warning', ...swalOk });
 
         Swal.fire({ title: 'Registrazione in corso...', text: 'Elaboro i documenti, attendi qualche secondo.', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
@@ -1239,12 +1273,12 @@
 
     async function createTrip(e) {
         e.preventDefault();
-        const trip = { dest: document.getElementById('at-dest').value, da: document.getElementById('at-da').value, al: document.getElementById('at-al').value, note: document.getElementById('at-costo').value };
+        const trip = { dest: document.getElementById('at-dest').value, da: document.getElementById('at-da').value, al: document.getElementById('at-al').value, note: document.getElementById('at-costo').value.trim() || 'n.d.' };
         try { await api('/api/admin/trip', { method: 'POST', body: { trip } }); await loadPublic(); Swal.fire({ title: 'Pubblicato!', text: 'Il viaggio è ora online.', icon: 'success', ...swalOk }); document.getElementById('form-create-trip').reset(); } catch (err) { fail(err); }
     }
     async function salvaEvento(e) {
         e.preventDefault();
-        const event = { nome: document.getElementById('ae-nome').value, data: document.getElementById('ae-data').value, costo: '' };
+        const event = { nome: document.getElementById('ae-nome').value, data: document.getElementById('ae-data').value, costo: 'n.d.' };
         try { await api('/api/admin/event', { method: 'POST', body: { event } }); await loadPublic(); Swal.fire({ title: 'Pubblicato!', text: 'L\'evento è ora online.', icon: 'success', ...swalOk }); document.getElementById('form-create-event').reset(); } catch (err) { fail(err); }
     }
 
