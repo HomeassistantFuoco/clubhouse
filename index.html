@@ -370,7 +370,7 @@
                 <div class="overflow-x-auto">
                     <table class="w-full text-left border-collapse">
                         <thead><tr class="border-b border-slate-100 text-slate-400 text-[11px] uppercase tracking-wider">
-                            <th class="pb-3 font-bold">Socio</th><th class="pb-3 font-bold">Contatti</th><th class="pb-3 font-bold">Nascita / CF</th><th class="pb-3 font-bold">Documento</th><th class="pb-3 font-bold"></th>
+                            <th class="pb-3 font-bold">Socio</th><th class="pb-3 font-bold">Contatti</th><th class="pb-3 font-bold">Nascita / CF</th><th class="pb-3 font-bold">Documento</th><th class="pb-3 font-bold">Registrazione</th><th class="pb-3 font-bold"></th>
                         </tr></thead>
                         <tbody id="admin-soci-body" class="text-xs divide-y divide-slate-50"></tbody>
                     </table>
@@ -651,6 +651,7 @@
                 '<b>Dati obbligatori per registrarti:</b> nome, cognome, data e luogo di nascita, codice fiscale, indirizzo di residenza, numero di telefono e password di accesso.',
                 '<b>Dati facoltativi:</b> email, tipo, numero e scadenza del documento di identità, copia fotografica del documento (fronte e retro) e della tessera sanitaria. Puoi non fornirli o aggiungerli in un secondo momento dalla tua area riservata.',
                 '<b>Dati di utilizzo:</b> eventi previsti dall\'associazione e adesioni a viaggi, escursioni.',
+                '<b>Dati tecnici di registrazione:</b> data e ora della registrazione, codice del dispositivo (codice casuale generato dal browser), indirizzo IP e tipo di browser/dispositivo utilizzato.',
                 '<b>Dati di chi porti con te:</b> per le iniziative che lo richiedono, i dati anagrafici, di contatto e del documento delle persone che indichi come partecipanti insieme a te.'
             ]) +
             `<p style="margin-top:6px">Non ti chiediamo dati sulla salute né altre categorie particolari di dati. Ti invitiamo a non caricare documenti che contengano informazioni di questo tipo.</p>` +
@@ -659,6 +660,7 @@
                 '<b>Gestire l\'iscrizione e la tua partecipazione alla vita associativa</b>, compresi accesso all\'area riservata, tessera socio e comunicazioni di servizio (art. 6.1.b GDPR - esecuzione del rapporto associativo).',
                 '<b>Organizzare e coordinare viaggi, escursioni ed eventi</b>, raccogliere le adesioni e produrre gli elenchi dei partecipanti (art. 6.1.b GDPR).',
                 '<b>Adempiere a obblighi di legge</b> e di tenuta dei registri dell\'associazione (art. 6.1.c GDPR).',
+                '<b>Garantire la sicurezza e la tracciabilità delle registrazioni</b> (prevenzione di abusi e registrazioni duplicate, verifiche in caso di contestazioni) tramite i dati tecnici di registrazione (art. 6.1.f GDPR - legittimo interesse dell\'associazione).',
                 '<b>Trattare i dati e i documenti facoltativi che decidi di fornire</b>, per gli scopi sopra indicati (art. 6.1.a GDPR - consenso, che puoi revocare in qualsiasi momento).'
             ]) +
             `<p style="margin-top:6px">L'associazione non incassa quote, non effettua prenotazioni collettive e non gestisce pagamenti per i servizi di terzi: nessun dato di pagamento viene raccolto o conservato.</p>` +
@@ -685,7 +687,7 @@
             ]) +
             `<p style="margin-top:6px">Per esercitarli scrivi a <b>clubhousenovello@gmail.com</b>. Risponderemo entro un mese. Se ritieni che il trattamento violi la normativa, puoi proporre reclamo al Garante per la protezione dei dati personali (www.garanteprivacy.it).</p>` +
             h('10. Cookie e strumenti tecnici') +
-            `<p>Il sito non usa cookie di profilazione né strumenti di analisi o pubblicità. Per i dettagli consulta la Cookie Policy.</p>` +
+            `<p>Il sito non usa cookie di profilazione né strumenti di analisi o pubblicità. Al momento della registrazione salva sul tuo dispositivo un codice casuale che identifica il dispositivo, usato solo per sicurezza e tracciabilità. Per i dettagli consulta la Cookie Policy.</p>` +
             (accept ? `<p style="margin-top:14px;font-weight:700">Per continuare con la registrazione devi prendere visione di questa informativa e acconsentire al trattamento dei dati.</p>` : '')
         );
     }
@@ -695,6 +697,7 @@
             `<p>Questo sito <b>non utilizza cookie di profilazione o di marketing</b> e non usa strumenti di analisi o pubblicità.</p>` +
             h('Archiviazione tecnica') +
             `<p>Dopo l'accesso, il browser conserva temporaneamente un codice di sessione nella memoria (sessionStorage) per mantenerti collegato. Serve solo al funzionamento e viene cancellato alla chiusura. Non richiede consenso.</p>` +
+            `<p style="margin-top:6px">Al momento della registrazione il browser salva sul tuo dispositivo (localStorage) un codice casuale che identifica il dispositivo. Serve solo a tenere traccia di dove è stata effettuata la registrazione, per sicurezza e prevenzione di abusi; non è usato per profilazione né per pubblicità.</p>` +
             h('Servizi di terze parti') +
             `<p>Carichiamo librerie da Google Fonts, Cloudflare e Tailwind CDN. Questi servizi possono ricevere dati tecnici del tuo browser (come IP). Se usi la compilazione automatica, viene caricato anche Tesseract.js in locale.</p>` +
             h('Contatti') +
@@ -766,7 +769,7 @@
             password: document.getElementById('ru-pass').value,
             nome: v('ru-nome'), cognome: v('ru-cognome'), tel: telInput, cf,
             dataNascita: v('ru-datanascita'), luogoNascita: v('ru-luogonascita'), ind: v('ru-ind'),
-            tipoDoc: v('ru-tipodoc'), numDoc: v('ru-numdoc'), scadDoc: v('ru-scaddoc'), docs
+            tipoDoc: v('ru-tipodoc'), numDoc: v('ru-numdoc'), scadDoc: v('ru-scaddoc'), docs, deviceId: getDeviceId()
         };
         
         try {
@@ -1052,9 +1055,10 @@
                     <td class="py-3 pr-3 text-slate-600">${mailDisplay}<br>${esc(u.tel)}</td>
                     <td class="py-3 pr-3 text-slate-600">${esc(u.dataNascita)} - ${esc(u.luogoNascita)}<br><span class="text-[11px]">${esc(u.cf)}</span></td>
                     <td class="py-3 pr-3 text-slate-600">${esc(u.tipoDoc)} ${esc(u.numDoc)}<br><span class="text-[11px]">scad. ${esc(u.scadDoc)}</span></td>
+                    <td class="py-3 pr-3 text-slate-600">${u.registeredAt ? esc(fmtTs(u.registeredAt)) : 'n.d.'}<br><span class="text-[11px]">${esc(u.regDevice || 'n.d.')} &middot; ${esc(uaShort(u.regUa))}</span><br><span class="text-[11px] text-slate-400">IP ${esc(u.regIp || 'n.d.')}</span></td>
                     <td class="py-3 whitespace-nowrap"><button onclick="showMemberCard(${i})" class="bg-ch-accent text-ch-dark px-3 py-1.5 rounded-lg text-[11px] font-extrabold"><i class="fas fa-id-card mr-1"></i>Tessera / QR</button> <button onclick="viewDocs(${i})" class="ml-1 bg-ch-primary text-white px-3 py-1.5 rounded-lg text-[11px] font-bold">Documenti (${u.nDocs || 0})</button> <button onclick="editUser(${i})" class="ml-1 bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 py-1.5 rounded-lg text-[11px] font-bold" title="Modifica anagrafica"><i class="fas fa-user-edit mr-1"></i>Modifica</button> <button onclick="resetUserPassword(${i})" class="ml-1 text-amber-600 hover:text-amber-800" title="Reimposta password"><i class="fas fa-key"></i></button> <button onclick="deleteUser(${i})" class="ml-1 text-red-500 hover:text-red-700" title="Elimina socio"><i class="fas fa-trash"></i></button></td>
                 </tr>`;
-            }).join('') || '<tr><td colspan="5" class="py-6 text-center text-slate-400 italic">Nessun socio registrato.</td></tr>';
+            }).join('') || '<tr><td colspan="6" class="py-6 text-center text-slate-400 italic">Nessun socio registrato.</td></tr>';
         } catch (e) { fail(e); }
     }
 
@@ -1299,11 +1303,28 @@
         try { await api('/api/admin/delete-user', { method: 'POST', body: { email: u.email } }); renderAdmin(); } catch (e) { fail(e); }
     }
 
+    function getDeviceId() {
+        const rnd = () => 'DEV-' + [...crypto.getRandomValues(new Uint8Array(6))].map(b => b.toString(16).padStart(2, '0')).join('').toUpperCase();
+        try {
+            let d = localStorage.getItem('ch_device');
+            if (!/^DEV-[0-9A-F]{12}$/.test(d || '')) { d = rnd(); localStorage.setItem('ch_device', d); }
+            return d;
+        } catch (e) { return rnd(); }
+    }
+    function fmtTs(ms) {
+        try { return new Date(Number(ms)).toLocaleString('it-IT', { timeZone: 'Europe/Rome', day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit' }); }
+        catch (e) { return ''; }
+    }
+    function uaShort(ua) {
+        ua = String(ua || ''); if (!ua) return 'n.d.';
+        const os = /Android/i.test(ua) ? 'Android' : /iPhone|iPad|iPod/i.test(ua) ? 'iOS' : /Windows/i.test(ua) ? 'Windows' : /Mac OS X|Macintosh/i.test(ua) ? 'macOS' : /Linux/i.test(ua) ? 'Linux' : 'Altro';
+        const br = /Edg\//.test(ua) ? 'Edge' : /OPR\/|Opera/.test(ua) ? 'Opera' : /Firefox|FxiOS/.test(ua) ? 'Firefox' : /Chrome|CriOS/.test(ua) ? 'Chrome' : /Safari/.test(ua) ? 'Safari' : 'Browser';
+        return `${os} - ${br}`;
+    }
     function exportSociCSV() {
-        const cols = ['nome', 'cognome', 'email', 'tel', 'cf', 'dataNascita', 'luogoNascita', 'ind', 'tipoDoc', 'numDoc', 'scadDoc'];
-        const q = x => '"' + String(x ?? '').replace(/"/g, '""').replace(/^([=+\-@])/, "'$1") + '"';
-        const csv = [cols.join(';'), ...adminData.users.map(u => cols.map(c => q(u[c])).join(';'))].join('\n');
-        const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob(['\ufeff' + csv], { type: 'text/csv;charset=utf-8' })); a.download = 'soci.csv'; a.click();
+        const header = ['Numero tessera', 'Nome', 'Cognome', 'Email/Accesso', 'Telefono', 'Codice fiscale', 'Data di nascita', 'Luogo di nascita', 'Indirizzo', 'Tipo documento', 'Numero documento', 'Scadenza documento', 'Data e ora registrazione', 'Codice device', 'IP registrazione', 'Browser/dispositivo'];
+        const rows = adminData.users.map(u => [u.codiceSocio, u.nome, u.cognome, u.email, u.tel, u.cf, u.dataNascita, u.luogoNascita, u.ind, u.tipoDoc, u.numDoc, u.scadDoc, u.registeredAt ? fmtTs(u.registeredAt) : '', u.regDevice, u.regIp, u.regUa]);
+        downloadCSV('soci.csv', header, rows);
     }
 
     async function createTrip(e) {
