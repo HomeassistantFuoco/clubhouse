@@ -113,7 +113,7 @@
                         <p class="text-slate-600 text-xs mb-2"><strong>Sede operativa:</strong> Via Mezzano, s.n.c. 10034 Chivasso (TO)</p>
                         <p class="text-slate-600 text-xs mb-2"><strong>Telefono:</strong> <a href="tel:+393337632452" class="hover:text-ch-primary transition font-bold">333 7632452</a></p>
                         <p class="text-slate-600 text-xs mb-2"><strong>Email:</strong> <a href="mailto:clubhousenovello@gmail.com" class="hover:text-ch-primary transition">clubhousenovello@gmail.com</a></p>
-                        <p class="text-slate-600 text-xs mb-4"><strong>Web:</strong> <a href="https://www.associazionenovello.it" target="_blank" class="hover:text-ch-primary transition">www.associazionenovello.it</a></p>
+                        <p class="text-slate-600 text-xs mb-4"><strong>Web:</strong> <a href="https://clubnovello.it" target="_blank" class="hover:text-ch-primary transition">clubnovello.it</a></p>
                         
                         <div class="flex space-x-2 mb-4">
                             <a href="#" target="_blank" class="bg-ch-primary text-white w-8 h-8 rounded-full flex items-center justify-center hover:bg-[#1877f2] transition shadow-sm" title="Seguici su Facebook"><i class="fab fa-facebook-f"></i></a>
@@ -196,7 +196,7 @@
                     <!-- REGISTER FORM -->
                     <form id="form-user-register" onsubmit="userRegister(event)" class="hidden space-y-3.5">
                         <h2 class="text-xl font-extrabold text-slate-900 mb-1">Nuovo Socio</h2>
-                        <p class="text-xs text-slate-400 mb-4">Obbligatori: nome, cognome, data e luogo di nascita, residenza, telefono e password. Tutto il resto è facoltativo.</p>
+                        <p class="text-xs text-slate-400 mb-4">Obbligatori: nome, cognome, data e luogo di nascita, codice fiscale, residenza, telefono e password. Tutto il resto è facoltativo.</p>
                         <div class="p-4 rounded-2xl bg-ch-accent/10 border border-ch-accent/40">
                             <p class="text-xs font-extrabold text-ch-primary mb-1"><i class="fas fa-id-card mr-1.5"></i> Compila in automatico</p>
                             <p class="text-[11px] text-slate-600 mb-3">Fotografa o scegli la tua carta d'identità (meglio elettronica, fronte e retro): i campi si compilano da soli. La lettura avviene sul tuo telefono o computer e la foto non viene inviata a nessun servizio per questo scopo. Poi controlla i dati. Se preferisci, puoi compilare tutto a mano.</p>
@@ -213,7 +213,7 @@
                             <div><label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Data di nascita</label><input type="date" id="ru-datanascita" required class="w-full px-3.5 py-2.5 rounded-xl bg-white border border-slate-200 text-xs focus:outline-none focus:border-ch-primary"></div>
                             <div><label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Luogo di nascita</label><input type="text" id="ru-luogonascita" placeholder="Città (prov.)" required class="w-full px-3.5 py-2.5 rounded-xl bg-white border border-slate-200 text-xs focus:outline-none focus:border-ch-primary"></div>
                         </div>
-                        <input type="text" id="ru-cf" placeholder="Codice Fiscale (facoltativo)" maxlength="16" class="w-full px-3.5 py-2.5 rounded-xl bg-white border border-slate-200 text-xs uppercase focus:outline-none focus:border-ch-primary">
+                        <input type="text" id="ru-cf" placeholder="Codice Fiscale" maxlength="16" required class="w-full px-3.5 py-2.5 rounded-xl bg-white border border-slate-200 text-xs uppercase focus:outline-none focus:border-ch-primary">
                         <input type="text" id="ru-ind" placeholder="Indirizzo di residenza (via, n., CAP, città)" required class="w-full px-3.5 py-2.5 rounded-xl bg-white border border-slate-200 text-xs focus:outline-none focus:border-ch-primary">
                         <div class="grid grid-cols-2 gap-3">
                             <div>
@@ -392,7 +392,7 @@
                         <li class="flex items-start"><i class="fas fa-map-marker-alt w-4 mt-0.5 mr-2 text-ch-accent"></i><span>Via Mezzano, s.n.c. 10034 Chivasso (TO)</span></li>
                         <li class="flex items-start"><i class="fas fa-phone w-4 mt-0.5 mr-2 text-ch-accent"></i><a href="tel:+393337632452" class="hover:text-white transition">333 7632452</a></li>
                         <li class="flex items-start"><i class="fas fa-envelope w-4 mt-0.5 mr-2 text-ch-accent"></i><a href="mailto:clubhousenovello@gmail.com" class="hover:text-white transition break-all">clubhousenovello@gmail.com</a></li>
-                        <li class="flex items-start"><i class="fas fa-globe w-4 mt-0.5 mr-2 text-ch-accent"></i><a href="https://www.associazionenovello.it" target="_blank" rel="noopener noreferrer" class="hover:text-white transition">www.associazionenovello.it</a></li>
+                        <li class="flex items-start"><i class="fas fa-globe w-4 mt-0.5 mr-2 text-ch-accent"></i><a href="https://clubnovello.it" target="_blank" rel="noopener noreferrer" class="hover:text-white transition">clubnovello.it</a></li>
                     </ul>
                     
                     <div class="flex space-x-4 mt-5">
@@ -648,8 +648,8 @@
             `<p>"Giuseppe Novello" ETS-APS - Associazione Lucana e altre Regioni Italiane, con sede operativa in Via Mezzano, s.n.c. 10034 Chivasso (TO). Contatti per ogni richiesta sui dati personali: <b>clubhousenovello@gmail.com</b> - tel. 333 7632452.</p>` +
             h('2. Quali dati trattiamo') +
             li([
-                '<b>Dati obbligatori per registrarti:</b> nome, cognome, data e luogo di nascita, indirizzo di residenza, numero di telefono e password di accesso.',
-                '<b>Dati facoltativi:</b> email, codice fiscale, tipo, numero e scadenza del documento di identità, copia fotografica del documento (fronte e retro) e della tessera sanitaria. Puoi non fornirli o aggiungerli in un secondo momento dalla tua area riservata.',
+                '<b>Dati obbligatori per registrarti:</b> nome, cognome, data e luogo di nascita, codice fiscale, indirizzo di residenza, numero di telefono e password di accesso.',
+                '<b>Dati facoltativi:</b> email, tipo, numero e scadenza del documento di identità, copia fotografica del documento (fronte e retro) e della tessera sanitaria. Puoi non fornirli o aggiungerli in un secondo momento dalla tua area riservata.',
                 '<b>Dati di utilizzo:</b> eventi previsti dall\'associazione e adesioni a viaggi, escursioni.',
                 '<b>Dati di chi porti con te:</b> per le iniziative che lo richiedono, i dati anagrafici, di contatto e del documento delle persone che indichi come partecipanti insieme a te.'
             ]) +
@@ -663,7 +663,7 @@
             ]) +
             `<p style="margin-top:6px">L'associazione non incassa quote, non effettua prenotazioni collettive e non gestisce pagamenti per i servizi di terzi: nessun dato di pagamento viene raccolto o conservato.</p>` +
             h('4. Conferimento dei dati') +
-            `<p>Nome, cognome, data e luogo di nascita, residenza, telefono e password sono necessari per creare l'account: senza di essi non è possibile registrarsi. Tutti gli altri dati sono facoltativi; per alcune iniziative (ad esempio viaggi con prenotazioni a nome dei partecipanti) la segreteria potrà chiederti di integrarli, e in tal caso la mancata comunicazione può impedire la partecipazione a quella specifica iniziativa.</p>` +
+            `<p>Nome, cognome, data e luogo di nascita, codice fiscale, residenza, telefono e password sono necessari per creare l'account: senza di essi non è possibile registrarsi. Tutti gli altri dati sono facoltativi; per alcune iniziative (ad esempio viaggi con prenotazioni a nome dei partecipanti) la segreteria potrà chiederti di integrarli, e in tal caso la mancata comunicazione può impedire la partecipazione a quella specifica iniziativa.</p>` +
             h('5. Dati delle persone che porti con te') +
             `<p>Se inserisci i dati di altre persone, dichiari di essere autorizzato a comunicarli e di averle informate del trattamento, mettendo a loro disposizione questa informativa. Tali dati sono usati esclusivamente per coordinare l'iniziativa a cui partecipano.</p>` +
             h('6. Come trattiamo i dati e chi può vederli') +
@@ -748,7 +748,7 @@
 
         const cf = v('ru-cf').toUpperCase();
         if (v('ru-pass').length < 10) return Swal.fire({ title: 'Password troppo corta', text: 'Usa almeno 10 caratteri.', icon: 'warning', ...swalOk });
-        if (cf && cf.length !== 16) return Swal.fire({ title: 'Codice fiscale non valido', text: 'Deve avere 16 caratteri.', icon: 'warning', ...swalOk });
+        if (cf.length !== 16) return Swal.fire({ title: 'Codice fiscale non valido', text: 'Deve avere 16 caratteri.', icon: 'warning', ...swalOk });
         if (v('ru-scaddoc') && new Date(v('ru-scaddoc')) < new Date(new Date().toDateString())) return Swal.fire({ title: 'Documento scaduto', text: 'Inserisci un documento in corso di validità.', icon: 'warning', ...swalOk });
         if (!document.getElementById('ru-privacy').checked) return Swal.fire({ title: 'Consenso necessario', text: 'Accetta l\'informativa privacy per continuare.', icon: 'warning', ...swalOk });
 
@@ -776,7 +776,7 @@
             await Swal.fire({ title: 'Benvenuto!', text: 'Registrazione completata con successo.', icon: 'success', ...swalOk });
             if (pendingBooking) finalizeBooking(); else showView('user-dashboard');
         } catch (err) {
-            if (err.status === 409) Swal.fire({ title: 'Registrazione già effettuata', text: 'Risulti già registrato: accedi con le tue credenziali.', icon: 'info', ...swalOk }).then(() => applyAuthTab('login'));
+            if (err.status === 409) Swal.fire({ title: 'Registrazione già effettuata', text: err.message, icon: 'info', ...swalOk }).then(() => applyAuthTab('login'));
             else fail(err);
         }
     }
