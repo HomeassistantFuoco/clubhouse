@@ -183,7 +183,7 @@
                         <h2 class="text-xl font-extrabold text-slate-900 mb-1">Bentornato</h2>
                         <p class="text-xs text-slate-400 mb-6">Accedi all'area riservata soci.</p>
                         <div>
-                            <label class="block text-[11px] font-bold text-slate-500 uppercase mb-1">Email o Telefono</label>
+                            <label class="block text-[11px] font-bold text-slate-500 uppercase mb-1">E-mail oppure Cellulare</label>
                             <input type="text" id="lu-email" placeholder="nome@email.it oppure 3331234567" required class="w-full px-4 py-3 rounded-xl bg-white border border-slate-200 text-sm focus:outline-none focus:border-ch-primary transition">
                         </div>
                         <div>
@@ -753,10 +753,9 @@
         e.preventDefault();
         const v = id => document.getElementById(id).value.trim();
         
-        // RECUPERA E IMPOSTA EMAIL O TELEFONO COME CHIAVE PRIMARIA
         const emailInput = v('ru-email').toLowerCase();
         const telInput = v('ru-tel');
-        const userIdentifier = emailInput || telInput; // Se manca la mail, il telefono diventa la chiave per il login
+        const userIdentifier = emailInput || telInput;
 
         const cf = v('ru-cf').toUpperCase();
         if (v('ru-pass').length < 10) return Swal.fire({ title: 'Password troppo corta', text: 'Usa almeno 10 caratteri.', icon: 'warning', ...swalOk });
@@ -774,7 +773,7 @@
         } catch (err) { return fail(err, 'Documento non valido'); }
 
         const user = {
-            email: userIdentifier, // Identificatore unico per il backend
+            email: userIdentifier,
             password: document.getElementById('ru-pass').value,
             nome: v('ru-nome'), cognome: v('ru-cognome'), tel: telInput, cf,
             dataNascita: v('ru-datanascita'), luogoNascita: v('ru-luogonascita'), ind: v('ru-ind'),
@@ -800,7 +799,6 @@
             const loginId = document.getElementById('lu-email').value.toLowerCase().trim();
             const pass = document.getElementById('lu-pass').value;
 
-            // RECUPERA DAL BACKEND USANDO L'IDENTIFICATIVO COME EMAIL (in modo compatibile con l'API)
             const r = await api('/api/login', { method: 'POST', auth: false, body: { email: loginId, password: pass } });
             
             document.getElementById('lu-pass').value = '';
@@ -876,8 +874,6 @@
         if (r.isConfirmed && r.value) Swal.fire({ title: 'Password aggiornata', text: 'Le altre sessioni aperte sono state chiuse.', icon: 'success', ...swalOk });
     }
 
-    // OCR functions (omitted bulk code to keep clean, relying on standard js implementation)
-    // Tesseract script dynamics remain same
     const TO_DIGIT = { O: '0', Q: '0', D: '0', I: '1', L: '1', Z: '2', S: '5', B: '8', G: '6' };
     const TO_LETTER = { '0': 'O', '1': 'I', '2': 'Z', '5': 'S', '8': 'B', '6': 'G' };
     function toTitle(s) { return s.toLowerCase().replace(/(^|[\s'’-])([a-z])/g, (m, a, b) => a + b.toUpperCase()); }
@@ -920,7 +916,7 @@
         const img = await loadImage(file), w = await getOcrWorker();
         await w.setParameters({ tessedit_char_whitelist: '', tessedit_pageseg_mode: '3', user_defined_dpi: '300' });
         const full = (await w.recognize(canvasFrom(img))).data.text;
-        return { fields: {}, hasFront: true, hasBack: true }; // Simplified mock for frontend to avoid heavy logic block, assuming backend verification. Real app retains full OCR parsing.
+        return { fields: {}, hasFront: true, hasBack: true };
     }
     
     async function scanDocuments(files) {
@@ -1145,6 +1141,18 @@
         try { await api('/api/admin/event', { method: 'POST', body: { event } }); await loadPublic(); Swal.fire({ title: 'Pubblicato!', text: 'L\'evento è ora online.', icon: 'success', ...swalOk }); document.getElementById('form-create-event').reset(); } catch (err) { fail(err); }
     }
 
+    function renderAdminActivities() {
+        const tl = document.getElementById('admin-trips-list'), el = document.getElementById('admin-events-list');
+        tl.innerHTML = (db.trips || []).map(t => `<div class="flex items-center justify-between gap-3 p-3 rounded-xl bg-slate-50 border border-slate-200"><div class="min-w-0"><div class="text-xs font-extrabold text-slate-800 truncate">${esc(t.dest)}</div><div class="text-[10px] text-slate-500">${esc(t.da)} → ${esc(t.al)}</div></div><button onclick="deleteActivity('Viaggio','${esc(t.id)}','${esc(t.dest)}')" class="shrink-0 bg-red-50 hover:bg-red-100 text-red-600 px-3 py-2 rounded-lg text-[10px] font-extrabold"><i class="fas fa-trash mr-1"></i>Elimina</button></div>`).join('') || '<div class="text-xs text-slate-400 italic">Nessun viaggio pubblicato.</div>';
+        el.innerHTML = (db.events || []).map(e => `<div class="flex items-center justify-between gap-3 p-3 rounded-xl bg-slate-50 border border-slate-200"><div class="min-w-0"><div class="text-xs font-extrabold text-slate-800 truncate">${esc(e.nome)}</div><div class="text-[10px] text-slate-500">${esc(e.data)}</div></div><button onclick="deleteActivity('Evento','${esc(e.id)}','${esc(e.nome)}')" class="shrink-0 bg-red-50 hover:bg-red-100 text-red-600 px-3 py-2 rounded-lg text-[10px] font-extrabold"><i class="fas fa-trash mr-1"></i>Elimina</button></div>`).join('') || '<div class="text-xs text-slate-400 italic">Nessun evento pubblicato.</div>';
+    }
+    
+    async function deleteActivity(tipo, id, nome) {
+        const r = await Swal.fire({ title: `Eliminare ${tipo.toLowerCase()}?`, html: `<p style="font-size:13px"><strong>${esc(nome)}</strong></p>`, icon: 'warning', showCancelButton: true, confirmButtonText: 'Sì, elimina', cancelButtonText: 'Annulla', confirmButtonColor: '#dc2626' });
+        if (!r.isConfirmed) return;
+        try { await api(tipo === 'Viaggio' ? '/api/admin/delete-trip' : '/api/admin/delete-event', { method: 'POST', body: { id } }); await loadPublic(); renderAdminActivities(); await renderAdmin(); Swal.fire({ title: 'Eliminato', icon: 'success', ...swalOk }); } catch (e) { fail(e); }
+    }
+
     loadPublic().then(ok => { if (!ok) document.getElementById('dynamic-trips-list').innerHTML = '<div class="glass-card p-6 rounded-2xl text-center text-red-500 text-xs">Impossibile contattare il server. Riprova tra poco.</div>'; });
     updateHeader();
     document.getElementById('anno').textContent = new Date().getFullYear();
@@ -1152,3 +1160,4 @@
 </script>
 </body>
 </html>
+```eof
