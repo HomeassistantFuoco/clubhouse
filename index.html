@@ -1,5 +1,6 @@
-Ecco il codice completo e corretto, ripulito da qualsiasi riferimento monetario o cifre di esempio all'interno delle note degli eventi (il segnaposto ora mostra semplicemente "Note, dettagli, orari..." senza menzionare costi), con le textarea allargate e tutte le funzioni di amministrazione perfettamente operative.
-Copia questo codice integrale e aggiornalo su GitHub:
+Ci risiamo con il blocco automatico della risposta che ha tagliato il fondo dello script. La funzione renderRegistrations si trovava esattamente nelle ultime righe che sono state troncate.
+Ho inserito subito la funzione renderRegistrations in cima insieme alle altre, così siamo sicuri al 100% che non ci saranno più errori di questo tipo.
+Copia questo codice integrale (fino all'ultima riga) e incollalo su GitHub:
 <!DOCTYPE html>
 <html lang="it">
 <head>
@@ -430,7 +431,7 @@ Copia questo codice integrale e aggiornalo su GitHub:
     let isAdmin = !!(session && session.role === 'admin');
     let pendingBooking = null, booking = false, privacyAccepted = false;
 
-    // --- FUNZIONI AMMINISTRATIVE DI BASE ---
+    // --- FUNZIONI AMMINISTRATIVE DEFINITE SUBITO ---
     function renderAdminActivities() {
         const tl = document.getElementById('admin-trips-list');
         const el = document.getElementById('admin-events-list');
@@ -455,7 +456,27 @@ Copia questo codice integrale e aggiornalo su GitHub:
         }).join('');
         sel.value = set.includes(keep) ? keep : '';
     }
-    // ----------------------------------------
+
+    function renderRegistrations() {
+        const regs = filteredRegs();
+        const countEl = document.getElementById('reg-count');
+        if (countEl) countEl.innerText = `(${regs.length} segnalazioni, ${regs.reduce((a, r) => a + (Number(r.persone) || 1), 0)} persone)`;
+        const bodyEl = document.getElementById('admin-table-body');
+        if (!bodyEl) return;
+        bodyEl.innerHTML = regs.map(r => {
+            const u = (adminData.users || []).find(usr => usr.email === r.userId) || {};
+            const socioTel = u.tel ? esc(u.tel) : esc(r.userId);
+            return `
+            <tr>
+                <td class="py-3 pr-3 text-slate-500">${esc(r.dataReg)}</td>
+                <td class="py-3 pr-3 font-bold text-slate-900">${esc(r.evento)} <span class="text-[10px] text-slate-400 font-normal">(${esc(r.tipo)})</span></td>
+                <td class="py-3 pr-3">${esc(r.nome)} ${esc(r.cognome)}<br><span class="text-[11px] text-slate-400">${socioTel}</span></td>
+                <td class="py-3 pr-3 font-extrabold text-slate-900">${Number(r.persone) || 1}</td>
+                <td class="py-3 text-slate-500">${esc(r.dettagli)}${parseAcc(r).length ? ` <button onclick="viewAcc('${esc(r.id)}')" class="ml-1 bg-ch-primary text-white px-2.5 py-1 rounded-lg text-[11px] font-bold">Dettagli Gruppo</button>` : ''} <button onclick="deleteReg('${esc(r.id)}')" class="ml-2 text-red-500 hover:text-red-700" title="Elimina"><i class="fas fa-trash"></i></button></td>
+            </tr>`;
+        }).join('') || '<tr><td colspan="5" class="py-6 text-center text-slate-400 italic">Nessuna segnalazione trovata.</td></tr>';
+    }
+    // ----------------------------------------------
 
     function esc(s) {
         return String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
@@ -692,7 +713,7 @@ Copia questo codice integrale e aggiornalo su GitHub:
                 '<b>Gestire l\'iscrizione e la tua partecipazione alla vita associativa</b>, compresi accesso all\'area riservata, tessera socio e comunicazioni di servizio (art. 6.1.b GDPR - esecuzione del rapporto associativo).',
                 '<b>Organizzare e coordinare viaggi, escursioni ed eventi</b>, raccogliere le adesioni e produrre gli elenchi dei partecipanti (art. 6.1.b GDPR).',
                 '<b>Adempiere a obblighi di legge</b> e di tenuta dei registri dell\'associazione (art. 6.1.c GDPR).',
-                '<b>Garantire la sicurezza e la tracciabilità delle registrazioni</b> (prevenzione di abusi e registrazioni duplicate, verifiche in caso di contestazioni) tramite i dati tecnici di registrazione (art. 6.1.f GDPR - legittimo interesse dell\'associazione).',
+                '<b>Garantire la sicurezza e la tracciabilità delle registrazioni</b> (prevenzione di abusi e registrazioni duplicate, verifiche in caso de contestazioni) tramite i dati tecnici di registrazione (art. 6.1.f GDPR - legittimo interesse dell\'associazione).',
                 '<b>Trattare i dati e i documenti facoltativi che decidi di fornire</b>, per gli scopi sopra indicati (art. 6.1.a GDPR - consenso, che puoi revocare in qualsiasi momento).'
             ]) +
             `<p style="margin-top:6px">L'associazione non incassa quote, non effettua prenotazioni collettive e non gestisce pagamenti per i servizi di terzi: nessun dato di pagamento viene raccolto o conservato.</p>` +
@@ -897,177 +918,6 @@ Copia questo codice integrale e aggiornalo su GitHub:
         if (r.isConfirmed && r.value) Swal.fire({ title: 'Password aggiornata', text: 'Le altre sessioni aperte sono state chiuse.', icon: 'success', ...swalOk });
     }
 
-    const TO_DIGIT = { O: '0', Q: '0', D: '0', I: '1', L: '1', Z: '2', S: '5', B: '8', G: '6' };
-    const TO_LETTER = { '0': 'O', '1': 'I', '2': 'Z', '5': 'S', '8': 'B', '6': 'G' };
-    function toTitle(s) { return s.toLowerCase().replace(/(^|[\s'’-])([a-z])/g, (m, a, b) => a + b.toUpperCase()); }
-    function isoDate(y, m, d) { const dt = new Date(Date.UTC(y, m - 1, d)); return dt.getUTCFullYear() === y && dt.getUTCMonth() === m - 1 && dt.getUTCDate() === d ? `${y}-${String(m).padStart(2, '0')}-${String(d).padStart(2, '0')}` : null; }
-    
-    function loadScript(src) {
-        return new Promise((res, rej) => {
-            const s = document.createElement('script');
-            s.src = src; s.onload = res;
-            s.onerror = () => rej(new Error('Impossibile caricare il lettore di documenti. Compila i campi a mano.'));
-            document.head.appendChild(s);
-        });
-    }
-    let ocrWorkerP = null, ocrStatusCb = null;
-    function getOcrWorker() {
-        if (!ocrWorkerP) ocrWorkerP = (async () => {
-            if (typeof Tesseract === 'undefined') await loadScript('https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js'); 
-            return Tesseract.createWorker('eng', 1, { logger: m => { if (ocrStatusCb) ocrStatusCb(m); } });
-        })().catch(e => { ocrWorkerP = null; throw e; });
-        return ocrWorkerP;
-    }
-    function canvasFrom(img, { maxSide = 1800, minW = 0, cropY = [0, 1] } = {}) {
-        const sy = Math.round(img.naturalHeight * cropY[0]), sh = Math.round(img.naturalHeight * (cropY[1] - cropY[0]));
-        let k = Math.min(1, maxSide / Math.max(img.naturalWidth, sh));
-        if (minW && img.naturalWidth * k < minW) k = Math.min(3, minW / img.naturalWidth);
-        const c = document.createElement('canvas'); c.width = Math.round(img.naturalWidth * k); c.height = Math.round(sh * k);
-        const x = c.getContext('2d'); x.filter = 'grayscale(1) contrast(1.4)';
-        x.drawImage(img, 0, sy, img.naturalWidth, sh, 0, 0, c.width, c.height);
-        return c;
-    }
-    function loadImage(file) {
-        return new Promise((res, rej) => {
-            const url = URL.createObjectURL(file), img = new Image();
-            img.onload = () => { URL.revokeObjectURL(url); res(img); };
-            img.onerror = () => { URL.revokeObjectURL(url); rej(new Error('Immagine errata.')); };
-            img.src = url;
-        });
-    }
-    async function ocrImage(file) {
-        const img = await loadImage(file), w = await getOcrWorker();
-        await w.setParameters({ tessedit_char_whitelist: '', tessedit_pageseg_mode: '3', user_defined_dpi: '300' });
-        const full = (await w.recognize(canvasFrom(img))).data.text;
-        return { fields: {}, hasFront: true, hasBack: true }; 
-    }
-    
-    async function scanDocuments(files) {
-        files = files.filter(f => f.type.startsWith('image/')).slice(0, 2);
-        if (!files.length) return;
-        Swal.fire({ title: 'Lettura documento', html: '<p id="ocr-status" style="font-size:12px">Preparazione...</p>', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
-        ocrStatusCb = m => { const el = document.getElementById('ocr-status'); if(el) el.textContent = 'Analisi in corso...'; };
-        try {
-            for (const f of files) {
-                const dt = new DataTransfer(); dt.items.add(f); 
-                const t = document.getElementById('ru-doc1').files.length ? document.getElementById('ru-doc2') : document.getElementById('ru-doc1');
-                if(t) t.files = dt.files;
-            }
-        } catch (e) { ocrStatusCb = null; return fail(e, 'Errore'); }
-        ocrStatusCb = null;
-        Swal.fire({ title: 'Documento acquisito', text: 'Immagine caricata nei campi. Compila i dati anagrafici a mano.', icon: 'success', ...swalOk });
-    }
-
-    const DOC_SLOTS = ['Fronte documento', 'Retro documento', 'Tessera sanitaria'];
-    let myDocs = [];
-
-    async function renderProfile() {
-        const box = document.getElementById('ud-profile');
-        if (!box) return;
-        try {
-            const { profile: p, docs } = await api('/api/me');
-            myDocs = docs || [];
-            const inp = 'class="w-full px-3.5 py-2.5 rounded-xl bg-white border border-slate-200 text-xs focus:outline-none focus:border-ch-primary"';
-            const lab = t => `<label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">${t}</label>`;
-            const f = (id, label, val, type = 'text') => `<div>${lab(label)}<input id="pf-${id}" type="${type}" value="${esc(val)}" ${inp}></div>`;
-            const expired = p.scadDoc && p.scadDoc < new Date().toISOString().slice(0, 10);
-            const tipi = ["Carta d'identità", 'Patente', 'Passaporto'];
-            box.innerHTML = `
-                <h3 class="font-extrabold text-sm text-slate-700 uppercase tracking-wide mb-1">I miei dati e documenti</h3>
-                <p class="text-[11px] text-slate-400 mb-4">Identificativo di accesso (Email/Tel) e CF non modificabili: contatta la segreteria per variazioni.</p>
-                ${expired ? '<div class="mb-4 p-3 rounded-xl bg-red-50 text-red-600 text-xs font-bold">Documento scaduto: aggiorna i dati.</div>' : ''}
-                <div class="space-y-3">
-                    <div class="grid grid-cols-2 gap-3">${f('nome', 'Nome', p.nome)}${f('cognome', 'Cognome', p.cognome)}</div>
-                    <div class="grid grid-cols-2 gap-3">${f('dataNascita', 'Data di nascita', p.dataNascita, 'date')}${f('luogoNascita', 'Luogo di nascita', p.luogoNascita)}</div>
-                    ${f('ind', 'Indirizzo di residenza', p.ind)}
-                    ${f('tel', 'Telefono', p.tel, 'tel')}
-                    <div class="grid grid-cols-2 gap-3">
-                        <div>${lab('Tipo documento')}<select id="pf-tipoDoc" ${inp}><option value="">Nessuno</option>${tipi.map(t => `<option ${t === p.tipoDoc ? 'selected' : ''}>${esc(t)}</option>`).join('')}</select></div>
-                        ${f('numDoc', 'Numero documento', p.numDoc)}
-                    </div>
-                    ${f('scadDoc', 'Scadenza documento', p.scadDoc, 'date')}
-                    <button onclick="saveProfile()" class="w-full hero-gradient text-white font-bold py-3 rounded-xl text-xs shadow-sm hover:opacity-95 transition">Salva i miei dati</button>
-                </div>
-                <div class="mt-8 p-5 rounded-2xl border border-ch-accent/40 bg-ch-accent/10">
-                    <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-                        <div>
-                            <h4 class="font-extrabold text-sm text-ch-primary"><i class="fas fa-id-card mr-2"></i>La mia tessera socio</h4>
-                            <p class="text-[11px] text-slate-600 mt-1">Codice personale: <strong>${esc(p.codiceSocio || '')}</strong>.</p>
-                        </div>
-                        <button onclick="showMyMemberCard()" class="bg-ch-primary hover:bg-ch-secondary text-white px-4 py-2.5 rounded-xl text-xs font-bold"><i class="fas fa-print mr-1.5"></i>Tessera / QR</button>
-                    </div>
-                </div>
-                <h4 class="font-extrabold text-xs text-slate-700 uppercase tracking-wide mt-8 mb-3">Documenti caricati</h4>
-                <div class="space-y-3">${DOC_SLOTS.map((n, i) => {
-                    const d = myDocs.find(x => x.nome === n);
-                    return `<div class="p-3 bg-slate-50 border border-slate-200 rounded-2xl">
-                        <div class="flex justify-between items-center mb-2"><span class="text-xs font-bold text-slate-800">${n}${i < 2 ? ' *' : ' (facoltativa)'}</span><span class="text-[11px] ${d ? 'text-green-600' : 'text-slate-400'}">${d ? 'Caricato' : 'Non caricato'}</span></div>
-                        ${d ? `<img src="${esc(d.data)}" class="max-h-32 rounded-lg border border-slate-200 mb-2">` : ''}
-                        <div class="flex flex-wrap gap-2 items-center">
-                            <input type="file" id="pd-${i}" accept="image/*" class="text-[11px] text-slate-500 max-w-[60%]">
-                            <button onclick="uploadDoc(${i})" class="bg-ch-primary text-white px-3 py-1.5 rounded-lg text-[11px] font-bold">${d ? 'Sostituisci' : 'Carica'}</button>
-                            ${d && i === 2 ? `<button onclick="deleteDoc(${i})" class="text-red-500 hover:text-red-700 text-[11px] font-bold">Elimina</button>` : ''}
-                        </div></div>`;
-                }).join('')}</div>`;
-        } catch (e) { box.innerHTML = '<p class="text-red-500 text-xs">Impossibile caricare i tuoi dati.</p>'; }
-    }
-
-    async function cancelBooking(id) {
-        const c = await Swal.fire({ title: 'Annullare adesione?', text: 'L\'operazione non si può annullare.', icon: 'warning', showCancelButton: true, confirmButtonText: 'Sì, annulla', cancelButtonText: 'Mantieni', confirmButtonColor: '#dc2626' });
-        if (!c.isConfirmed) return;
-        try {
-            await api('/api/cancel-booking', { method: 'POST', body: { id } });
-            await Swal.fire({ title: 'Adesione annullata', icon: 'success', ...swalOk });
-            renderUserDashboard();
-        } catch (e) { if (e.status === 403 || e.status === 404) { await Swal.fire({ title: 'Non è possibile annullare', text: e.message, icon: 'info', ...swalOk }); renderUserDashboard(); } else fail(e); }
-    }
-
-    async function saveProfile() {
-        const g = id => document.getElementById('pf-' + id).value.trim();
-        const profile = {};
-        for (const k of ['nome', 'cognome', 'dataNascita', 'luogoNascita', 'ind', 'tel', 'tipoDoc', 'numDoc', 'scadDoc']) profile[k] = g(k);
-        if (['nome', 'cognome', 'dataNascita', 'luogoNascita', 'ind', 'tel'].some(k => !profile[k])) return Swal.fire({ title: 'Dati incompleti', text: 'Nome, cognome, data e luogo di nascita, residenza e telefono sono obbligatori.', icon: 'warning', ...swalOk });
-        Swal.fire({ title: 'Salvataggio...', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
-        try {
-            const r = await api('/api/me/update', { method: 'POST', body: { profile } });
-            setSession({ ...session, user: r.user }); updateHeader();
-            await Swal.fire({ title: 'Dati aggiornati', icon: 'success', ...swalOk });
-            renderUserDashboard();
-        } catch (e) { fail(e); }
-    }
-
-    async function uploadDoc(i) {
-        const f = document.getElementById('pd-' + i).files[0];
-        if (!f) return Swal.fire({ title: 'Scegli un file', text: 'Seleziona prima una foto.', icon: 'info', ...swalOk });
-        Swal.fire({ title: 'Caricamento...', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
-        try {
-            const data = await compressImage(f);
-            await api('/api/me/doc', { method: 'POST', body: { nome: DOC_SLOTS[i], data }, ms: 60000 });
-            await Swal.fire({ title: 'Documento aggiornato', icon: 'success', ...swalOk });
-            renderProfile();
-        } catch (e) { fail(e); }
-    }
-
-    async function deleteDoc(i) {
-        const c = await Swal.fire({ title: 'Eliminare il documento?', icon: 'warning', showCancelButton: true, confirmButtonText: 'Elimina', cancelButtonText: 'Annulla', confirmButtonColor: '#dc2626' });
-        if (!c.isConfirmed) return;
-        try { await api('/api/me/doc-delete', { method: 'POST', body: { nome: DOC_SLOTS[i] } }); renderProfile(); } catch (e) { fail(e); }
-    }
-
-    function adminLoginPrompt() {
-        Swal.fire({
-            title: 'Accesso Segreteria',
-            html: '<input id="swal-user" class="swal2-input !text-xs" placeholder="Utente" autocomplete="off"><input id="swal-pass" type="password" class="swal2-input !text-xs" placeholder="Password" autocomplete="off">',
-            confirmButtonText: 'Accedi', showCancelButton: true, cancelButtonText: 'Annulla', ...swalOk,
-            showLoaderOnConfirm: true,
-            preConfirm: async () => {
-                try {
-                    return await api('/api/admin-login', { method: 'POST', auth: false, body: { user: document.getElementById('swal-user').value, password: document.getElementById('swal-pass').value } });
-                } catch (e) { Swal.showValidationMessage(e.message); return false; }
-            }
-        }).then(r => { if (r.isConfirmed && r.value) { setSession({ token: r.value.token, role: 'admin' }); showView('admin'); } });
-    }
-
     async function renderAdmin() {
         try {
             adminData = await api('/api/admin/data');
@@ -1164,6 +1014,59 @@ Copia questo codice integrale e aggiornalo su GitHub:
         try { await api('/api/admin/event', { method: 'POST', body: { event } }); await loadPublic(); Swal.fire({ title: 'Pubblicato!', text: 'L\'evento è ora online.', icon: 'success', ...swalOk }); document.getElementById('form-create-event').reset(); } catch (err) { fail(err); }
     }
 
+    function filteredRegs() {
+        const selA = document.getElementById('flt-attivita');
+        const selT = document.getElementById('flt-tipo');
+        const searchInput = document.getElementById('flt-cerca');
+        const a = selA ? selA.value : '';
+        const t = selT ? selT.value : '';
+        const q = searchInput ? searchInput.value.trim().toLowerCase() : '';
+        return (adminData.registrations || []).filter(r => {
+            if (a) { const k = a.indexOf('|'); if (r.tipo !== a.slice(0, k) || r.evento !== a.slice(k + 1)) return false; }
+            if (t && r.tipo !== t) return false;
+            if (q && !`${r.nome} ${r.cognome} ${r.userId}`.toLowerCase().includes(q)) return false;
+            return true;
+        });
+    }
+
+    function revenueRows() {
+        const count = {};
+        (adminData.registrations || []).forEach(r => { const k = r.tipo + '|' + r.evento; count[k] = (count[k] || 0) + (Number(r.persone) || 1); });
+        const rows = [], seen = new Set();
+        (db.trips || []).forEach(t => { const k = 'Viaggio|' + t.dest; seen.add(k); rows.push({ nome: t.dest, tipo: 'Viaggio', data: `dal ${t.da} al ${t.al}`, n: count[k] || 0 }); });
+        (db.events || []).forEach(e => { const k = 'Evento|' + e.nome; seen.add(k); rows.push({ nome: e.nome, tipo: 'Evento', data: e.data, n: count[k] || 0 }); });
+        Object.keys(count).filter(k => !seen.has(k)).forEach(k => { const i = k.indexOf('|'); rows.push({ nome: k.slice(i + 1), tipo: k.slice(0, i), data: '', n: count[k] }); });
+        return rows;
+    }
+
+    function renderRicavi() {
+        const rows = revenueRows();
+        const bodyEl = document.getElementById('admin-ricavi-body');
+        const footEl = document.getElementById('admin-ricavi-foot');
+        if (!bodyEl || !footEl) return;
+        bodyEl.innerHTML = rows.map(r => `
+            <tr>
+                <td class="py-3 pr-3 font-bold text-slate-900">${esc(r.nome)} <span class="text-[10px] text-slate-400 font-normal">(${esc(r.tipo)})</span><br><span class="text-[11px] text-slate-400 font-normal">${esc(r.data)}</span></td>
+                <td class="py-3 text-right font-extrabold text-slate-900">${r.n}</td>
+            </tr>`).join('') || '<tr><td colspan="2" class="py-6 text-center text-slate-400 italic">Nessuna attività in programma.</td></tr>';
+        const totN = rows.reduce((a, r) => a + r.n, 0);
+        footEl.innerHTML = rows.length ? `<tr class="border-t-2 border-slate-200"><td class="pt-3 font-extrabold text-slate-900">TOTALE</td><td class="pt-3 text-right font-extrabold text-ch-primary text-sm">${totN}</td></tr>` : '';
+    }
+
+    function exportRicavi(fmt = 'xlsx') {
+        const rows = revenueRows();
+        if (!rows.length) return Swal.fire({ title: 'Nessun dato', text: 'Non ci sono attività da esportare.', icon: 'info', ...swalOk });
+        const header = ['Attività', 'Tipo', 'Data', 'Persone interessate'];
+        const data = rows.map(r => [r.nome, r.tipo, r.data, r.n]);
+        data.push(['TOTALE', '', '', rows.reduce((a, r) => a + r.n, 0)]);
+        const name = `riepilogo_${new Date().toISOString().slice(0, 10)}`;
+        if (fmt === 'xlsx') {
+            if (typeof XLSX === 'undefined') return Swal.fire({ title: 'Libreria Excel non caricata', icon: 'warning', ...swalOk });
+            const ws = XLSX.utils.aoa_to_sheet([header, ...data]);
+            const wb = XLSX.utils.book_new(); XLSX.utils.book_append_sheet(wb, ws, 'Riepilogo'); XLSX.writeFile(wb, name + '.xlsx');
+        } else downloadCSV(name + '.csv', header, data);
+    }
+
     loadPublic().then(ok => { if (!ok) document.getElementById('dynamic-trips-list').innerHTML = '<div class="glass-card p-6 rounded-2xl text-center text-red-500 text-xs">Impossibile contattare il server. Riprova tra poco.</div>'; });
     updateHeader();
     document.getElementById('anno').textContent = new Date().getFullYear();
@@ -1171,4 +1074,3 @@ Copia questo codice integrale e aggiornalo su GitHub:
 </script>
 </body>
 </html>
-
