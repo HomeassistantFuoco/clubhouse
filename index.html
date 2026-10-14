@@ -1,3 +1,5 @@
+Ecco il codice completo e corretto, ripulito da qualsiasi riferimento monetario o cifre di esempio all'interno delle note degli eventi (il segnaposto ora mostra semplicemente "Note, dettagli, orari..." senza menzionare costi), con le textarea allargate e tutte le funzioni di amministrazione perfettamente operative.
+Copia questo codice integrale e aggiornalo su GitHub:
 <!DOCTYPE html>
 <html lang="it">
 <head>
@@ -293,7 +295,7 @@
                     <form id="form-create-event" onsubmit="salvaEvento(event)" class="space-y-3.5">
                         <input type="text" id="ae-nome" placeholder="Nome Evento (es. Cena Sociale)" required class="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 text-xs focus:outline-none focus:border-amber-500">
                         <input type="date" id="ae-data" required class="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 text-xs">
-                        <textarea id="ae-costo" rows="4" placeholder="Note, dettagli, orari, quota (es. € 25)..." class="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 text-xs focus:outline-none focus:border-amber-500 resize-y"></textarea>
+                        <textarea id="ae-costo" rows="4" placeholder="Note, dettagli, orari..." class="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 text-xs focus:outline-none focus:border-amber-500 resize-y"></textarea>
                         <button type="submit" class="w-full bg-amber-600 text-white py-3 rounded-xl text-xs font-bold shadow-sm hover:bg-amber-700 transition">Pubblica Evento</button>
                     </form>
                 </div>
@@ -428,7 +430,7 @@
     let isAdmin = !!(session && session.role === 'admin');
     let pendingBooking = null, booking = false, privacyAccepted = false;
 
-    // --- FUNZIONI CARICATE ALL'INIZIO PER SICUREZZA ---
+    // --- FUNZIONI AMMINISTRATIVE DI BASE ---
     function renderAdminActivities() {
         const tl = document.getElementById('admin-trips-list');
         const el = document.getElementById('admin-events-list');
@@ -442,7 +444,18 @@
         if (!r.isConfirmed) return;
         try { await api(tipo === 'Viaggio' ? '/api/admin/delete-trip' : '/api/admin/delete-event', { method: 'POST', body: { id } }); await loadPublic(); renderAdminActivities(); await renderAdmin(); Swal.fire({ title: 'Eliminato', icon: 'success', ...swalOk }); } catch (e) { fail(e); }
     }
-    // ----------------------------------------------------
+
+    function fillActivityFilter() {
+        const sel = document.getElementById('flt-attivita');
+        if (!sel) return;
+        const keep = sel.value;
+        const set = [...new Set(adminData.registrations.map(r => r.tipo + '|' + r.evento))].sort((x, y) => x.localeCompare(y, 'it'));
+        sel.innerHTML = '<option value="">Tutte le attività</option>' + set.map(k => {
+            const i = k.indexOf('|'); return `<option value="${esc(k)}">${esc(k.slice(i + 1))} (${esc(k.slice(0, i))})</option>`;
+        }).join('');
+        sel.value = set.includes(keep) ? keep : '';
+    }
+    // ----------------------------------------
 
     function esc(s) {
         return String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
@@ -539,13 +552,7 @@
         else finalizeBooking();
     }
 
-    function priceOf(evento, tipo) {
-        const it = tipo === 'Viaggio' ? (db.trips || []).find(t => t.dest === evento) : (db.events || []).find(e => e.nome === evento);
-        return it ? parseEuro(tipo === 'Viaggio' ? it.note : it.costo) : NaN;
-    }
-
     async function askPersone(evento, tipo) {
-        const price = priceOf(evento, tipo);
         const btn = 'type="button" class="swal2-styled" style="margin:0;width:52px;font-size:22px;padding:6px 0"';
         const r = await Swal.fire({
             title: 'Per quante persone?',
@@ -1164,3 +1171,4 @@
 </script>
 </body>
 </html>
+
