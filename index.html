@@ -428,6 +428,22 @@
     let isAdmin = !!(session && session.role === 'admin');
     let pendingBooking = null, booking = false, privacyAccepted = false;
 
+    // --- FUNZIONI CARICATE ALL'INIZIO PER SICUREZZA ---
+    function renderAdminActivities() {
+        const tl = document.getElementById('admin-trips-list');
+        const el = document.getElementById('admin-events-list');
+        if (!tl || !el) return;
+        tl.innerHTML = (db.trips || []).map(t => `<div class="flex items-center justify-between gap-3 p-3 rounded-xl bg-slate-50 border border-slate-200"><div class="min-w-0"><div class="text-xs font-extrabold text-slate-800 truncate">${esc(t.dest)}</div><div class="text-[10px] text-slate-500">${esc(t.da)} → ${esc(t.al)}</div></div><button onclick="deleteActivity('Viaggio','${esc(t.id)}','${esc(t.dest)}')" class="shrink-0 bg-red-50 hover:bg-red-100 text-red-600 px-3 py-2 rounded-lg text-[10px] font-extrabold"><i class="fas fa-trash mr-1"></i>Elimina</button></div>`).join('') || '<div class="text-xs text-slate-400 italic">Nessun viaggio pubblicato.</div>';
+        el.innerHTML = (db.events || []).map(e => `<div class="flex items-center justify-between gap-3 p-3 rounded-xl bg-slate-50 border border-slate-200"><div class="min-w-0"><div class="text-xs font-extrabold text-slate-800 truncate">${esc(e.nome)}</div><div class="text-[10px] text-slate-500">${esc(e.data)}</div></div><button onclick="deleteActivity('Evento','${esc(e.id)}','${esc(e.nome)}')" class="shrink-0 bg-red-50 hover:bg-red-100 text-red-600 px-3 py-2 rounded-lg text-[10px] font-extrabold"><i class="fas fa-trash mr-1"></i>Elimina</button></div>`).join('') || '<div class="text-xs text-slate-400 italic">Nessun evento pubblicato.</div>';
+    }
+
+    async function deleteActivity(tipo, id, nome) {
+        const r = await Swal.fire({ title: `Eliminare ${tipo.toLowerCase()}?`, html: `<p style="font-size:13px"><strong>${esc(nome)}</strong></p>`, icon: 'warning', showCancelButton: true, confirmButtonText: 'Sì, elimina', cancelButtonText: 'Annulla', confirmButtonColor: '#dc2626' });
+        if (!r.isConfirmed) return;
+        try { await api(tipo === 'Viaggio' ? '/api/admin/delete-trip' : '/api/admin/delete-event', { method: 'POST', body: { id } }); await loadPublic(); renderAdminActivities(); await renderAdmin(); Swal.fire({ title: 'Eliminato', icon: 'success', ...swalOk }); } catch (e) { fail(e); }
+    }
+    // ----------------------------------------------------
+
     function esc(s) {
         return String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
     }
@@ -916,7 +932,7 @@
         const img = await loadImage(file), w = await getOcrWorker();
         await w.setParameters({ tessedit_char_whitelist: '', tessedit_pageseg_mode: '3', user_defined_dpi: '300' });
         const full = (await w.recognize(canvasFrom(img))).data.text;
-        return { fields: {}, hasFront: true, hasBack: true };
+        return { fields: {}, hasFront: true, hasBack: true }; 
     }
     
     async function scanDocuments(files) {
@@ -1141,18 +1157,6 @@
         try { await api('/api/admin/event', { method: 'POST', body: { event } }); await loadPublic(); Swal.fire({ title: 'Pubblicato!', text: 'L\'evento è ora online.', icon: 'success', ...swalOk }); document.getElementById('form-create-event').reset(); } catch (err) { fail(err); }
     }
 
-    function renderAdminActivities() {
-        const tl = document.getElementById('admin-trips-list'), el = document.getElementById('admin-events-list');
-        tl.innerHTML = (db.trips || []).map(t => `<div class="flex items-center justify-between gap-3 p-3 rounded-xl bg-slate-50 border border-slate-200"><div class="min-w-0"><div class="text-xs font-extrabold text-slate-800 truncate">${esc(t.dest)}</div><div class="text-[10px] text-slate-500">${esc(t.da)} → ${esc(t.al)}</div></div><button onclick="deleteActivity('Viaggio','${esc(t.id)}','${esc(t.dest)}')" class="shrink-0 bg-red-50 hover:bg-red-100 text-red-600 px-3 py-2 rounded-lg text-[10px] font-extrabold"><i class="fas fa-trash mr-1"></i>Elimina</button></div>`).join('') || '<div class="text-xs text-slate-400 italic">Nessun viaggio pubblicato.</div>';
-        el.innerHTML = (db.events || []).map(e => `<div class="flex items-center justify-between gap-3 p-3 rounded-xl bg-slate-50 border border-slate-200"><div class="min-w-0"><div class="text-xs font-extrabold text-slate-800 truncate">${esc(e.nome)}</div><div class="text-[10px] text-slate-500">${esc(e.data)}</div></div><button onclick="deleteActivity('Evento','${esc(e.id)}','${esc(e.nome)}')" class="shrink-0 bg-red-50 hover:bg-red-100 text-red-600 px-3 py-2 rounded-lg text-[10px] font-extrabold"><i class="fas fa-trash mr-1"></i>Elimina</button></div>`).join('') || '<div class="text-xs text-slate-400 italic">Nessun evento pubblicato.</div>';
-    }
-    
-    async function deleteActivity(tipo, id, nome) {
-        const r = await Swal.fire({ title: `Eliminare ${tipo.toLowerCase()}?`, html: `<p style="font-size:13px"><strong>${esc(nome)}</strong></p>`, icon: 'warning', showCancelButton: true, confirmButtonText: 'Sì, elimina', cancelButtonText: 'Annulla', confirmButtonColor: '#dc2626' });
-        if (!r.isConfirmed) return;
-        try { await api(tipo === 'Viaggio' ? '/api/admin/delete-trip' : '/api/admin/delete-event', { method: 'POST', body: { id } }); await loadPublic(); renderAdminActivities(); await renderAdmin(); Swal.fire({ title: 'Eliminato', icon: 'success', ...swalOk }); } catch (e) { fail(e); }
-    }
-
     loadPublic().then(ok => { if (!ok) document.getElementById('dynamic-trips-list').innerHTML = '<div class="glass-card p-6 rounded-2xl text-center text-red-500 text-xs">Impossibile contattare il server. Riprova tra poco.</div>'; });
     updateHeader();
     document.getElementById('anno').textContent = new Date().getFullYear();
@@ -1160,4 +1164,3 @@
 </script>
 </body>
 </html>
-```eof
